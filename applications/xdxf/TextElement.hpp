@@ -1,9 +1,9 @@
 #ifndef TEXT_ELEMENT_HPP
 #define TEXT_ELEMENT_HPP
 
-#include "common/xml/XMLNodeLeaf.hpp"
-#include "common/xdxf/TextElement.h"
-#include "common/xml/XMLPublishing.hpp"
+#include "XMLNodeLeaf.hpp"
+#include "xdxf/TextElement.h"
+#include "XMLPublishing.hpp"
 
 TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
@@ -44,7 +44,7 @@ void TextElement::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 }
 
 
-template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+template<class Formatter, class Tracer = EmptyTracer>
 void TextElement::format_dump(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

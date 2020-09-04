@@ -2,15 +2,15 @@
 #define XDXF_ARTICLE_HPP
 #include <iostream>
 
-#include "common/xdxf/XDXFArticle.h"
-#include "common/xdxf/KeyPhrase.hpp"
-#include "common/xdxf/Comment.hpp"
-#include "common/xdxf/Transcription.hpp"
-#include "common/xdxf/TextElement.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
-#include "common/xml/XMLNode.hpp"
+#include "xdxf/XDXFArticle.h"
+#include "xdxf/KeyPhrase.hpp"
+#include "xdxf/Comment.hpp"
+#include "xdxf/Transcription.hpp"
+#include "xdxf/TextElement.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
+#include "XMLNode.hpp"
 
 const char *XDXFArticle::name() const noexcept
 {
@@ -33,7 +33,7 @@ void XDXFArticle::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 }
 
 
-template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+template<class Formatter, class Tracer = EmptyTracer>
 void XDXFArticle::format_dump(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

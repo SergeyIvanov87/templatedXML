@@ -1,14 +1,14 @@
 #ifndef XDXF_VALUEBASE_HPP
 #define XDXF_VALUEBASE_HPP
 
-#include "common/xml/XMLNode.h"
-#include "common/base_command_parser/GenericCommandArguments.hpp"
+#include "XMLNode.h"
+#include "details/GenericCommandArguments.hpp"
 
 #define TEMPL_ARGS_DECL    class ...ContainedValues
 #define TEMPL_ARGS_DEF     ContainedValues...
 
 template<TEMPL_ARGS_DECL>
-template<class Value, class Tracer/* = Tracer<EmptyTracerImpl>>*/>
+template<class Value, class Tracer/* = EmptyTracer>*/>
 std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
 {
     return Value::create(name, depth, reader);

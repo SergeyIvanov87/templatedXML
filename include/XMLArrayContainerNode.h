@@ -6,8 +6,8 @@
 #include <vector>
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
-#include <Framework/Utils/LogTracer.h>
-#include "common/xml/XMLProducible.h"
+#include <utils/Tracer.hpp>
+#include "XMLProducible.h"
 
 inline std::ostream& no_sep (std::ostream& os);
 
@@ -34,10 +34,10 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
 
     const char *name() const noexcept override;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 };
 

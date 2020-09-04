@@ -1,9 +1,9 @@
 #ifndef TRANSCRIPTION_H
 #define TRANSCRIPTION_H
 
-#include "common/xml/XMLNode.h"
-#include "common/xml/XMLProducible.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNode.h"
+#include "XMLProducible.h"
+#include "XMLPublishing.h"
 
 class TextElement;
 class Transcription : public XMLNode<TextElement>,
@@ -28,13 +28,13 @@ public:
     const char *name() const noexcept override;
     const value_t &getValue() const;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;
 
-    template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Formatter, class Tracer = EmptyTracer>
     void format_dump(Formatter& out, Tracer tracer = Tracer()) const;
 };
 

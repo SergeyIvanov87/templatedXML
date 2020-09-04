@@ -1,8 +1,8 @@
 #ifndef XDXF_PUBLISHING_HPP
 #define XDXF_PUBLISHING_HPP
 
-#include "common/xml/XMLPublishing.h"
-#include "common/xml/utils.h"
+#include "XMLPublishing.h"
+#include "utils.h"
 
 inline std::ostream& no_sep (std::ostream& os)
 {

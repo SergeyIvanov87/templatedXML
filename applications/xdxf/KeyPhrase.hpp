@@ -2,11 +2,11 @@
 #define KEY_PHRASE_HPP
 #include <iostream>
 
-#include "common/xdxf/KeyPhrase.h"
-#include "common/xdxf/TextElement.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
+#include "xdxf/KeyPhrase.h"
+#include "xdxf/TextElement.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
 
 const char *KeyPhrase::name() const noexcept
 {
@@ -39,7 +39,7 @@ void KeyPhrase::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
     out << "</" << KeyPhrase::class_name() << ">\n";
 }
 
-template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+template<class Formatter, class Tracer = EmptyTracer>
 void KeyPhrase::format_dump(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

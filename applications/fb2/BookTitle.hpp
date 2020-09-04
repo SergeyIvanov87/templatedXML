@@ -4,9 +4,9 @@
 
 #include "common/fb2/BookTitle.h"
 #include "common/fb2/FB2TextElement.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
 
 const char *BookTitle::name() const noexcept
 {

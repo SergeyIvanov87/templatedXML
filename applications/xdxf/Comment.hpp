@@ -1,9 +1,9 @@
 #ifndef COMMENT_HPP
 #define COMMENT_HPP
 
-#include "common/xml/XMLNodeLeaf.hpp"
-#include "common/xdxf/Comment.h"
-#include "common/xml/XMLPublishing.hpp"
+#include "XMLNodeLeaf.hpp"
+#include "xdxf/Comment.h"
+#include "XMLPublishing.hpp"
 
 Comment::Comment(std::string&& str) : base(std::move(str))
 {
@@ -23,7 +23,7 @@ void Comment::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 
 
 
-template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+template<class Formatter, class Tracer = EmptyTracer>
 void Comment::format_dump(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

@@ -25,10 +25,10 @@ public:
 
     virtual const char *name() const noexcept override;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FB2_BODY_H

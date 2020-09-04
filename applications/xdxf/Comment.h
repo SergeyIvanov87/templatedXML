@@ -3,8 +3,8 @@
 
 #include <ostream>
 
-#include "common/xml/XMLNodeLeaf.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNodeLeaf.h"
+#include "XMLPublishing.h"
 
 class Comment : public XMLNodeLeaf<std::string>,
                 public XMLPublishing<Comment>,
@@ -29,14 +29,14 @@ public:
 
     const char *name() const noexcept override;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     static std::shared_ptr<Comment> create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;
 
 
-    template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Formatter, class Tracer = EmptyTracer>
     void format_dump(Formatter& out, Tracer tracer = Tracer()) const;
 };
 

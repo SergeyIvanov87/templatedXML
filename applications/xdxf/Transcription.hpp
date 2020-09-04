@@ -2,11 +2,11 @@
 #define TRANSCRIPTION_HPP
 #include <iostream>
 
-#include "common/xdxf/Transcription.h"
-#include "common/xdxf/TextElement.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.h"
-#include "common/xml/XMLCreator.hpp"
+#include "xdxf/Transcription.h"
+#include "xdxf/TextElement.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.h"
+#include "XMLCreator.hpp"
 #
 
 const char *Transcription::name() const noexcept
@@ -24,7 +24,7 @@ const Transcription::value_t &Transcription::getValue() const
     return val->getValue();
 }
 
-template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+template<class Formatter, class Tracer = EmptyTracer>
 void Transcription::format_dump(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

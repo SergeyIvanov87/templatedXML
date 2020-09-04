@@ -29,13 +29,13 @@ public:
 
     const char *name() const noexcept override;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     static std::shared_ptr<FB2TextElement> create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
 
-/*    template<class Tracer = Tracer<EmptyTracerImpl>>
+/*    template<class Tracer = EmptyTracer>
     void fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
 */
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 

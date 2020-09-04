@@ -1,8 +1,8 @@
 #ifndef XDXF_ARTICLE_H
 #define XDXF_ARTICLE_H
-#include "common/xml/XMLNode.h"
-#include "common/xml/XMLProducible.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNode.h"
+#include "XMLProducible.h"
+#include "XMLPublishing.h"
 
 class KeyPhrase;
 class Comment;
@@ -28,13 +28,13 @@ public:
 
     virtual const char *name() const noexcept override;
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
-    template<class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;
 
-    template<class Formatter, class Tracer = Tracer<EmptyTracerImpl>>
+    template<class Formatter, class Tracer = EmptyTracer>
     void format_dump(Formatter& out, Tracer tracer = Tracer()) const;
 };
 #endif //XDXF_ARTICLE_H
