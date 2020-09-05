@@ -2,11 +2,11 @@
 #define FB2_PARAGRAPH_HPP
 #include <iostream>
 
-#include "common/fb2/common/Paragraph.h"
-#include "common/fb2/FB2TextElement.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
+#include "fb2/common/Paragraph.h"
+#include "fb2/FB2TextElement.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
 
 const char *Paragraph::name() const noexcept
 {
@@ -25,10 +25,10 @@ const Paragraph::value_t &Paragraph::getValue() const
 }
 
 template<class Tracer>
-bool Paragraph::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool Paragraph::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
     tracer.trace(__FUNCTION__, " '", Paragraph::class_name(), "' - got: '", name, "'");
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

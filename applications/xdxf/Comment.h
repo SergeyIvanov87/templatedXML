@@ -30,7 +30,7 @@ public:
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<Comment> create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
+    static std::shared_ptr<Comment> create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;

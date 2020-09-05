@@ -1,9 +1,9 @@
 #ifndef EMPTY_HPP
 #define EMPTY_HPP
 
-#include "common/xml/XMLNodeLeaf.hpp"
-#include "common/fb2/Empty.h"
-#include "common/xml/XMLPublishing.hpp"
+#include "XMLNodeLeaf.hpp"
+#include "fb2/Empty.h"
+#include "XMLPublishing.hpp"
 
 Empty::Empty(std::string&& str) : base(std::move(str))
 {
@@ -22,7 +22,7 @@ void Empty::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 }
 
 template<class Tracer>
-std::shared_ptr<Empty> Empty::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Empty> Empty::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     std::shared_ptr<Empty> ret;
 

@@ -5,7 +5,7 @@
 
 
 template<class Value, class Tracer>
-std::shared_ptr<Value> XMLCreator::try_create(std::string &name, int &depth,
+std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
                                                xmlpp::TextReader &reader,
                                                Tracer tracer/* = Tracer()*/)
 {
@@ -37,7 +37,7 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name, int &depth,
         }
 
 
-        ret = Value::create_impl(name, depth, reader, tracer);
+        ret = Value::create_impl(name, reader, tracer);
     }
 
     return ret;
@@ -47,7 +47,6 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name, int &depth,
 template<class Value, class Tracer>
 std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
                                             std::string &name,
-                                            int &depth,
                                             xmlpp::TextReader &reader,
                                             Tracer tracer/* = Tracer()*/)
 {
@@ -56,7 +55,7 @@ std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
         if (to_fill)
         {
             tracer.trace("fill xml array container with: ", reader.get_name());
-            to_fill->fill_impl(name, depth, reader, tracer);
+            to_fill->fill_impl(name, reader, tracer);
         }
         else
         {

@@ -28,7 +28,7 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<T>>
     value_t& getValue();
 
     template<class Tracer = EmptyTracer>
-    void fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
+    void fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 private:
     value_t val;
 };

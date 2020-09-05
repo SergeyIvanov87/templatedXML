@@ -2,15 +2,15 @@
 #define FB2_FICTION_BOOK_HPP
 #include <iostream>
 
-#include "common/fb2/FictionBook.h"
-#include "common/fb2/Description.hpp"
-#include "common/fb2/body/Body.hpp"
-#include "common/fb2/auxiliary/Binary.hpp"
+#include "fb2/FictionBook.h"
+#include "fb2/Description.hpp"
+#include "fb2/body/Body.hpp"
+#include "fb2/auxiliary/Binary.hpp"
 
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
-#include "common/xml/XMLNode.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
+#include "XMLNode.hpp"
 
 const char *FictionBook::name() const noexcept
 {
@@ -18,9 +18,9 @@ const char *FictionBook::name() const noexcept
 }
 
 template<class Tracer>
-bool FictionBook::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool FictionBook::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

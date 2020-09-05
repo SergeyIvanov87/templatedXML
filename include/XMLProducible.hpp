@@ -5,7 +5,7 @@
 
 template<class Value>
 template<class Tracer>
-std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     if (name != Value::class_name())
     {
@@ -29,7 +29,6 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, int 
         while (reader.read())
         {
             name = reader.get_name();
-            depth = reader.get_depth();
             nodeType = reader.get_node_type();
 
             entered_tracer.trace("extract tag: '", name, "', type: ", to_string(nodeType));
@@ -40,7 +39,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, int 
                 break;
             }
 
-            ret->initialize(name, depth, reader, tracer);
+            ret->initialize(name, reader, tracer);
         }
     }
     return ret;
@@ -49,7 +48,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, int 
 
 template<class Value>
 template<class Tracer>
-void XMLProducible<Value>::fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+void XMLProducible<Value>::fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
 }
 #endif //XDXF_CREATABLE_HPP

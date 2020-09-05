@@ -1,8 +1,8 @@
 #ifndef FB2_DOCUMENT_INFO_H
 #define FB2_DOCUMENT_INFO_H
-#include "common/xml/XMLNode.h"
-#include "common/xml/XMLProducible.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNode.h"
+#include "XMLProducible.h"
+#include "XMLPublishing.h"
 
 class Empty;
 class DocumentInfo :
@@ -26,7 +26,7 @@ public:
     virtual const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;

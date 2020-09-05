@@ -2,14 +2,14 @@
 #define FB2_BODY_HPP
 #include <iostream>
 
-#include "common/fb2/body/Body.h"
-#include "common/fb2/body/Section.hpp"
+#include "fb2/body/Body.h"
+#include "fb2/body/Section.hpp"
 
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
-#include "common/xml/XMLNode.hpp"
-#include "common/xml/XMLArrayContainerNode.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
+#include "XMLNode.hpp"
+#include "XMLArrayContainerNode.hpp"
 
 const char *Body::name() const noexcept
 {
@@ -17,9 +17,9 @@ const char *Body::name() const noexcept
 }
 
 template<class Tracer>
-bool Body::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool Body::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

@@ -1,9 +1,9 @@
 #ifndef FB2_TEXT_ELEMENT_HPP
 #define FB2_TEXT_ELEMENT_HPP
 
-#include "common/xml/XMLNodeLeaf.hpp"
-#include "common/fb2/FB2TextElement.h"
-#include "common/xml/XMLPublishing.hpp"
+#include "XMLNodeLeaf.hpp"
+#include "fb2/FB2TextElement.h"
+#include "XMLPublishing.hpp"
 
 FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {
@@ -42,7 +42,7 @@ void FB2TextElement::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 }
 
 template<class Tracer>
-std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     std::shared_ptr<FB2TextElement> ret;
 
@@ -80,7 +80,7 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, i
 
 /*
 template<class Tracer>
-void FB2TextElement::fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+void FB2TextElement::fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
 }
 */

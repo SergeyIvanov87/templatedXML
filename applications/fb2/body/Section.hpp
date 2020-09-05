@@ -2,13 +2,13 @@
 #define FB2_SECTION_HPP
 #include <iostream>
 
-#include "common/fb2/body/Section.h"
-#include "common/fb2/common/Paragraph.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
-#include "common/xml/XMLNode.hpp"
-#include "common/xml/XMLArrayContainerNode.hpp"
+#include "fb2/body/Section.h"
+#include "fb2/common/Paragraph.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
+#include "XMLNode.hpp"
+#include "XMLArrayContainerNode.hpp"
 
 
 const char *Section::name() const noexcept
@@ -17,9 +17,9 @@ const char *Section::name() const noexcept
 }
 
 template<class Tracer>
-bool Section::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool Section::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 
