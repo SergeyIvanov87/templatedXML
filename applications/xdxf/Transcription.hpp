@@ -40,9 +40,9 @@ void Transcription::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 }
 
 template<class Tracer>
-bool Transcription::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool Transcription::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 #endif //TRANSCRIPTION_HPP

@@ -29,7 +29,7 @@ public:
     virtual const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;

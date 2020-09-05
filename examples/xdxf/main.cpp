@@ -4,6 +4,7 @@
 
 #include "utils/Tracer.hpp"
 #include "xdxf/XDXFArticle.hpp"
+
 enum eLogLevel : int
 {
     ERROR_LEVEL,
@@ -11,20 +12,6 @@ enum eLogLevel : int
     DEBUG_LEVEL,
     TRACE_LEVEL
 };
-
-struct indent {
-  int depth_;
-  explicit indent(int depth): depth_(depth) {};
-};
-
-std::ostream & operator<<(std::ostream & o, indent const & in)
-{
-  for(int i = 0; i != in.depth_; ++i)
-  {
-    o << "  ";
-  }
-  return o;
-}
 
 int main(int argc, char** argv)
 {
@@ -37,7 +24,7 @@ int main(int argc, char** argv)
     eLogLevel log_level = eLogLevel::ERROR_LEVEL;
     if (argc > 2)
     {
-        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[2]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL));
+        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[2]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL)));
     }
 
     std::string xdxf_file_path(argv[1]);
@@ -51,20 +38,18 @@ int main(int argc, char** argv)
         std::unique_ptr<xmlpp::TextReader> xml_reader = std::make_unique<xmlpp::TextReader>(xdxf_file_path);
         while(xml_reader->read())
         {
+            std::string name = xml_reader->get_name();
 
-            int depth = xml_reader->get_depth();
             std::shared_ptr<XDXFArticle> art;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
-                art = XMLCreator::try_create<XDXFArticle>(xml_reader->get_name(),
-                                                          xml_reader->get_depth(),
+                art = XMLCreator::try_create<XDXFArticle>(name,
                                                           *xml_reader,
                                                           std_tracer);
             }
             else
             {
-                art = XMLCreator::try_create<XDXFArticle>(xml_reader->get_name(),
-                                                          xml_reader->get_depth(),
+                art = XMLCreator::try_create<XDXFArticle>(name,
                                                           *xml_reader,
                                                           empty_tracer);
             }
@@ -74,47 +59,43 @@ int main(int argc, char** argv)
                 continue;
             }
 
-            //Extract KeyPhrase
+            //Extract inner tags: KeyPhrase, Comment, Transcription and TextElement
             auto key_phrase = art->get<KeyPhrase>();
+            auto comment = art->get<Comment>();
+            auto transcr = art->get<Transcription>();
+            auto text = art->get<TextElement>();
+
+            //Printout
             if (key_phrase)
             {
                 const std::string& name = key_phrase->getValue();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
-                    std_tracer << indent(depth) << KeyPhrase::class_name() << ": "<< name << std::endl;
+                    std_tracer << KeyPhrase::class_name() << ": "<< name << std::endl;
                 }
             }
-
-            //Extract Comment
-            auto comment = art->get<Comment>();
             if (comment)
             {
                 const std::string& name = comment->getValue();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
-                    std_tracer << indent(depth) << Comment::class_name() << ": "<< name << std::endl;
+                    std_tracer << Comment::class_name() << ": "<< name << std::endl;
                 }
             }
-
-            //Extract Transcription
-            auto transcr = art->get<Transcription>();
             if (transcr)
             {
                 const std::string& name = transcr->getValue();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
-                    std_tracer << indent(depth) << Transcription::class_name() << ": "<< name << std::endl;
+                    std_tracer << Transcription::class_name() << ": "<< name << std::endl;
                 }
             }
-
-            //Extract TextElement
-            auto text = art->get<TextElement>();
             if (text)
             {
                 const std::string& name = text->getValue();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
-                    std_tracer << indent(depth) << TextElement::class_name() << ": "<< name << std::endl;
+                    std_tracer << TextElement::class_name() << ": "<< name << std::endl;
                 }
             }
         }

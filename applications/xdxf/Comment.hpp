@@ -31,7 +31,7 @@ void Comment::format_dump(Formatter& out, Tracer tracer) const
 }
 
 template<class Tracer>
-std::shared_ptr<Comment> Comment::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Comment> Comment::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
 

@@ -2,13 +2,13 @@
 #define FB2_PUBLISH_INFO_HPP
 #include <iostream>
 
-#include "common/fb2/PublishInfo.h"
-#include "common/fb2/Empty.hpp"
+#include "fb2/PublishInfo.h"
+#include "fb2/Empty.hpp"
 
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
-#include "common/xml/XMLNode.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
+#include "XMLNode.hpp"
 
 const char *PublishInfo::name() const noexcept
 {
@@ -16,9 +16,9 @@ const char *PublishInfo::name() const noexcept
 }
 
 template<class Tracer>
-bool PublishInfo::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool PublishInfo::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

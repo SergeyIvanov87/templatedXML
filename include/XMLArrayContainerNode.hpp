@@ -12,11 +12,11 @@ XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename base::value_t &&val
 template<class Value>
 template<class Tracer>
 std::shared_ptr<XMLArrayContainerNode<Value>>
-XMLArrayContainerNode<Value>::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+XMLArrayContainerNode<Value>::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     tracer.trace("Start creation XMLArrayContainerNode<", Value::class_name(), ">, got: '", name, "'");
     std::shared_ptr<XMLArrayContainerNode<Value>> ret;
-    auto elem = producible_base::create_impl(name, depth, reader, tracer);
+    auto elem = producible_base::create_impl(name, reader, tracer);
     if (elem)
     {
         std::vector<std::shared_ptr<Value>> data;
@@ -37,11 +37,11 @@ const char *XMLArrayContainerNode<Value>::name() const noexcept
 
 template<class Value>
 template<class Tracer>
-void XMLArrayContainerNode<Value>::fill_impl(std::string &name, int &depth,
+void XMLArrayContainerNode<Value>::fill_impl(std::string &name,
                                                xmlpp::TextReader &reader,
                                                Tracer tracer/* = Tracer()*/)
 {
-    auto elem = producible_base::create_impl(name, depth, reader, tracer);
+    auto elem = producible_base::create_impl(name, reader, tracer);
     if (elem)
     {
         tracer.trace("Fill XMLArrayContainerNode<", Value::class_name(), "> with: '",

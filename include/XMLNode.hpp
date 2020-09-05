@@ -9,9 +9,9 @@
 
 template<TEMPL_ARGS_DECL>
 template<class Value, class Tracer/* = EmptyTracer>*/>
-std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
-    return Value::create(name, depth, reader);
+    return Value::create(name, reader);
 }
 
 template<TEMPL_ARGS_DECL>

@@ -27,7 +27,7 @@ typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t& XMLNodeLeaf<TEMPL_ARGS_DEF>::getV
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-void XMLNodeLeaf<TEMPL_ARGS_DEF>::fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+void XMLNodeLeaf<TEMPL_ARGS_DEF>::fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
 }
 #undef TEMPL_ARGS_DEF

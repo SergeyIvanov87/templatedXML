@@ -2,11 +2,11 @@
 #define FB2_BINARY_HPP
 #include <iostream>
 
-#include "common/fb2/auxiliary/Binary.h"
-#include "common/fb2/Empty.hpp"
-#include "common/xml/XMLProducible.hpp"
-#include "common/xml/XMLPublishing.hpp"
-#include "common/xml/XMLCreator.hpp"
+#include "fb2/auxiliary/Binary.h"
+#include "fb2/Empty.hpp"
+#include "XMLProducible.hpp"
+#include "XMLPublishing.hpp"
+#include "XMLCreator.hpp"
 
 const char *Binary::name() const noexcept
 {
@@ -24,9 +24,9 @@ const Binary::value_t &Binary::getValue() const
 }
 
 template<class Tracer>
-bool Binary::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool Binary::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

@@ -1,9 +1,9 @@
 #ifndef BINARY_H
 #define BINARY_H
 
-#include "common/xml/XMLNode.h"
-#include "common/xml/XMLProducible.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNode.h"
+#include "XMLProducible.h"
+#include "XMLPublishing.h"
 
 class Empty;
 class Binary : public XMLNode<Empty>,
@@ -28,7 +28,7 @@ public:
     const value_t &getValue() const;
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;

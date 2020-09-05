@@ -24,9 +24,9 @@ const KeyPhrase::value_t &KeyPhrase::getValue() const
 }
 
 template<class Tracer>
-bool KeyPhrase::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool KeyPhrase::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

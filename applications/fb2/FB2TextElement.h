@@ -2,10 +2,10 @@
 #define FB2_TEXT_ELEMENT_H
 
 #include <ostream>
+#include <regex>
 
-
-#include "common/xml/XMLNodeLeaf.h"
-#include "common/xml/XMLPublishing.h"
+#include "XMLNodeLeaf.h"
+#include "XMLPublishing.h"
 
 class FB2TextElement : public XMLNodeLeaf<std::string>,
                        public XMLPublishing<FB2TextElement>
@@ -30,10 +30,10 @@ public:
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<FB2TextElement> create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
+    static std::shared_ptr<FB2TextElement> create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 
 /*    template<class Tracer = EmptyTracer>
-    void fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer);
+    void fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 */
     template<class Tracer = EmptyTracer>
     void dump(std::ostream &out, Tracer tracer = Tracer()) const;

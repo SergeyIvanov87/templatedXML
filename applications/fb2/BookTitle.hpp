@@ -2,8 +2,8 @@
 #define FB2_BOOK_TITLE_HPP
 #include <iostream>
 
-#include "common/fb2/BookTitle.h"
-#include "common/fb2/FB2TextElement.hpp"
+#include "fb2/BookTitle.h"
+#include "fb2/FB2TextElement.hpp"
 #include "XMLProducible.hpp"
 #include "XMLPublishing.hpp"
 #include "XMLCreator.hpp"
@@ -24,9 +24,9 @@ const BookTitle::value_t &BookTitle::getValue() const
 }
 
 template<class Tracer>
-bool BookTitle::initialize(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
+bool BookTitle::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    this->create_from<XMLCreator>(name, depth, reader, tracer);
+    this->create_from<XMLCreator>(name, reader, tracer);
     return true;
 }
 

@@ -1,6 +1,7 @@
 #ifndef TEXT_ELEMENT_HPP
 #define TEXT_ELEMENT_HPP
 
+#include <regex>
 #include "XMLNodeLeaf.hpp"
 #include "xdxf/TextElement.h"
 #include "XMLPublishing.hpp"
@@ -52,7 +53,7 @@ void TextElement::format_dump(Formatter& out, Tracer tracer) const
 }
 
 template<class Tracer>
-std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
     std::shared_ptr<TextElement> ret;
 
@@ -90,7 +91,7 @@ std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, int &de
 
 /*
 template<class Tracer>
-void TextElement::fill_impl(std::string &name, int &depth, xmlpp::TextReader &reader, Tracer tracer)
+void TextElement::fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
 {
 }
 */
