@@ -2,8 +2,8 @@
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
 
-#include "utils/Tracer.hpp"
-#include "xdxf/XDXFArticle.hpp"
+#include <utils/Tracer.hpp>
+#include <applications/xdxf/XDXFArticle.hpp>
 
 enum eLogLevel : int
 {

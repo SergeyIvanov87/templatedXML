@@ -1,0 +1,18 @@
+# - Config file for the TemplatedXML package
+# It defines the following variables
+#  TEMPLATEDXML_INCLUDE_DIRS - include directories for FooBar
+#  TEMPLATEDXML_LIBRARIES    - libraries to link against
+#  TEMPLATEDXML_EXECUTABLE   - the bar executable
+
+# Compute paths
+get_filename_component(FOOBAR_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(TEMPLATEDXML_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET txml AND NOT TemplatexXML_BINARY_DIR)
+  include("${TEMPLATEDXML_CMAKE_DIR}/TemplatedXMLTargets.cmake")
+endif()
+
+# These are IMPORTED targets created by TemplatedXMLTargets.cmake
+set(TEMPLATEDXML_LIBRARIES txml)
+set(TEMPLATEDXML_EXECUTABLE examples)

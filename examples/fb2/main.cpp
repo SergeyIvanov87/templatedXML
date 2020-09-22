@@ -2,8 +2,8 @@
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
 
-#include "utils/Tracer.hpp"
-#include "fb2/FictionBook.hpp"
+#include <utils/Tracer.hpp>
+#include <applications/fb2/FictionBook.hpp>
 
 enum eLogLevel : int
 {
