@@ -55,7 +55,7 @@ set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
 configure_file(TemplatedXMLConfig.cmake.in
   "${PROJECT_BINARY_DIR}/TemplatedXMLConfig.cmake" @ONLY)
 # ... for the install tree
-set(CONF_INCLUDE_DIRS "\${FOOBAR_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+set(CONF_INCLUDE_DIRS "\${PROJECT_SOURCE_DIR}/${REL_INCLUDE_DIR}")
 configure_file(TemplatedXMLConfig.cmake.in
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/TemplatedXMLConfig.cmake" @ONLY)
 # ... for both

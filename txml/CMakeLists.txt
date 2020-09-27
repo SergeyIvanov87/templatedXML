@@ -9,9 +9,6 @@ get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
 #==============================================================================
 
-#Common Directories
-set (DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR})
-
 #3PP Directories
 find_package(LibXml2 REQUIRED)
 if(NOT LIBXML2_FOUND)
@@ -38,35 +35,49 @@ set (LIB_XML_INCLUDE_PATH ${LIBXML_CPP_INCLUDE_DIR}
                           ${LIBXMLPP_INCLUDE_DIR})
 
 #Headers dir
-set (INC_DIRECTORIES    ${LIB_XML_INCLUDE_PATH}
-                        ${DIRECTORIES}
-                        ${DIRECTORIES}/applications
-                        ${DIRECTORIES}/include)
+#set (INC_DIRECTORIES    ${LIB_XML_INCLUDE_PATH}
+#                        ${DIRECTORIES}
+#                        ${DIRECTORIES}/applications
+#                        ${DIRECTORIES}/include)
 
-list(REMOVE_DUPLICATES INC_DIRECTORIES)
+#list(REMOVE_DUPLICATES INC_DIRECTORIES)
 
-set(SELF_INCLUDE_DIRS applications
-                      include)
-file(GLOB public_headers ${SELF_INCLUDE_DIRS}/*.hpp)
 
-message("public_headers: ${public_headers}")
+#file(GLOB_RECURSE TXML_SUBDIRECTORIES LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
+#set (txml_subdir_list)
+#set (public_header_list)
+#FOREACH(subdir ${TXML_SUBDIRECTORIES})
+#    IF(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${subdir})
+#      LIST(APPEND txml_subdir_list ${subdir})
+#      file(GLOB_RECURSE public_headers ${subdir}/*.h)
+#      list(APPEND public_header_list ${public_headers})
+#    ENDIF()
+#ENDFOREACH()
 add_library(txml INTERFACE)
-#include_directories(${INC_DIRECTORIES})
 
-message("CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(
+  txml
+  INTERFACE ${LIB_XML_INCLUDE_PATH})
 target_include_directories(
   txml
   INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/{include,./,applications}>
-            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/include>)
-link_libraries(${LIBS})
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/{include,applications}>)
+target_link_libraries(
+  txml
+  INTERFACE ${LIBS})
+#link_libraries(${LIBS})
 
+#message("public_header_list: ${public_header_list}")
 set_target_properties(txml PROPERTIES
-  PUBLIC_HEADER "include/XDXFCreatable.h")
+  PUBLIC_HEADER include/txml.hpp)
 
 install(TARGETS txml
   # IMPORTANT: Add the txml library to the "export-set"
   EXPORT TemplatedXMLTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
-  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/txml"
+  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
     COMPONENT dev)
+
+install(DIRECTORY include/ applications DESTINATION "${INSTALL_INCLUDE_DIR}"
+        FILES_MATCHING PATTERN "*.h*")
