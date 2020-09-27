@@ -34,40 +34,21 @@ endif()
 set (LIB_XML_INCLUDE_PATH ${LIBXML_CPP_INCLUDE_DIR}
                           ${LIBXMLPP_INCLUDE_DIR})
 
-#Headers dir
-#set (INC_DIRECTORIES    ${LIB_XML_INCLUDE_PATH}
-#                        ${DIRECTORIES}
-#                        ${DIRECTORIES}/applications
-#                        ${DIRECTORIES}/include)
-
-#list(REMOVE_DUPLICATES INC_DIRECTORIES)
-
-
-#file(GLOB_RECURSE TXML_SUBDIRECTORIES LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
-#set (txml_subdir_list)
-#set (public_header_list)
-#FOREACH(subdir ${TXML_SUBDIRECTORIES})
-#    IF(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${subdir})
-#      LIST(APPEND txml_subdir_list ${subdir})
-#      file(GLOB_RECURSE public_headers ${subdir}/*.h)
-#      list(APPEND public_header_list ${public_headers})
-#    ENDIF()
-#ENDFOREACH()
 add_library(txml INTERFACE)
 
 target_include_directories(
   txml
   INTERFACE ${LIB_XML_INCLUDE_PATH})
+
 target_include_directories(
   txml
   INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/{include,./,applications}>
-            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/{include,applications}>)
+            "$<INSTALL_INTERFACE:include;include/applications>")
 target_link_libraries(
   txml
   INTERFACE ${LIBS})
-#link_libraries(${LIBS})
 
-#message("public_header_list: ${public_header_list}")
+
 set_target_properties(txml PROPERTIES
   PUBLIC_HEADER include/txml.hpp)
 
