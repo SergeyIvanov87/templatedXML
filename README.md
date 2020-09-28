@@ -148,3 +148,5 @@ if (transcr)
   ...
  }
  ```
+ 
+ Please find the completed XDXF model in `templatedXML/txml/applications/xdxf/` and usage examples in `templatedXML/examples/xdxf/main.cpp` 
