@@ -1,6 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
 
-
 set (BRANCH_ROOT ${CMAKE_SOURCE_DIR})
 get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)
 
@@ -9,7 +8,7 @@ get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
 #==============================================================================
 
-#3PP Directories
+# Upstream Directories
 find_package(LibXml2 REQUIRED)
 if(NOT LIBXML2_FOUND)
     message(SEND_ERROR "Failed to find LibXml2")
@@ -34,6 +33,7 @@ endif()
 set (LIB_XML_INCLUDE_PATH ${LIBXML_CPP_INCLUDE_DIR}
                           ${LIBXMLPP_INCLUDE_DIR})
 
+# Header-only library
 add_library(txml INTERFACE)
 
 target_include_directories(
@@ -53,7 +53,6 @@ set_target_properties(txml PROPERTIES
   PUBLIC_HEADER include/txml.hpp)
 
 install(TARGETS txml
-  # IMPORTANT: Add the txml library to the "export-set"
   EXPORT TemplatedXMLTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
