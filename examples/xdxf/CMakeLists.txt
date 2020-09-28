@@ -89,4 +89,8 @@ endforeach()
 # Setup project
 
 add_executable(${PROC_NAME} ${SRC_ALL})
-target_link_libraries(${PROC_NAME} ${LIBS})
+target_link_libraries(${PROC_NAME} ${LIBS} txml)
+
+install(TARGETS ${PROC_NAME}
+  EXPORT examples
+  RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin)
