@@ -4,9 +4,7 @@
 
 #include "xdxf/KeyPhrase.h"
 #include "xdxf/TextElement.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
 
 const char *KeyPhrase::name() const noexcept
 {
@@ -21,13 +19,6 @@ const KeyPhrase::value_t &KeyPhrase::getValue() const
         throw std::runtime_error(std::string(KeyPhrase::class_name()) + " - no value");
     }
     return val->getValue();
-}
-
-template<class Tracer>
-bool KeyPhrase::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
 }
 
 

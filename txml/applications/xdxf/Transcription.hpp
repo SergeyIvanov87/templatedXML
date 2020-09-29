@@ -4,7 +4,6 @@
 
 #include "xdxf/Transcription.h"
 #include "xdxf/TextElement.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.h"
 #include "XMLCreator.hpp"
 #
@@ -39,10 +38,4 @@ void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()
     out << "</" << Transcription::class_name() << ">\n";
 }
 
-template<class Tracer>
-bool Transcription::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
-}
 #endif //TRANSCRIPTION_HPP

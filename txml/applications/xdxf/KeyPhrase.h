@@ -2,17 +2,15 @@
 #define KEY_PHRASE_H
 
 #include "XMLNode.h"
-#include "XMLProducible.h"
 #include "XMLSerializable.h"
 
 class TextElement;
-class KeyPhrase : public XMLNode<TextElement>,
-                  public XMLProducible<KeyPhrase>,
+class KeyPhrase : public XMLNode<KeyPhrase, TextElement>,
                   public XMLSerializable<KeyPhrase>,
                   public XMLFormatSerializable<KeyPhrase>
 {
 public:
-    using base = XMLNode<TextElement>;
+    using base = XMLNode<KeyPhrase, TextElement>;
     using value_t = std::string;
 
     static constexpr const char* class_name()
@@ -27,9 +25,6 @@ public:
 
     const char *name() const noexcept override;
     const value_t &getValue() const;
-
-    template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
