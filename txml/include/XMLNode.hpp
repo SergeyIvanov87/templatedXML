@@ -20,6 +20,7 @@ template<TEMPL_ARGS_DECL>
 template<class Tracer>
 bool XMLNode<TEMPL_ARGS_DEF>::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
+    tracer.trace(__FUNCTION__, " '", Impl::class_name(), "' - got: '", name, "'");
     this->template create_from<XMLCreator>(name, reader, tracer);
     return true;
 }

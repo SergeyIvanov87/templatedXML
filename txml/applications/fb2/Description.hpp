@@ -7,7 +7,6 @@
 #include "fb2/DocumentInfo.hpp"
 #include "fb2/PublishInfo.hpp"
 
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
@@ -15,13 +14,6 @@
 const char *Description::name() const noexcept
 {
     return Description::class_name();
-}
-
-template<class Tracer>
-bool Description::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name,  reader, tracer);
-    return true;
 }
 
 template<class Tracer>

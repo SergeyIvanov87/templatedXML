@@ -4,7 +4,6 @@
 
 #include "fb2/auxiliary/Binary.h"
 #include "fb2/Empty.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
@@ -22,14 +21,6 @@ const Binary::value_t &Binary::getValue() const
     }
     return val->getValue();
 }
-
-template<class Tracer>
-bool Binary::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
-}
-
 
 template<class Tracer>
 void Binary::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const

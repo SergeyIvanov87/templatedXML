@@ -4,7 +4,6 @@
 
 #include "fb2/common/Paragraph.h"
 #include "fb2/FB2TextElement.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
@@ -22,14 +21,6 @@ const Paragraph::value_t &Paragraph::getValue() const
                                  std::to_string(reinterpret_cast<size_t>(this)));
     }
     return val->getValue();
-}
-
-template<class Tracer>
-bool Paragraph::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    tracer.trace(__FUNCTION__, " '", Paragraph::class_name(), "' - got: '", name, "'");
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
 }
 
 template<class Tracer>

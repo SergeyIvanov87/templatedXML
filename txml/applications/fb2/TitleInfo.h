@@ -1,16 +1,14 @@
 #ifndef FB2_TITLE_INFO_H
 #define FB2_TITLE_INFO_H
 #include "XMLNode.h"
-#include "XMLProducible.h"
 #include "XMLSerializable.h"
 
 class BookTitle;
-class TitleInfo : public XMLNode<BookTitle>,
-                    public XMLProducible<TitleInfo>,
+class TitleInfo : public XMLNode<TitleInfo, BookTitle>,
                     public XMLSerializable<TitleInfo>
 {
 public:
-    using base = XMLNode<BookTitle>;
+    using base = XMLNode<TitleInfo, BookTitle>;
 
     static constexpr const char *class_name()
     {
@@ -23,9 +21,6 @@ public:
     }
 
     virtual const char *name() const noexcept override;
-
-    template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;

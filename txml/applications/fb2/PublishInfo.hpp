@@ -5,7 +5,6 @@
 #include "fb2/PublishInfo.h"
 #include "fb2/Empty.hpp"
 
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
@@ -13,13 +12,6 @@
 const char *PublishInfo::name() const noexcept
 {
     return PublishInfo::class_name();
-}
-
-template<class Tracer>
-bool PublishInfo::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
 }
 
 template<class Tracer>

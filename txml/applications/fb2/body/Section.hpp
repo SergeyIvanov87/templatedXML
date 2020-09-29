@@ -4,7 +4,6 @@
 
 #include "fb2/body/Section.h"
 #include "fb2/common/Paragraph.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
@@ -14,13 +13,6 @@
 const char *Section::name() const noexcept
 {
     return Section::class_name();
-}
-
-template<class Tracer>
-bool Section::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
 }
 
 template<class Tracer>

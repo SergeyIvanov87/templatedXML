@@ -1,7 +1,6 @@
 #include <iostream>
 #include <libxml++/libxml++.h>
 #include <libxml++/parsers/textreader.h>
-#if 0
 
 #include <utils/Tracer.hpp>
 #include <applications/fb2/FictionBook.hpp>
@@ -92,4 +91,3 @@ int main(int argc, char** argv)
         return -1;
     }
 }
-#endif

@@ -4,7 +4,6 @@
 
 #include "fb2/BookTitle.h"
 #include "fb2/FB2TextElement.hpp"
-#include "XMLProducible.hpp"
 #include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
@@ -22,14 +21,6 @@ const BookTitle::value_t &BookTitle::getValue() const
     }
     return val->getValue();
 }
-
-template<class Tracer>
-bool BookTitle::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
-}
-
 
 template<class Tracer>
 void BookTitle::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
