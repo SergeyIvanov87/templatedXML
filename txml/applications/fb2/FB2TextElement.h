@@ -5,10 +5,10 @@
 #include <regex>
 
 #include "XMLNodeLeaf.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class FB2TextElement : public XMLNodeLeaf<std::string>,
-                       public XMLPublishing<FB2TextElement>
+                       public XMLSerializable<FB2TextElement>
 {
 public:
     using base = XMLNodeLeaf<std::string>;
@@ -36,7 +36,7 @@ public:
     void fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 */
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 
 #endif //KEY_PHRASE_H

@@ -16,13 +16,13 @@ public:
     void create_from(CreationArgs&&... next_args);
 
     template<class Argument, class Tracer>
-    void dump(std::ostream &out, Tracer tracer) const;
+    void serialize_impl(std::ostream &out, Tracer tracer) const;
 
     template<class Tracer, class EndElementManipulator>
-    void dump_all(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
+    void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
     template<class Formatter, class Tracer>
-    void format_dump_all(Formatter &out, Tracer tracer) const;
+    void format_serialize_elements(Formatter &out, Tracer tracer) const;
 
     template<class T>
     ArgumentPtr<T> get() const;

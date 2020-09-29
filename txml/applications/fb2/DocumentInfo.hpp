@@ -6,7 +6,7 @@
 #include "fb2/Empty.hpp"
 
 #include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
 
@@ -23,10 +23,10 @@ bool DocumentInfo::initialize(std::string &name, xmlpp::TextReader &reader, Trac
 }
 
 template<class Tracer>
-void DocumentInfo::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void DocumentInfo::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << DocumentInfo::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << DocumentInfo::class_name() << ">\n";
 }
 #endif

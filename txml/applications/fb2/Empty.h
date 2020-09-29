@@ -4,10 +4,10 @@
 #include <ostream>
 
 #include "XMLNodeLeaf.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class Empty : public XMLNodeLeaf<std::string>,
-                public XMLPublishing<Empty>
+                public XMLSerializable<Empty>
 {
 public:
     using base = XMLNodeLeaf<std::string>;
@@ -32,7 +32,7 @@ public:
     static std::shared_ptr<Empty> create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 
 #endif //EMPTY_H

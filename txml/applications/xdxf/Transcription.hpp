@@ -5,7 +5,7 @@
 #include "xdxf/Transcription.h"
 #include "xdxf/TextElement.hpp"
 #include "XMLProducible.hpp"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 #include "XMLCreator.hpp"
 #
 
@@ -25,17 +25,17 @@ const Transcription::value_t &Transcription::getValue() const
 }
 
 template<class Formatter, class Tracer = EmptyTracer>
-void Transcription::format_dump(Formatter& out, Tracer tracer) const
+void Transcription::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);
 }
 
 template<class Tracer>
-void Transcription::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Transcription::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << Transcription::class_name() << ">\n";
 }
 

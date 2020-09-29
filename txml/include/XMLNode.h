@@ -24,7 +24,7 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<ContainedValues...>
 
     std::shared_ptr<XMLNode<ContainedValues...>> get_ptr();
 
-    void dump(std::ostream &out) const;
+    void serialize_impl(std::ostream &out) const;
     template<class Value, class Tracer = EmptyTracer>
     static std::shared_ptr<Value> create(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 

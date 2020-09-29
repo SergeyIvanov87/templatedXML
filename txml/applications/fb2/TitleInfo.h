@@ -2,12 +2,12 @@
 #define FB2_TITLE_INFO_H
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class BookTitle;
 class TitleInfo : public XMLNode<BookTitle>,
                     public XMLProducible<TitleInfo>,
-                    public XMLPublishing<TitleInfo>
+                    public XMLSerializable<TitleInfo>
 {
 public:
     using base = XMLNode<BookTitle>;
@@ -28,6 +28,6 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FB2_TITLE_INFO_H

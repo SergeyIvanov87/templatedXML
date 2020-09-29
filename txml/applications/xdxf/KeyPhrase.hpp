@@ -5,7 +5,7 @@
 #include "xdxf/KeyPhrase.h"
 #include "xdxf/TextElement.hpp"
 #include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
 const char *KeyPhrase::name() const noexcept
@@ -32,15 +32,15 @@ bool KeyPhrase::initialize(std::string &name, xmlpp::TextReader &reader, Tracer 
 
 
 template<class Tracer>
-void KeyPhrase::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void KeyPhrase::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << KeyPhrase::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << KeyPhrase::class_name() << ">\n";
 }
 
 template<class Formatter, class Tracer = EmptyTracer>
-void KeyPhrase::format_dump(Formatter& out, Tracer tracer) const
+void KeyPhrase::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);

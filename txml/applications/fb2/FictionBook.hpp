@@ -8,7 +8,7 @@
 #include "fb2/auxiliary/Binary.hpp"
 
 #include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
 
@@ -25,10 +25,10 @@ bool FictionBook::initialize(std::string &name, xmlpp::TextReader &reader, Trace
 }
 
 template<class Tracer>
-void FictionBook::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void FictionBook::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << FictionBook::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << FictionBook::class_name() << ">\n";
 }
 #endif

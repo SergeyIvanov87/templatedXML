@@ -3,7 +3,7 @@
 
 #include "XMLNodeLeaf.hpp"
 #include "xdxf/Comment.h"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 
 Comment::Comment(std::string&& str) : base(std::move(str))
 {
@@ -16,7 +16,7 @@ const char *Comment::name() const noexcept
 
 
 template<class Tracer>
-void Comment::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Comment::class_name() <<  " word used: " << getValue() << " times -->\n";
 }
@@ -24,7 +24,7 @@ void Comment::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 
 
 template<class Formatter, class Tracer = EmptyTracer>
-void Comment::format_dump(Formatter& out, Tracer tracer) const
+void Comment::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);

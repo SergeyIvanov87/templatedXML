@@ -3,7 +3,7 @@
 
 #include "XMLNodeLeaf.hpp"
 #include "fb2/FB2TextElement.h"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 
 FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {
@@ -16,7 +16,7 @@ const char *FB2TextElement::name() const noexcept
 
 
 template<class Tracer>
-void FB2TextElement::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");

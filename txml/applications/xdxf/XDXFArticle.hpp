@@ -8,7 +8,7 @@
 #include "xdxf/Transcription.hpp"
 #include "xdxf/TextElement.hpp"
 #include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
 
@@ -25,16 +25,16 @@ bool XDXFArticle::initialize(std::string &name, xmlpp::TextReader &reader, Trace
 }
 
 template<class Tracer>
-void XDXFArticle::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void XDXFArticle::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << XDXFArticle::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << XDXFArticle::class_name() << ">\n";
 }
 
 
 template<class Formatter, class Tracer = EmptyTracer>
-void XDXFArticle::format_dump(Formatter& out, Tracer tracer) const
+void XDXFArticle::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);

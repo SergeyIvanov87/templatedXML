@@ -3,13 +3,13 @@
 
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class TextElement;
 class Transcription : public XMLNode<TextElement>,
                       public XMLProducible<Transcription>,
-                      public XMLPublishing<Transcription>,
-                      public XMLFormattingPublishing<Transcription>
+                      public XMLSerializable<Transcription>,
+                      public XMLFormatSerializable<Transcription>
 {
 public:
     using base = XMLNode<TextElement>;
@@ -32,10 +32,10 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = EmptyTracer>
-    void format_dump(Formatter& out, Tracer tracer = Tracer()) const;
+    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 };
 
 #endif //TRANSCRIPTION_H

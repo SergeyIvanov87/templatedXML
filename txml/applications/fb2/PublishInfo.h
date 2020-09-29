@@ -2,13 +2,13 @@
 #define FB2_PUBLISH_INFO_H
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class Empty;
 class PublishInfo :
                     public XMLNode<Empty>,
                     public XMLProducible<PublishInfo>,
-                    public XMLPublishing<PublishInfo>
+                    public XMLSerializable<PublishInfo>
 {
 public:
     using base = XMLNode<Empty>;
@@ -29,6 +29,6 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FB2_PUBLISH_INFO_H

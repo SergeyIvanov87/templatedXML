@@ -12,6 +12,8 @@ enum eLogLevel : int
     DEBUG_LEVEL,
     TRACE_LEVEL
 };
+struct Format
+{};
 
 int main(int argc, char** argv)
 {
@@ -98,6 +100,8 @@ int main(int argc, char** argv)
                     std_tracer << TextElement::class_name() << ": "<< name << std::endl;
                 }
             }
+
+            art->serialize(std::cout);
         }
     }
     catch(const std::exception& e)

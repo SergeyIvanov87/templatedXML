@@ -2,13 +2,13 @@
 #define FB2_BODY_H
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 #include "XMLArrayContainerNode.h"
 
 class Section;
 class Body : public XMLNode<XMLArrayContainerNode<Section>>,
              public XMLProducible<Body>,
-             public XMLPublishing<Body>
+             public XMLSerializable<Body>
 {
 public:
     using base = XMLNode<XMLArrayContainerNode<Section>>;
@@ -29,6 +29,6 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FB2_BODY_H

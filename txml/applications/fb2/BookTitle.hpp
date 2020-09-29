@@ -5,7 +5,7 @@
 #include "fb2/BookTitle.h"
 #include "fb2/FB2TextElement.hpp"
 #include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
 const char *BookTitle::name() const noexcept
@@ -32,10 +32,10 @@ bool BookTitle::initialize(std::string &name, xmlpp::TextReader &reader, Tracer 
 
 
 template<class Tracer>
-void BookTitle::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void BookTitle::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << BookTitle::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << BookTitle::class_name() << ">\n";
 }
 

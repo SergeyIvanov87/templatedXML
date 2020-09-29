@@ -3,12 +3,12 @@
 
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class FB2TextElement;
 class Paragraph : public XMLNode<FB2TextElement>,
                   public XMLProducible<Paragraph>,
-                  public XMLPublishing<Paragraph>
+                  public XMLSerializable<Paragraph>
 {
 public:
     using base = XMLNode<FB2TextElement>;
@@ -31,7 +31,7 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 
 #endif //FB2_PARAGRAPH_H

@@ -3,14 +3,14 @@
 
 #include "XMLNode.h"
 #include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class Description;
 class Body;
 class Binary;
 class FictionBook : public XMLNode<Description, Body, Binary>,
                     public XMLProducible<FictionBook>,
-                    public XMLPublishing<FictionBook>
+                    public XMLSerializable<FictionBook>
 {
 public:
     using base = XMLNode<Description, Body, Binary>;
@@ -31,6 +31,6 @@ public:
     bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FICTION_BOOK_H

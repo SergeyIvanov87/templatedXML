@@ -15,9 +15,9 @@ std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, xmlpp:
 }
 
 template<TEMPL_ARGS_DECL>
-void XMLNode<TEMPL_ARGS_DEF>::dump(std::ostream &out) const
+void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out) const
 {
-    Container::dump_all(out);
+    Container::serialize_elements(out);
 }
 
 template<TEMPL_ARGS_DECL>
