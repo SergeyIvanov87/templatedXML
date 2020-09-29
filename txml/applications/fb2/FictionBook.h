@@ -2,18 +2,16 @@
 #define FICTION_BOOK_H
 
 #include "XMLNode.h"
-#include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class Description;
 class Body;
 class Binary;
-class FictionBook : public XMLNode<Description, Body, Binary>,
-                    public XMLProducible<FictionBook>,
-                    public XMLPublishing<FictionBook>
+class FictionBook : public XMLNode<FictionBook, Description, Body, Binary>,
+                    public XMLSerializable<FictionBook>
 {
 public:
-    using base = XMLNode<Description, Body, Binary>;
+    using base = XMLNode<FictionBook, Description, Body, Binary>;
 
     static constexpr const char *class_name()
     {
@@ -28,9 +26,6 @@ public:
     virtual const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
-
-    template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 #endif //FICTION_BOOK_H

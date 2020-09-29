@@ -2,16 +2,14 @@
 #define BINARY_H
 
 #include "XMLNode.h"
-#include "XMLProducible.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class Empty;
-class Binary : public XMLNode<Empty>,
-                  public XMLProducible<Binary>,
-                  public XMLPublishing<Binary>
+class Binary : public XMLNode<Binary, Empty>,
+                  public XMLSerializable<Binary>
 {
 public:
-    using base = XMLNode<Empty>;
+    using base = XMLNode<Binary, Empty>;
     using value_t = std::string;
 
     static constexpr const char* class_name()
@@ -28,10 +26,7 @@ public:
     const value_t &getValue() const;
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
-
-    template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 
 #endif //BINARY_H

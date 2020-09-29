@@ -2,10 +2,12 @@
 #define XDXF_VALUEBASE_HPP
 
 #include "XMLNode.h"
+#include "XMLProducible.hpp"
+#include "XMLCreator.hpp"
 #include "details/GenericCommandArguments.hpp"
 
-#define TEMPL_ARGS_DECL    class ...ContainedValues
-#define TEMPL_ARGS_DEF     ContainedValues...
+#define TEMPL_ARGS_DECL    class Impl, class ...ContainedValues
+#define TEMPL_ARGS_DEF     Impl, ContainedValues...
 
 template<TEMPL_ARGS_DECL>
 template<class Value, class Tracer/* = EmptyTracer>*/>
@@ -15,9 +17,19 @@ std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, xmlpp:
 }
 
 template<TEMPL_ARGS_DECL>
-void XMLNode<TEMPL_ARGS_DEF>::dump(std::ostream &out) const
+template<class Tracer>
+bool XMLNode<TEMPL_ARGS_DEF>::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
 {
-    Container::dump_all(out);
+    tracer.trace(__FUNCTION__, " '", Impl::class_name(), "' - got: '", name, "'");
+    this->template create_from<XMLCreator>(name, reader, tracer);
+    return true;
+}
+
+
+template<TEMPL_ARGS_DECL>
+void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out) const
+{
+    Container::serialize_elements(out);
 }
 
 template<TEMPL_ARGS_DECL>

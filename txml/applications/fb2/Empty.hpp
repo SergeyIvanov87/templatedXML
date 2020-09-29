@@ -3,7 +3,7 @@
 
 #include "XMLNodeLeaf.hpp"
 #include "fb2/Empty.h"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 
 Empty::Empty(std::string&& str) : base(std::move(str))
 {
@@ -16,7 +16,7 @@ const char *Empty::name() const noexcept
 
 
 template<class Tracer>
-void Empty::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Empty::class_name() << getValue() << " -->\n";
 }

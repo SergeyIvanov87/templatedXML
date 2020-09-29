@@ -26,11 +26,11 @@ inline std::ostream& italic_off(std::ostream& os)
 
 
 #include "XMLNodeLeaf.h"
-#include "XMLPublishing.h"
+#include "XMLSerializable.h"
 
 class TextElement : public XMLNodeLeaf<std::string>,
-                    public XMLPublishing<TextElement>,
-                    public XMLFormattingPublishing<TextElement>
+                    public XMLSerializable<TextElement>,
+                    public XMLFormatSerializable<TextElement>
 {
 public:
     using base = XMLNodeLeaf<std::string>;
@@ -58,10 +58,10 @@ public:
     fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);*/
 
     template<class Tracer = EmptyTracer>
-    void dump(std::ostream &out, Tracer tracer = Tracer()) const;
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = EmptyTracer>
-    void format_dump(Formatter& out, Tracer tracer = Tracer()) const;
+    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 };
 
 #endif //KEY_PHRASE_H

@@ -4,8 +4,7 @@
 
 #include "fb2/common/Paragraph.h"
 #include "fb2/FB2TextElement.hpp"
-#include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 
 const char *Paragraph::name() const noexcept
@@ -25,18 +24,10 @@ const Paragraph::value_t &Paragraph::getValue() const
 }
 
 template<class Tracer>
-bool Paragraph::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    tracer.trace(__FUNCTION__, " '", Paragraph::class_name(), "' - got: '", name, "'");
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
-}
-
-template<class Tracer>
-void Paragraph::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Paragraph::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Paragraph::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << Paragraph::class_name() << ">\n";
 }
 

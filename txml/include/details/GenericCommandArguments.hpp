@@ -40,21 +40,21 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_a
 
 template<TEMPL_ARGS_DECL>
 template<class Argument, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::dump(std::ostream &out, Tracer tracer) const
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer) const
 {
-    this->get<Argument>()->dump(out, tracer);
+    this->get<Argument>()->serialize_impl(out, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer, class EndElementManipulator>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::dump_all(std::ostream &out, Tracer tracer,
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out, Tracer tracer,
                                                      EndElementManipulator sep) const
 {
     std::apply([&out, &tracer, &sep](const std::shared_ptr<Arguments> &...element)
     {
         bool dispatchingResult[]
             {
-                (element ? element->publish_impl(out, tracer), out << sep, true : false)...
+                (element ? element->serialize(out, tracer), out << sep, true : false)...
             };
         (void)dispatchingResult;
     }, storage);
@@ -62,13 +62,13 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::dump_all(std::ostream &out, Tracer t
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_dump_all(Formatter &out, Tracer tracer) const
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter &out, Tracer tracer) const
 {
     std::apply([&out, &tracer](const std::shared_ptr<Arguments> &...element)
     {
         bool dispatchingResult[]
             {
-                (element ? element->format_publish_impl(out, tracer), true : false)...
+                (element ? element->format_serialize(out, tracer), true : false)...
             };
         (void)dispatchingResult;
     }, storage);

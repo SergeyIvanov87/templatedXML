@@ -4,7 +4,7 @@
 #include <regex>
 #include "XMLNodeLeaf.hpp"
 #include "xdxf/TextElement.h"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 
 TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
@@ -17,7 +17,7 @@ const char *TextElement::name() const noexcept
 
 
 template<class Tracer>
-void TextElement::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");
@@ -46,7 +46,7 @@ void TextElement::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 
 
 template<class Formatter, class Tracer = EmptyTracer>
-void TextElement::format_dump(Formatter& out, Tracer tracer) const
+void TextElement::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);

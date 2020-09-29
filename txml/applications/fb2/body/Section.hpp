@@ -4,8 +4,7 @@
 
 #include "fb2/body/Section.h"
 #include "fb2/common/Paragraph.hpp"
-#include "XMLProducible.hpp"
-#include "XMLPublishing.hpp"
+#include "XMLSerializable.hpp"
 #include "XMLCreator.hpp"
 #include "XMLNode.hpp"
 #include "XMLArrayContainerNode.hpp"
@@ -17,17 +16,10 @@ const char *Section::name() const noexcept
 }
 
 template<class Tracer>
-bool Section::initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer/* = Tracer()*/)
-{
-    this->create_from<XMLCreator>(name, reader, tracer);
-    return true;
-}
-
-template<class Tracer>
-void Section::dump(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Section::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Section::class_name() << ">";
-    this->dump_all(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, no_sep);
     out << "</" << Section::class_name() << ">\n";
 }
 #endif
