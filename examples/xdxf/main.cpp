@@ -4,7 +4,7 @@
 
 #include <utils/Tracer.hpp>
 #include <applications/xdxf/XDXFArticle.hpp>
-
+#include <applications/xdxf/serializer/to_fb2.hpp>
 enum eLogLevel : int
 {
     ERROR_LEVEL,
@@ -101,7 +101,19 @@ int main(int argc, char** argv)
                 }
             }
 
-            art->serialize(std::cout);
+            //To stdout
+            //art->serialize(std::cout);
+
+            //To Fb2 format
+            ToFB2<std::ostream> out(std::cout);
+            if (log_level >= eLogLevel::DEBUG_LEVEL)
+            {
+                art->format_serialize(out, std_tracer);
+            }
+            else
+            {
+                art->format_serialize(out, empty_tracer);
+            }
         }
     }
     catch(const std::exception& e)
