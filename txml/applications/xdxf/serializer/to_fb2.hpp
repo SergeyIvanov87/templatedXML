@@ -10,10 +10,10 @@
 #include "xdxf/TextElement.h"
 
 #include "fb2/body/Section.hpp"
-//#include "common/fb2/FB2TextElement.hpp"
+
 
 template<class Stream>
-struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedElement, XDXFArticle, KeyPhrase, Comment, /*Transcription, */TextElement>
+struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedElement, XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>
 {
     ToFB2(Stream &stream) :
         out(stream)
@@ -22,7 +22,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
 
 
     template<class Tracer>
-    void map_impl(const XDXFArticle& val, Tracer tracer)
+    void serialize_impl(const XDXFArticle& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", XDXFArticle::class_name());
 
@@ -32,7 +32,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     }
 
     template<class Tracer>
-    void map_impl(const KeyPhrase& val, Tracer tracer)
+    void serialize_impl(const KeyPhrase& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", KeyPhrase::class_name());
         out << "<title>";
@@ -42,7 +42,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     }
 
     template<class Tracer>
-    void map_impl(const Comment& val, Tracer tracer)
+    void serialize_impl(const Comment& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", Comment::class_name());
         out << "<" << Section::class_name() << ">\n";
@@ -57,7 +57,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     }
 
     template<class Tracer>
-    void map_impl(const Transcription& val, Tracer tracer)
+    void serialize_impl(const Transcription& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", Transcription::class_name());
         out << "<empty-line/>\n";
@@ -71,7 +71,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     }
 
     template<class Tracer>
-    void map_impl(const TextElement& val, Tracer tracer)
+    void serialize_impl(const TextElement& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", TextElement::class_name());
         out << "<" << Paragraph::class_name() << ">";
@@ -107,18 +107,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
         }
         out << "</" << Paragraph::class_name() << ">\n";
     }
-/*
-    template<class In, int InIndex, class Tracer>
-    void map_impl(const In& val, std::integral_constant<int, InIndex> vl, Tracer tracer)
-    {
-        using mapped_type = std::tuple_element_t<InIndex,
-                                    typename out_list_t::impl_t>;
 
-        out << "<" << mapped_type::class_name() << ">";
-        val.format_dump(*this, tracer);
-        out << "</" << mapped_type::class_name() << ">\n";
-    }
-    * */
     Stream &out;
 };
 #endif //TO_FB2_SERIALIZER_HPP

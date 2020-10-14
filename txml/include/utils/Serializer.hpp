@@ -6,26 +6,64 @@
 
 #include "../details/SerializePolicies.hpp"
 
-template<class Impl, class UnscopedPolicy, class ...ElementType>
-struct FormatSerializerBase // TODO interface
+namespace details
+{
+template<class Impl, class ElementType>
+struct SingleElementSerializerBase;
+}
+
+
+template<class Impl, class UnscopedElementProcessingPolicyT, class ...ElementType>
+struct FormatSerializerBase : public details::SingleElementSerializerBase<Impl, ElementType>...
 {
     using ImplType = Impl;
-    using UnscopedPolicyType = UnscopedPolicy;
+    using UnscopedElementProcessingPolicyType = UnscopedElementProcessingPolicyT;
     using ElementTupleType = std::tuple<ElementType...>;
-    using SelfType = FormatSerializerBase<Impl, UnscopedPolicyType, ElementType...>;
+    using SelfType = FormatSerializerBase<Impl, UnscopedElementProcessingPolicyType, ElementType...>;
 
     template<class InElement, class Tracer>
     void map(const InElement& in_val, Tracer tracer)
     {
         if constexpr(! std::disjunction_v<std::is_same<InElement,ElementType>...>)
         {
-            UnscopedPolicyType::template process<SelfType, InElement, Tracer>(*this, in_val, tracer);
+            UnscopedElementProcessingPolicyType::template process<SelfType, InElement, Tracer>(*this, in_val, tracer);
         }
         else
         {
-            static_cast<ImplType*>(this)->template map_impl(in_val, tracer);
+            details::SingleElementSerializerBase<Impl, InElement>::invoke(in_val, tracer);
         }
     }
+    /*
+    template<class In, int InIndex, class Tracer>
+    void serialize_impl(const In& val, std::integral_constant<int, InIndex> vl, Tracer tracer)
+    {
+        using mapped_type = std::tuple_element_t<InIndex,
+                                    typename out_list_t::impl_t>;
+
+        out << "<" << mapped_type::class_name() << ">";
+        val.format_dump(*this, tracer);
+        out << "</" << mapped_type::class_name() << ">\n";
+    }
+    * */
+protected:
+    ~FormatSerializerBase<Impl, UnscopedElementProcessingPolicyType, ElementType...>() = default;
+
 };
 
+
+namespace details
+{
+template<class Impl, class ElementType>
+struct SingleElementSerializerBase
+{
+    template<class Tracer>
+    void invoke(const ElementType& val, Tracer tracer)
+    {
+        static_cast<Impl*>(this)->serialize_impl(val, tracer);
+    }
+
+protected:
+    ~SingleElementSerializerBase() = default;
+};
+}
 #endif //FORMAT_SERIALIZER_H
