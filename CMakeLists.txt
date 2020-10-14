@@ -39,7 +39,7 @@ include_directories(
 add_subdirectory(txml)
 add_subdirectory(examples)
 
-export(TARGETS txml templatedxml_fb2 templatedxml_xdxf
+export(TARGETS txml templatedxml_fb2 templatedxml_xdxf templatedxml_xdxf_to_fb2
     FILE "${PROJECT_BINARY_DIR}/TemplatedXMLTargets.cmake")
 
 export(PACKAGE TemplatedXML)

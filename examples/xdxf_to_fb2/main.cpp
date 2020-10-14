@@ -4,6 +4,7 @@
 
 #include <utils/Tracer.hpp>
 #include <applications/xdxf/XDXFArticle.hpp>
+#include <applications/xdxf/serializer/to_fb2.hpp>
 
 enum eLogLevel : int
 {
@@ -36,6 +37,14 @@ int main(int argc, char** argv)
         EmptyTracer empty_tracer;
 
         std::unique_ptr<xmlpp::TextReader> xml_reader = std::make_unique<xmlpp::TextReader>(xdxf_file_path);
+
+        // Declare serializer object
+        ToFB2<std::ostream> serializer(std::cout);
+
+        // Print Header
+        serializer.out << R"dict_header(<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink">
+<description></description>
+<body>)dict_header" << std::endl;;
         while(xml_reader->read())
         {
             std::string name = xml_reader->get_name();
@@ -59,49 +68,22 @@ int main(int argc, char** argv)
                 continue;
             }
 
-            //Extract inner tags: KeyPhrase, Comment, Transcription and TextElement
-            auto key_phrase = art->get<KeyPhrase>();
-            auto comment = art->get<Comment>();
-            auto transcr = art->get<Transcription>();
-            auto text = art->get<TextElement>();
 
-            //Printout
-            if (key_phrase)
+            //To Fb2 format
+            if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
-                const std::string& name = key_phrase->getValue();
-                if (log_level >= eLogLevel::DEBUG_LEVEL)
-                {
-                    std_tracer << KeyPhrase::class_name() << ": "<< name << std::endl;
-                }
+                art->format_serialize(serializer, std_tracer);
             }
-            if (comment)
+            else
             {
-                const std::string& name = comment->getValue();
-                if (log_level >= eLogLevel::DEBUG_LEVEL)
-                {
-                    std_tracer << Comment::class_name() << ": "<< name << std::endl;
-                }
+                art->format_serialize(serializer, empty_tracer);
             }
-            if (transcr)
-            {
-                const std::string& name = transcr->getValue();
-                if (log_level >= eLogLevel::DEBUG_LEVEL)
-                {
-                    std_tracer << Transcription::class_name() << ": "<< name << std::endl;
-                }
-            }
-            if (text)
-            {
-                const std::string& name = text->getValue();
-                if (log_level >= eLogLevel::DEBUG_LEVEL)
-                {
-                    std_tracer << TextElement::class_name() << ": "<< name << std::endl;
-                }
-            }
-
-            //To stdout
-            art->serialize(std::cout);
         }
+
+        // Print Footer
+        serializer.out << R"dict_footer(
+</body>"
+</FictionBook>)dict_footer" << std::endl;
     }
     catch(const std::exception& e)
     {
