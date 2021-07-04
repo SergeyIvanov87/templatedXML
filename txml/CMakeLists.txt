@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.1)
 
 set (BRANCH_ROOT ${CMAKE_SOURCE_DIR})
 get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)

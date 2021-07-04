@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.1)
 
 set (PROC_NAME "templatedxml_fb2")
 project(${PROC_NAME})
