@@ -24,7 +24,6 @@ if(NOT LIBXML2_FOUND)
 else()
     include(FindPkgConfig)
     pkg_search_module(XML REQUIRED libxml++-3.0)
-    message("PKG_Config: ${XML_INCLUDE_DIRS}")
 
     set (LIBXMLPP_INCLUDE_DIR ${LIBXML2_INCLUDE_DIR}/../libxml++-3.0/)
     list (APPEND LIBXMLPP_INCLUDE_DIR ${XML_INCLUDE_DIRS})

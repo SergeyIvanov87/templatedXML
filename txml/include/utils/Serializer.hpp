@@ -46,7 +46,7 @@ struct FormatSerializerBase : public details::SingleElementSerializerBase<Impl, 
     }
     * */
 protected:
-    ~FormatSerializerBase<Impl, UnscopedElementProcessingPolicyType, ElementType...>() = default;
+    ~FormatSerializerBase() = default;
 
 };
 
