@@ -2,6 +2,7 @@
 #define XDXF_CREATABLE_HPP
 
 #include "XMLProducible.h"
+#include "utils.h"
 
 template<class Value>
 template<class Tracer>
