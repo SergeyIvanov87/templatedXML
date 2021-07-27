@@ -36,7 +36,7 @@ if(NOT LIBXML2_FOUND)
     if (WITH_XML2)
         if( UNIX )
             configure_file(${BRANCH_ROOT}/cmake/download_libxml2.cmake.in libxml2-download/CMakeLists.txt)
-        else if( ANDROID )
+        elseif( ANDROID )
             configure_file(${BRANCH_ROOT}/cmake/download_android_libxml2.cmake.in libxml2-download/CMakeLists.txt)
         endif()
         # Configure & Build (optionally) `templatedXML`
