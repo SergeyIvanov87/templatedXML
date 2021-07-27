@@ -4,8 +4,8 @@
 #include <memory>
 #include <ostream>
 #include <vector>
-#include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
+#include <engine/TextReaderWrap.hpp>
+
 #include <utils/Tracer.hpp>
 #include "XMLProducible.h"
 
@@ -25,7 +25,7 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
     }
 
     //use node type as child type
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
         return Value::class_node_type();
     }
@@ -35,10 +35,10 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
+    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
-    void fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 };
 
 #endif //XDXF_PUBLISHING_H

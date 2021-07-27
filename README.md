@@ -23,7 +23,7 @@ make install
 ```
 
   4) Append your project `CMakeLists.txt` with the following rows
-  
+
 ```
 set (CMAKE_CXX_STANDARD 17)                               # yes, it uses c++17
 find_package(TemplatedXML REQUIRED)                       # use CMake package
@@ -32,7 +32,7 @@ target_link_libraries(<YOUR_PROJECT_NAME_TARGET> txml)    # link with `txml`
 ```
 
   5) go to the next section
-  
+
 # Build user-define model by templatedXML
 
 Let's consider XDXF format. It uses the following structure:
@@ -68,9 +68,9 @@ class XDXFArticle : public XMLNode<KeyPhrase, Comment, Transcription, TextElemen
         return "ar";
     }
 
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
-        return xmlpp::TextReader::NodeType::Element;
+        return TextReaderWrapper::NodeType::Element;
     }
 };
 ```
@@ -105,14 +105,14 @@ public:
         return "#text";
     }
 
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
-        return xmlpp::TextReader::NodeType::Text;
+        return TextReaderWrapper::NodeType::Text;
     };
 };
 ```
 
-`XMLNodeLeaf` as a XML leaf element will contains the data from RAW xml document for appropriate type: `std::string`, some sort of `integer` and etc. 
+`XMLNodeLeaf` as a XML leaf element will contains the data from RAW xml document for appropriate type: `std::string`, some sort of `integer` and etc.
 It's because we use typed `XMLNodeLeaf` for `std::string` here: `class TextElement : public XMLNodeLeaf<std::string>`
 Let's add constructor for `TextElement`:
 
@@ -125,11 +125,11 @@ public:
         return "#text";
     }
 
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
-        return xmlpp::TextReader::NodeType::Text;
+        return TextReaderWrapper::NodeType::Text;
     };
-    
+
     // Ctor from `string`
     TextElement(std::string&& str);
     ~TextElement() = default;
@@ -143,10 +143,10 @@ Now you can access to the `TextElement` by using the base `XMLNodeLeaf` method `
 if (transcr)
 {
   const std::string& name = transcr->getValue();
-  
+
   //use `name`
   ...
  }
  ```
- 
- Please find the completed XDXF model in `templatedXML/txml/applications/xdxf/` and usage examples in `templatedXML/examples/xdxf/main.cpp` 
+
+ Please find the completed XDXF model in `templatedXML/txml/applications/xdxf/` and usage examples in `templatedXML/examples/xdxf/main.cpp`

@@ -31,7 +31,7 @@ void Comment::format_serialize_impl(Formatter& out, Tracer tracer) const
 }
 
 template<class Tracer>
-std::shared_ptr<Comment> Comment::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Comment> Comment::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
 
@@ -41,11 +41,11 @@ std::shared_ptr<Comment> Comment::create_impl(std::string &name, xmlpp::TextRead
                                  ", got: " + name);
     }
 
-    xmlpp::TextReader::NodeType nodeType = reader.get_node_type();
+    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != Comment::class_node_type())
     {
         tracer.trace("<skip '", Comment::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(xmlpp::TextReader::NodeType::Text));
+                     ", expected node type: ", to_string(TextReaderWrapper::NodeType::Text));
         return ret;
     }
 

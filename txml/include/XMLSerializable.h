@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <ostream>
-#include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
+#include <engine/TextReaderWrap.hpp>
+
 #include <utils/Tracer.hpp>
 
 

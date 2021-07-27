@@ -7,8 +7,8 @@
 #include <string>
 #include <optional>
 #include <vector>
-#include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
+#include <engine/TextReaderWrap.hpp>
+
 #include <utils/Tracer.hpp>
 
 #include "details/GenericCommandArguments.h"
@@ -27,11 +27,11 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     std::shared_ptr<XMLNode<Impl, ContainedValues...>> get_ptr();
 
     template<class Tracer = EmptyTracer>
-    bool initialize(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    bool initialize(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     void serialize_impl(std::ostream &out) const;
     template<class Value, class Tracer = EmptyTracer>
-    static std::shared_ptr<Value> create(std::string &name, xmlpp::TextReader &reader, Tracer tracer = Tracer());
+    static std::shared_ptr<Value> create(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 
 protected:
     XMLNode() = default;

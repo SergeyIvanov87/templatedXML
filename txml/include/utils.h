@@ -1,45 +1,45 @@
 #ifndef XML_UTILS_H
 #define XML_UTILS_H
 
-inline std::string to_string(xmlpp::TextReader::NodeType node_type)
+inline std::string to_string(TextReaderWrapper::NodeType node_type)
 {
     switch (node_type)
     {
-        case xmlpp::TextReader::NodeType::InternalError:
+        case TextReaderWrapper::NodeType::InternalError:
             return "InternalError";
-        case xmlpp::TextReader::NodeType::None:
+        case TextReaderWrapper::NodeType::None:
             return "None";
-        case xmlpp::TextReader::NodeType::Element:
+        case TextReaderWrapper::NodeType::Element:
             return "Element";
-        case xmlpp::TextReader::NodeType::Attribute:
+        case TextReaderWrapper::NodeType::Attribute:
             return "Attribute";
-        case xmlpp::TextReader::NodeType::Text:
+        case TextReaderWrapper::NodeType::Text:
             return "Text";
-        case xmlpp::TextReader::NodeType::CDATA:
+        case TextReaderWrapper::NodeType::CDATA:
             return "CDATA";
-        case xmlpp::TextReader::NodeType::EntityReference:
+        case TextReaderWrapper::NodeType::EntityReference:
             return "EntityReference";
-        case xmlpp::TextReader::NodeType::Entity:
+        case TextReaderWrapper::NodeType::Entity:
             return "Entity";
-        case xmlpp::TextReader::NodeType::ProcessingInstruction:
+        case TextReaderWrapper::NodeType::ProcessingInstruction:
             return "ProcessingInstruction";
-        case xmlpp::TextReader::NodeType::Comment:
+        case TextReaderWrapper::NodeType::Comment:
             return "Comment";
-        case xmlpp::TextReader::NodeType::Document:
+        case TextReaderWrapper::NodeType::Document:
             return "Document";
-        case xmlpp::TextReader::NodeType::DocumentFragment:
+        case TextReaderWrapper::NodeType::DocumentFragment:
             return "DocumentFragment";
-        case xmlpp::TextReader::NodeType::Notation:
+        case TextReaderWrapper::NodeType::Notation:
             return "Notation";
-        case xmlpp::TextReader::NodeType::Whitespace:
+        case TextReaderWrapper::NodeType::Whitespace:
             return "Whitespace";
-        case xmlpp::TextReader::NodeType::SignificantWhitespace:
+        case TextReaderWrapper::NodeType::SignificantWhitespace:
             return "SignificantWhitespace";
-        case xmlpp::TextReader::NodeType::EndElement:
+        case TextReaderWrapper::NodeType::EndElement:
             return "EndElement";
-        case xmlpp::TextReader::NodeType::EndEntity:
+        case TextReaderWrapper::NodeType::EndEntity:
             return "EndEntity";
-        case xmlpp::TextReader::NodeType::XmlDeclaration:
+        case TextReaderWrapper::NodeType::XmlDeclaration:
             return "XmlDeclaration";
         default:
             return "UNSPECIFIED";

@@ -6,7 +6,7 @@
 
 template<class Value>
 template<class Tracer>
-std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
+std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
 {
     if (name != Value::class_name())
     {
@@ -14,11 +14,11 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, xmlp
                                  ", got: " + name);
     }
 
-    xmlpp::TextReader::NodeType nodeType = reader.get_node_type();
+    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != Value::class_node_type())
     {
         throw std::runtime_error(std::string("Expected node type: ") +
-                                             to_string(xmlpp::TextReader::NodeType::Element) +
+                                             to_string(TextReaderWrapper::NodeType::Element) +
                                              ", got: " + to_string(nodeType));
     }
 
@@ -34,7 +34,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, xmlp
 
             entered_tracer.trace("extract tag: '", name, "', type: ", to_string(nodeType));
             if (name == Value::class_name() &&
-                reader.get_node_type() == xmlpp::TextReader::NodeType::EndElement)
+                reader.get_node_type() == TextReaderWrapper::NodeType::EndElement)
             {
                 tracer.trace("Close tag '", Value::class_name(), "' handle: ", reinterpret_cast<size_t>(ret.get()));
                 break;
@@ -49,7 +49,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, xmlp
 
 template<class Value>
 template<class Tracer>
-void XMLProducible<Value>::fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer)
+void XMLProducible<Value>::fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
 {
 }
 #endif //XDXF_CREATABLE_HPP

@@ -18,9 +18,9 @@ public:
         return "!--";
     }
 
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
-        return xmlpp::TextReader::NodeType::Text;
+        return TextReaderWrapper::NodeType::Text;
     };
 
     Empty(std::string&& str);
@@ -29,7 +29,7 @@ public:
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<Empty> create_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
+    static std::shared_ptr<Empty> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;

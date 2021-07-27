@@ -6,7 +6,7 @@
 
 template<class Value, class Tracer>
 std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
-                                               xmlpp::TextReader &reader,
+                                               TextReaderWrapper &reader,
                                                Tracer tracer/* = Tracer()*/)
 {
     std::shared_ptr<Value> ret;
@@ -15,7 +15,7 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
         return ret;
     }
 
-    xmlpp::TextReader::NodeType nodeType = reader.get_node_type();
+    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     tracer.trace("Found '", to_string(nodeType), "', tag name: '", name, "'");
 
     if (nodeType == Value::class_node_type())
@@ -47,7 +47,7 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
 template<class Value, class Tracer>
 std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
                                             std::string &name,
-                                            xmlpp::TextReader &reader,
+                                            TextReaderWrapper &reader,
                                             Tracer tracer/* = Tracer()*/)
 {
     if (name == Value::class_name())

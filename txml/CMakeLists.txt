@@ -6,46 +6,118 @@ get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)
 set (PROCESS_DIR ${CMAKE_SOURCE_DIR})
 get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
+if (WITH_XMLPP)
+    configure_file(${BRANCH_ROOT}/cmake/download_libxml++.cmake.in libxml++-download/CMakeLists.txt)
+    # Configure & Build (optionally) `templatedXML`
+    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+                    RESULT_VARIABLE result
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml++-download )
+    if(result)
+        message(FATAL_ERROR "CMake step for libxml++ failed: ${result}")
+    endif()
+
+    execute_process(COMMAND ${CMAKE_COMMAND} --build .
+                    RESULT_VARIABLE result
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml++-download )
+    if(result)
+        message(FATAL_ERROR "Build step for libxml++ failed: ${result}")
+    endif()
+endif()
+
+
 #==============================================================================
-if(LIBXMLPP_INSTALLED_PATH)
-	set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
-	list(APPEND CMAKE_PREFIX_PATH ${LIBXMLPP_INSTALLED_PATH})
-endif()
-
-find_package(LibXml2 REQUIRED)
+set(COMPILE_DEFS "")
+find_package(LibXml2 QUIET)
+#set(XML_LIBRARIES "")
+set (XML_LIBS ${XML_LIBRARIES})
+set (XML_INCL_DIRS ${XML_INCLUDE_DIRS})
+set (XML_TARGET "")
 if(NOT LIBXML2_FOUND)
-    message(SEND_ERROR "Failed to find LibXml2")
-    return()
+    if (WITH_XML2)
+        if( UNIX )
+            configure_file(${BRANCH_ROOT}/cmake/download_libxml2.cmake.in libxml2-download/CMakeLists.txt)
+        else if( ANDROID )
+            configure_file(${BRANCH_ROOT}/cmake/download_android_libxml2.cmake.in libxml2-download/CMakeLists.txt)
+        endif()
+        # Configure & Build (optionally) `templatedXML`
+        execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+                        RESULT_VARIABLE result
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml2-download )
+        if(result)
+            message(FATAL_ERROR "CMake step for libxml2 failed: ${result}")
+        endif()
+
+        execute_process(COMMAND ${CMAKE_COMMAND} --build .
+                        RESULT_VARIABLE result
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml2-download )
+        if(result)
+            message(FATAL_ERROR "Build step for libxml2 failed: ${result}")
+        endif()
+
+
+        set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
+        list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_BINARY_DIR}/libxml2)
+        find_package(LibXml2 HINTS ${CMAKE_CURRENT_BINARY_DIR}/libxml2 REQUIRED)
+
+#        foreach (lib ${LIBXML2_LIBRARIES})
+#            find_library (found_lib_${lib} ${lib} HINTS ${XML_LIBRARY_DIRS} REQUIRED)
+#            message("found_lib_${lib}: ${found_lib_${lib}} ")
+#            list(APPEND XML_LIBS ${found_lib_${lib}})
+#        endforeach()
+
+        #set(XML_LIBS ${LIBXML2_LIBRARIES})
+        #message("LIBXML2_LIBRARY: ${LIBXML2_LIBRARY}")
+        #list(APPEND XML_LIBS ${LIBXML2_LIBRARY})
+        #set(XML_INCL_DIRS ${LIBXML2_INCLUDE_DIRS})
+        list (APPEND COMPILE_DEFS -DWITH_XML2)
+        set (XML_TARGET LibXml2::LibXml2)
+    else()
+        message(SEND_ERROR "Failed to find LibXml2")
+        return()
+    endif()
+else()
+set (XML_TARGET LibXml2::LibXml2)
 endif()
 
-include(FindPkgConfig)
-pkg_search_module(XML REQUIRED libxml++-3.0)
+
+if(LIBXMLPP_INSTALLED_PATH)
+    set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
+    list(APPEND CMAKE_PREFIX_PATH ${LIBXMLPP_INSTALLED_PATH})
+endif()
+
+
+#-S- include(FindPkgConfig)
+#-S- DO NOT Search in case of not requested!! pkg_search_module(XML REQUIRED libxml++-3.0)
 #set (LIBXMLPP_INCLUDE_DIR ${LIBXML2_INCLUDE_DIR}/../libxml++-3.0/)
 #include_directories(${LIBXMLPP_INCLUDE_DIR})
 if(LIBXMLPP_INSTALLED_PATH)
-	find_library (LIBXMLPP_LIB xml++-3.0 HINTS ${XML_LIBRARY_DIRS} REQUIRED)
-	list (REMOVE_ITEM XML_LIBRARIES xml++-3.0)
-	list (APPEND XML_LIBRARIES ${LIBXMLPP_LIB})
+    find_library (LIBXMLPP_LIB xml++-3.0 HINTS ${XML_LIBRARY_DIRS} REQUIRED)
+    list (REMOVE_ITEM XML_LIBS xml++-3.0)
+    list (APPEND XML_LIBS ${LIBXMLPP_LIB})
 endif()
 
 # Header-only library
 add_library(txml INTERFACE)
 
-target_include_directories(
-  txml
-  INTERFACE ${XML_INCLUDE_DIRS})
+#target_include_directories(
+#  txml
+#  INTERFACE ${XML_INCL_DIRS})
 
+message("XML_INCL_DIRS: ${XML_INCL_DIRS}")
 target_include_directories(
   txml
   INTERFACE
-		"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications;${XML_INCL_DIRS}>"
          "$<INSTALL_INTERFACE:include;include/applications>"
          )
-            
+
 target_link_libraries(
   txml
-  INTERFACE ${XML_LIBRARIES})
+  INTERFACE ${XML_LIBS} ${XML_TARGET})
 
+target_compile_definitions(
+  txml
+  INTERFACE ${COMPILE_DEFS})
 
 #set_target_properties(txml PROPERTIES
 #  PUBLIC_HEADER include/txml.hpp)

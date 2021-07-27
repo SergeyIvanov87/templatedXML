@@ -1,6 +1,6 @@
 #include <iostream>
-#include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
+#include <engine/TextReaderWrap.hpp>
+
 
 #include <utils/Tracer.hpp>
 #include <applications/xdxf/XDXFArticle.hpp>
@@ -36,7 +36,7 @@ int main(int argc, char** argv)
         StdoutTracer std_tracer;
         EmptyTracer empty_tracer;
 
-        std::unique_ptr<xmlpp::TextReader> xml_reader = std::make_unique<xmlpp::TextReader>(xdxf_file_path);
+        std::unique_ptr<TextReaderWrapper> xml_reader = std::make_unique<TextReaderWrapper>(xdxf_file_path);
 
         // Declare serializer object
         ToFB2<std::ostream> serializer(std::cout);

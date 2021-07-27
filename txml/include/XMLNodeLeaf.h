@@ -8,8 +8,8 @@
 #include <string>
 #include <optional>
 #include <vector>
-#include <libxml++/libxml++.h>
-#include <libxml++/parsers/textreader.h>
+#include <engine/TextReaderWrap.hpp>
+
 #include <utils/Tracer.hpp>
 
 template<class T>
@@ -28,7 +28,7 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<T>>
     value_t& getValue();
 
     template<class Tracer = EmptyTracer>
-    void fill_impl(std::string &name, xmlpp::TextReader &reader, Tracer tracer);
+    void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 private:
     value_t val;
 };

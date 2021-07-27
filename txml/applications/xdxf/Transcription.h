@@ -18,9 +18,9 @@ public:
         return "tr";
     }
 
-    static constexpr xmlpp::TextReader::NodeType class_node_type()
+    static constexpr TextReaderWrapper::NodeType class_node_type()
     {
-        return xmlpp::TextReader::NodeType::Element;
+        return TextReaderWrapper::NodeType::Element;
     };
 
     const char *name() const noexcept override;

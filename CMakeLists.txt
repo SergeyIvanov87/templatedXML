@@ -9,6 +9,9 @@ set(TEMPLATEDXML_PATCH_VERSION 0)
 set(TEMPLATEDXML_VERSION
     ${TEMPLATEDXML_MAJOR_VERSION}.${TEMPLATEDXML_MINOR_VERSION}.${TEMPLATEDXML_PATCH_VERSION})
 
+set(WITH_XMLPP OFF CACHE BOOL "Configure with libxml++")
+set(WITH_XML2 OFF CACHE BOOL "Configure with libxml2")
+
 # set install_path's
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
