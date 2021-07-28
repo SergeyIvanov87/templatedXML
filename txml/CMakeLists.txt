@@ -6,6 +6,8 @@ get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)
 set (PROCESS_DIR ${CMAKE_SOURCE_DIR})
 get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
+message("WITH_XML2: ${WITH_XML2}")
+message("WITH_XMLPP: ${WITH_XMLPP}")
 if (WITH_XMLPP)
     configure_file(${BRANCH_ROOT}/cmake/download_libxml++.cmake.in libxml++-download/CMakeLists.txt)
     # Configure & Build (optionally) `templatedXML`
