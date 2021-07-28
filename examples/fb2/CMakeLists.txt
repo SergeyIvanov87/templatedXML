@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-set (PROC_NAME "templatedxml_fb2")
+set (PROC_NAME templatedxml_fb2)
 project(${PROC_NAME})
 
 set (BRANCH_ROOT ${CMAKE_SOURCE_DIR})
