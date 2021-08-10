@@ -1,11 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
 
-set (BRANCH_ROOT ${CMAKE_SOURCE_DIR})
-get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)
-
-set (PROCESS_DIR ${CMAKE_SOURCE_DIR})
-get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
-
 if (WITH_XMLPP)
     configure_file(${BRANCH_ROOT}/cmake/download_libxml++.cmake.in libxml++-download/CMakeLists.txt)
     # Configure & Build (optionally) `templatedXML`
@@ -26,65 +20,31 @@ endif()
 
 
 #==============================================================================
-set(COMPILE_DEFS "")
-find_package(LibXml2 QUIET)
-#set(XML_LIBRARIES "")
-set (XML_LIBS ${XML_LIBRARIES})
-set (XML_INCL_DIRS ${XML_INCLUDE_DIRS})
-set (XML_TARGET "")
-if(NOT LIBXML2_FOUND)
-    if (WITH_XML2)
-        if( UNIX )
-            configure_file(${BRANCH_ROOT}/cmake/download_libxml2.cmake.in libxml2-download/CMakeLists.txt)
-        elseif( ANDROID )
-            configure_file(${BRANCH_ROOT}/cmake/download_android_libxml2.cmake.in libxml2-download/CMakeLists.txt)
-        endif()
-        # Configure & Build (optionally) `templatedXML`
-        execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-                        RESULT_VARIABLE result
-                        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml2-download )
-        if(result)
-            message(FATAL_ERROR "CMake step for libxml2 failed: ${result}")
-        endif()
-
-        execute_process(COMMAND ${CMAKE_COMMAND} --build .
-                        RESULT_VARIABLE result
-                        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libxml2-download )
-        if(result)
-            message(FATAL_ERROR "Build step for libxml2 failed: ${result}")
-        endif()
-
-
-        set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
-        list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_BINARY_DIR}/libxml2)
-        find_package(LibXml2 HINTS ${CMAKE_CURRENT_BINARY_DIR}/libxml2 REQUIRED)
-
-#        foreach (lib ${LIBXML2_LIBRARIES})
-#            find_library (found_lib_${lib} ${lib} HINTS ${XML_LIBRARY_DIRS} REQUIRED)
-#            message("found_lib_${lib}: ${found_lib_${lib}} ")
-#            list(APPEND XML_LIBS ${found_lib_${lib}})
-#        endforeach()
-
-        #set(XML_LIBS ${LIBXML2_LIBRARIES})
-        #message("LIBXML2_LIBRARY: ${LIBXML2_LIBRARY}")
-        #list(APPEND XML_LIBS ${LIBXML2_LIBRARY})
-        #set(XML_INCL_DIRS ${LIBXML2_INCLUDE_DIRS})
-        list (APPEND COMPILE_DEFS -DWITH_XML2)
-        set (XML_TARGET LibXml2::LibXml2)
-    else()
-        message(SEND_ERROR "Failed to find LibXml2")
-        return()
-    endif()
-else()
-set (XML_TARGET LibXml2::LibXml2)
-endif()
-
-
-if(LIBXMLPP_INSTALLED_PATH)
+if( TARGET txml)
+    set(COMPILE_DEFS "")
     set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
-    list(APPEND CMAKE_PREFIX_PATH ${LIBXMLPP_INSTALLED_PATH})
-endif()
+    list(APPEND CMAKE_PREFIX_PATH ${LIBXML2_INSTALLED_PATH})
+    #find_package(LibXml2 HINTS REQUIRED)
+    #set(XML_LIBRARIES "")
+    set (XML_LIBS ${XML_LIBRARIES})
+    set (XML_INCL_DIRS ${XML_INCLUDE_DIRS})
+    set (XML_TARGET "")
+    if(NOT LIBXML2_FOUND)
+        if (WITH_XML2)
+            message(SEND_ERROR "Failed to find LibXml2")
+            return()
+        endif()
+    else()
+        set (XML_TARGET LibXml2::LibXml2)
+        list (APPEND COMPILE_DEFS -DWITH_XML2)
+    endif()
 
+
+    if(LIBXMLPP_INSTALLED_PATH)
+        set (PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
+        list(APPEND CMAKE_PREFIX_PATH ${LIBXMLPP_INSTALLED_PATH})
+    endif()
+endif()
 
 #-S- include(FindPkgConfig)
 #-S- DO NOT Search in case of not requested!! pkg_search_module(XML REQUIRED libxml++-3.0)
@@ -108,7 +68,7 @@ target_include_directories(
   txml
   INTERFACE
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications;${XML_INCL_DIRS}>"
-         "$<INSTALL_INTERFACE:include;include/applications>"
+         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR};include;include/applications>"
          )
 
 target_link_libraries(
@@ -131,3 +91,6 @@ install(TARGETS txml
 
 install(DIRECTORY include/ applications DESTINATION "${INSTALL_INCLUDE_DIR}"
         FILES_MATCHING PATTERN "*.h*")
+
+install(DIRECTORY ../cmake DESTINATION "${INSTALL_LIB_DIR}"
+        FILES_MATCHING PATTERN "*")

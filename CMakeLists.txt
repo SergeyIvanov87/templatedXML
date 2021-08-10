@@ -1,6 +1,12 @@
 cmake_minimum_required (VERSION 3.1)
 
-project(TemplatedXML CXX)
+project(txml CXX)
+
+set (BRANCH_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+get_filename_component(BRANCH_ROOT ${BRANCH_ROOT} ABSOLUTE)
+
+set (PROCESS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
 # configure version
 set(TEMPLATEDXML_MAJOR_VERSION 0)
@@ -10,12 +16,12 @@ set(TEMPLATEDXML_VERSION
     ${TEMPLATEDXML_MAJOR_VERSION}.${TEMPLATEDXML_MINOR_VERSION}.${TEMPLATEDXML_PATCH_VERSION})
 
 set(WITH_XMLPP OFF CACHE BOOL "Configure with libxml++")
-set(WITH_XML2 OFF CACHE BOOL "Configure with libxml2")
+set(WITH_XML2 ON CACHE BOOL "Configure with libxml2")
 
 # set install_path's
-set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_LIB_DIR lib/txml CACHE PATH "Installation directory for libraries")
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
-set(INSTALL_INCLUDE_DIR include CACHE PATH "Installation directory for header files")
+set(INSTALL_INCLUDE_DIR include/txml CACHE PATH "Installation directory for header files")
 
 if(WIN32 AND NOT CYGWIN)
   set(DEFAULT_INSTALL_CMAKE_DIR CMake)

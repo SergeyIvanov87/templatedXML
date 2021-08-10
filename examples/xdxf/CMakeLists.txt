@@ -24,7 +24,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 #==============================================================================
 # Setup project
 add_executable(${PROC_NAME} main.cpp)
-target_link_libraries(${PROC_NAME} txml)
+target_link_libraries(${PROC_NAME} txml ${XML_TARGET})
 set_property(TARGET ${PROC_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 
