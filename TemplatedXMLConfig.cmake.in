@@ -13,6 +13,8 @@ if(NOT TARGET txml AND NOT TemplatexXML_BINARY_DIR)
   include("${TEMPLATEDXML_CMAKE_DIR}/TemplatedXMLTargets.cmake")
 endif()
 
+#find_dependency(LibXml2)
+
 # These are IMPORTED targets created by TemplatedXMLTargets.cmake
 set(TEMPLATEDXML_LIBRARIES txml)
 set(TEMPLATEDXML_EXECUTABLE examples)
