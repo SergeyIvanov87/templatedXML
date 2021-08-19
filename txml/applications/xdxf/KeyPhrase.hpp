@@ -30,7 +30,7 @@ void KeyPhrase::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) 
     out << "</" << KeyPhrase::class_name() << ">\n";
 }
 
-template<class Formatter, class Tracer = EmptyTracer>
+template<class Formatter, class Tracer>
 void KeyPhrase::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());

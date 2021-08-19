@@ -45,7 +45,7 @@ void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/
 }
 
 
-template<class Formatter, class Tracer = EmptyTracer>
+template<class Formatter, class Tracer>
 void TextElement::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", class_name());
