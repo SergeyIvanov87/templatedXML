@@ -24,12 +24,15 @@ set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_INCLUDE_DIR include/txml CACHE PATH "Installation directory for header files")
 
 if(WIN32 AND NOT CYGWIN)
+message ("DEFAULT_INSTALL_CMAKE_DIR: ${DEFAULT_INSTALL_CMAKE_DIR}")
   set(DEFAULT_INSTALL_CMAKE_DIR CMake)
 else()
-  set(DEFAULT_INSTALL_CMAKE_DIR lib/CMake/TemplatedXML)
+  set(DEFAULT_INSTALL_CMAKE_DIR lib/cmake/TemplatedXML)
 endif()
+message ("DEFAULT_INSTALL_CMAKE_DIR: ${DEFAULT_INSTALL_CMAKE_DIR}")
 
 set(INSTALL_CMAKE_DIR ${DEFAULT_INSTALL_CMAKE_DIR} CACHE PATH   "Installation directory for CMake files")
+message ("INSTALL_CMAKE_DIR: ${INSTALL_CMAKE_DIR}")
 
 # make install_path's absolute
 foreach(var LIB BIN INCLUDE CMAKE)
