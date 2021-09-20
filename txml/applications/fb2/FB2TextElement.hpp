@@ -1,8 +1,8 @@
 #ifndef FB2_TEXT_ELEMENT_HPP
 #define FB2_TEXT_ELEMENT_HPP
 
-#include <txml/XMLNodeLeaf.hpp>
-#include <txml/XMLSerializable.hpp>
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
 #include <txml/applications/fb2/FB2TextElement.h>
 

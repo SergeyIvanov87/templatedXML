@@ -1,8 +1,8 @@
 #ifndef FB2_DOCUMENT_INFO_H
 #define FB2_DOCUMENT_INFO_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class Empty;
 class DocumentInfo :

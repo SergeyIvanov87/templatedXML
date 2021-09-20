@@ -5,9 +5,9 @@
 #include <ostream>
 #include <vector>
 
-#include <txml/engine/TextReaderWrap.hpp>
-#include <txml/utils/Tracer.hpp>
-#include <txml/XMLProducible.h>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/fwd/XMLProducible.h>
 
 inline std::ostream& no_sep (std::ostream& os);
 

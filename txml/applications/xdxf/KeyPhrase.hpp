@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <txml/XMLSerializable.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
 #include <txml/applications/xdxf/KeyPhrase.h>
 #include <txml/applications/xdxf/TextElement.hpp>

@@ -1,8 +1,8 @@
 #ifndef TRANSCRIPTION_H
 #define TRANSCRIPTION_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class TextElement;
 class Transcription : public XMLNode<Transcription, TextElement>,

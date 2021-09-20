@@ -4,7 +4,7 @@
 #include <tuple>
 #include <type_traits>
 
-#include <txml/details/SerializePolicies.hpp>
+#include <txml/include/details/SerializePolicies.hpp>
 
 namespace details
 {

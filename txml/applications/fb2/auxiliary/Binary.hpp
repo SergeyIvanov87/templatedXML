@@ -2,8 +2,8 @@
 #define FB2_BINARY_HPP
 #include <iostream>
 
-#include <txml/XMLSerializable.hpp>
-#include <txml/XMLCreator.hpp>
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLCreator.hpp>
 #include <txml/applications/fb2/auxiliary/Binary.h>
 #include <txml/applications/fb2/Empty.hpp>
 

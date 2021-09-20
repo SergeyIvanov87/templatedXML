@@ -1,8 +1,8 @@
 #ifndef KEY_PHRASE_H
 #define KEY_PHRASE_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class TextElement;
 class KeyPhrase : public XMLNode<KeyPhrase, TextElement>,

@@ -5,8 +5,8 @@
 #include <memory>
 #include <string>
 
-#include <txml/engine/TextReaderWrap.hpp>
-#include <txml/utils/Tracer.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils/Tracer.hpp>
 
 struct XMLCreator
 {

@@ -2,7 +2,7 @@
 #define TXML_ENGINE_TEXT_READER_WRAP_HPP
 
 #ifdef WITH_XMLPP
-#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
 using TextReaderWrapper = xmlpp::TextReader;
 #else
 #include <exception>

@@ -2,8 +2,8 @@
 #define TEXT_ELEMENT_HPP
 
 #include <regex>
-#include <txml/XMLNodeLeaf.hpp>
-#include <txml/XMLSerializable.hpp>
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
 #include <txml/applications/xdxf/TextElement.h>
 

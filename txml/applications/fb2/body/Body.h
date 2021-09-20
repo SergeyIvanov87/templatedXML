@@ -1,9 +1,9 @@
 #ifndef FB2_BODY_H
 #define FB2_BODY_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
-#include <txml/XMLArrayContainerNode.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLArrayContainerNode.h>
 
 class Section;
 class Body : public XMLNode<Body, XMLArrayContainerNode<Section>>,

@@ -1,8 +1,8 @@
 #ifndef BINARY_H
 #define BINARY_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class Empty;
 class Binary : public XMLNode<Binary, Empty>,

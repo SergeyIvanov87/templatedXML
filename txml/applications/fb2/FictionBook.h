@@ -1,8 +1,8 @@
 #ifndef FICTION_BOOK_H
 #define FICTION_BOOK_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class Description;
 class Body;

@@ -16,7 +16,7 @@ add_library(TXml INTERFACE)
 target_include_directories(
   TXml
   INTERFACE
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/applications>"
          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR};include>"
          )
 #TODO remove extra INSTALL_INTERFACE include and refactor sources
@@ -40,7 +40,7 @@ install(TARGETS TXml
   PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
     COMPONENT dev)
 
-install(DIRECTORY ./ applications DESTINATION "${INSTALL_INCLUDE_DIR}"
+install(DIRECTORY ./ ./include ./applications DESTINATION "${INSTALL_INCLUDE_DIR}"
         FILES_MATCHING PATTERN "*.h*")
 
 install(DIRECTORY ../cmake DESTINATION "${INSTALL_LIB_DIR}"

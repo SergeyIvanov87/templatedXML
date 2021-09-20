@@ -3,8 +3,8 @@
 
 #include <ostream>
 
-#include <txml/XMLNodeLeaf.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class Comment : public XMLNodeLeaf<std::string>,
                 public XMLSerializable<Comment>,

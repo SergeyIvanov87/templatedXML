@@ -2,10 +2,10 @@
 #define FB2_BODY_HPP
 #include <iostream>
 
-#include <txml/XMLSerializable.hpp>
-#include <txml/XMLCreator.hpp>
-#include <txml/XMLNode.hpp>
-#include <txml/XMLArrayContainerNode.hpp>
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLCreator.hpp>
+#include <txml/include/XMLNode.hpp>
+#include <txml/include/XMLArrayContainerNode.hpp>
 #include <txml/applications/fb2/body/Body.h>
 #include <txml/applications/fb2/body/Section.hpp>
 

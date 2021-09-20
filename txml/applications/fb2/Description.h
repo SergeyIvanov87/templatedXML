@@ -1,8 +1,8 @@
 #ifndef FB2_DESCRIPTION_H
 #define FB2_DESCRIPTION_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class TitleInfo;
 class DocumentInfo;

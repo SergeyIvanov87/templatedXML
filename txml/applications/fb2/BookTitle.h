@@ -1,8 +1,8 @@
 #ifndef FB2_BOOK_TITLE_H
 #define FB2_BOOK_TITLE_H
 
-#include <txml/XMLNode.h>
-#include <txml/XMLSerializable.h>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 class FB2TextElement;
 class BookTitle : public XMLNode<BookTitle, FB2TextElement>,

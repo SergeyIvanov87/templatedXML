@@ -2,8 +2,8 @@
 #define FB2_PARAGRAPH_HPP
 #include <iostream>
 
-#include <txml/XMLSerializable.hpp>
-#include <txml/XMLCreator.hpp>
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLCreator.hpp>
 #include <txml/applications/fb2/common/Paragraph.h>
 #include <txml/applications/fb2/FB2TextElement.hpp>
 

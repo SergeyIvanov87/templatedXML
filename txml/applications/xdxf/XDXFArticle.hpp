@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include <txml/XMLSerializable.hpp>
-#include <txml/XMLNode.hpp>
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLNode.hpp>
 
 #include <txml/applications/xdxf/XDXFArticle.h>
 #include <txml/applications/xdxf/KeyPhrase.hpp>

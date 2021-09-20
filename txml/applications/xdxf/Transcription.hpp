@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include <txml/XMLSerializable.h>
-#include <txml/XMLCreator.hpp>
+#include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/XMLCreator.hpp>
 
 #include <txml/applications/xdxf/Transcription.h>
 #include <txml/applications/xdxf/TextElement.hpp>

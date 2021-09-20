@@ -1,8 +1,8 @@
 #ifndef XDXF_CREATABLE_HPP
 #define XDXF_CREATABLE_HPP
 
-#include <txml/XMLProducible.h>
-#include <txml/utils.h>
+#include <txml/include/fwd/XMLProducible.h>
+#include <txml/include/utils.h>
 
 template<class Value>
 template<class Tracer>

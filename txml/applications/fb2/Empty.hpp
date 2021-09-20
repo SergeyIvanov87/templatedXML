@@ -1,8 +1,8 @@
 #ifndef EMPTY_HPP
 #define EMPTY_HPP
 
-#include <txml/XMLNodeLeaf.hpp>
-#include <txml/XMLSerializable.hpp>
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
 #include <txml/applications/fb2/Empty.h>
 

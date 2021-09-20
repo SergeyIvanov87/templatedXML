@@ -8,10 +8,10 @@
 #include <optional>
 #include <vector>
 
-#include <txml/engine/TextReaderWrap.hpp>
-#include <txml/utils/Tracer.hpp>
-#include <txml/details/GenericCommandArguments.h>
-#include <txml/XMLProducible.h>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/details/GenericCommandArguments.h>
+#include <txml/include/fwd/XMLProducible.h>
 
 template<class Impl, class ...ContainedValues>
 struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValues...>>,

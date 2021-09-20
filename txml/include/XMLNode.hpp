@@ -1,10 +1,10 @@
 #ifndef XDXF_VALUEBASE_HPP
 #define XDXF_VALUEBASE_HPP
 
-#include <txml/XMLNode.h>
-#include <txml/XMLProducible.hpp>
-#include <txml/XMLCreator.hpp>
-#include <txml/details/GenericCommandArguments.hpp>
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/XMLProducible.hpp>
+#include <txml/include/XMLCreator.hpp>
+#include <txml/include/details/GenericCommandArguments.hpp>
 
 #define TEMPL_ARGS_DECL    class Impl, class ...ContainedValues
 #define TEMPL_ARGS_DEF     Impl, ContainedValues...

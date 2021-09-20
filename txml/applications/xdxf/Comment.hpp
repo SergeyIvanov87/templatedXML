@@ -1,8 +1,8 @@
 #ifndef COMMENT_HPP
 #define COMMENT_HPP
 
-#include <txml/XMLNodeLeaf.hpp>
-#include <txml/XMLSerializable.hpp>
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
 #include <txml/applications/xdxf/Comment.h>
 
