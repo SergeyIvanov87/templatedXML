@@ -1,7 +1,7 @@
 #ifndef GENERIC_COMMANDARGUMENTS_VALUE_HPP
 #define GENERIC_COMMANDARGUMENTS_VALUE_HPP
 
-#include "details/GenericCommandArguments.h"
+#include <txml/details/GenericCommandArguments.h>
 
 #define TEMPL_ARGS_DECL    class ...Arguments
 #define TEMPL_ARGS_DEF     Arguments...

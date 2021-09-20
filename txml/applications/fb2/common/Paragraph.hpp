@@ -2,10 +2,10 @@
 #define FB2_PARAGRAPH_HPP
 #include <iostream>
 
-#include "fb2/common/Paragraph.h"
-#include "fb2/FB2TextElement.hpp"
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/applications/fb2/common/Paragraph.h>
+#include <txml/applications/fb2/FB2TextElement.hpp>
 
 const char *Paragraph::name() const noexcept
 {

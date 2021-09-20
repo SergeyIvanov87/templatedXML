@@ -2,14 +2,14 @@
 #define FB2_FICTION_BOOK_HPP
 #include <iostream>
 
-#include "fb2/FictionBook.h"
-#include "fb2/Description.hpp"
-#include "fb2/body/Body.hpp"
-#include "fb2/auxiliary/Binary.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
 
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
+#include <txml/applications/fb2/FictionBook.h>
+#include <txml/applications/fb2/Description.hpp>
+#include <txml/applications/fb2/body/Body.hpp>
+#include <txml/applications/fb2/auxiliary/Binary.hpp>
 
 const char *FictionBook::name() const noexcept
 {

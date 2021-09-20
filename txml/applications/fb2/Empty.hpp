@@ -1,9 +1,10 @@
 #ifndef EMPTY_HPP
 #define EMPTY_HPP
 
-#include "XMLNodeLeaf.hpp"
-#include "fb2/Empty.h"
-#include "XMLSerializable.hpp"
+#include <txml/XMLNodeLeaf.hpp>
+#include <txml/XMLSerializable.hpp>
+
+#include <txml/applications/fb2/Empty.h>
 
 Empty::Empty(std::string&& str) : base(std::move(str))
 {

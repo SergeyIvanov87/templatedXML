@@ -3,8 +3,8 @@
 
 #include <ostream>
 
-#include "XMLNodeLeaf.h"
-#include "XMLSerializable.h"
+#include <txml/XMLNodeLeaf.h>
+#include <txml/XMLSerializable.h>
 
 class Empty : public XMLNodeLeaf<std::string>,
                 public XMLSerializable<Empty>

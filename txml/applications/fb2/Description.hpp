@@ -2,14 +2,14 @@
 #define FB2_DESCRIPTION_HPP
 #include <iostream>
 
-#include "fb2/Description.h"
-#include "fb2/TitleInfo.hpp"
-#include "fb2/DocumentInfo.hpp"
-#include "fb2/PublishInfo.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
 
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
+#include <txml/applications/fb2/Description.h>
+#include <txml/applications/fb2/TitleInfo.hpp>
+#include <txml/applications/fb2/DocumentInfo.hpp>
+#include <txml/applications/fb2/PublishInfo.hpp>
 
 const char *Description::name() const noexcept
 {

@@ -1,7 +1,8 @@
 #ifndef XDXF_ARTICLE_H
 #define XDXF_ARTICLE_H
-#include "XMLNode.h"
-#include "XMLSerializable.h"
+
+#include <txml/XMLNode.h>
+#include <txml/XMLSerializable.h>
 
 class KeyPhrase;
 class Comment;

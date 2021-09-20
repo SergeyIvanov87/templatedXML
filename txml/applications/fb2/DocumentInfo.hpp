@@ -2,12 +2,12 @@
 #define FB2_DOCUMENT_INFO_HPP
 #include <iostream>
 
-#include "fb2/DocumentInfo.h"
-#include "fb2/Empty.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
 
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
+#include <txml/applications/fb2/DocumentInfo.h>
+#include <txml/applications/fb2/Empty.hpp>
 
 const char *DocumentInfo::name() const noexcept
 {

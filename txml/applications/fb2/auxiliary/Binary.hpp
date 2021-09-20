@@ -2,10 +2,10 @@
 #define FB2_BINARY_HPP
 #include <iostream>
 
-#include "fb2/auxiliary/Binary.h"
-#include "fb2/Empty.hpp"
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/applications/fb2/auxiliary/Binary.h>
+#include <txml/applications/fb2/Empty.hpp>
 
 const char *Binary::name() const noexcept
 {

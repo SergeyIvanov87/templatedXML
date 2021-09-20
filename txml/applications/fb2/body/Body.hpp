@@ -2,13 +2,12 @@
 #define FB2_BODY_HPP
 #include <iostream>
 
-#include "fb2/body/Body.h"
-#include "fb2/body/Section.hpp"
-
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
-#include "XMLArrayContainerNode.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
+#include <txml/XMLArrayContainerNode.hpp>
+#include <txml/applications/fb2/body/Body.h>
+#include <txml/applications/fb2/body/Section.hpp>
 
 const char *Body::name() const noexcept
 {

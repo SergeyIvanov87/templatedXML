@@ -1,14 +1,16 @@
 #ifndef XDXF_ARTICLE_HPP
 #define XDXF_ARTICLE_HPP
+
 #include <iostream>
 
-#include "xdxf/XDXFArticle.h"
-#include "xdxf/KeyPhrase.hpp"
-#include "xdxf/Comment.hpp"
-#include "xdxf/Transcription.hpp"
-#include "xdxf/TextElement.hpp"
-#include "XMLSerializable.hpp"
-#include "XMLNode.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLNode.hpp>
+
+#include <txml/applications/xdxf/XDXFArticle.h>
+#include <txml/applications/xdxf/KeyPhrase.hpp>
+#include <txml/applications/xdxf/Comment.hpp>
+#include <txml/applications/xdxf/Transcription.hpp>
+#include <txml/applications/xdxf/TextElement.hpp>
 
 const char *XDXFArticle::name() const noexcept
 {

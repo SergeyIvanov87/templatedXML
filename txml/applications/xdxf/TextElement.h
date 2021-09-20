@@ -25,8 +25,8 @@ inline std::ostream& italic_off(std::ostream& os)
 
 
 
-#include "XMLNodeLeaf.h"
-#include "XMLSerializable.h"
+#include <txml/XMLNodeLeaf.h>
+#include <txml/XMLSerializable.h>
 
 class TextElement : public XMLNodeLeaf<std::string>,
                     public XMLSerializable<TextElement>,

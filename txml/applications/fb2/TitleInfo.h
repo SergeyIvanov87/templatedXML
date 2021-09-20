@@ -1,7 +1,8 @@
 #ifndef FB2_TITLE_INFO_H
 #define FB2_TITLE_INFO_H
-#include "XMLNode.h"
-#include "XMLSerializable.h"
+
+#include <txml/XMLNode.h>
+#include <txml/XMLSerializable.h>
 
 class BookTitle;
 class TitleInfo : public XMLNode<TitleInfo, BookTitle>,

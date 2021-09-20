@@ -2,9 +2,10 @@
 #define TEXT_ELEMENT_HPP
 
 #include <regex>
-#include "XMLNodeLeaf.hpp"
-#include "xdxf/TextElement.h"
-#include "XMLSerializable.hpp"
+#include <txml/XMLNodeLeaf.hpp>
+#include <txml/XMLSerializable.hpp>
+
+#include <txml/applications/xdxf/TextElement.h>
 
 TextElement::TextElement(std::string&& str) : base(std::move(str))
 {

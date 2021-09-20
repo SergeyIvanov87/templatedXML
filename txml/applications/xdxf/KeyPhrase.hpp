@@ -1,10 +1,12 @@
 #ifndef KEY_PHRASE_HPP
 #define KEY_PHRASE_HPP
+
 #include <iostream>
 
-#include "xdxf/KeyPhrase.h"
-#include "xdxf/TextElement.hpp"
-#include "XMLSerializable.hpp"
+#include <txml/XMLSerializable.hpp>
+
+#include <txml/applications/xdxf/KeyPhrase.h>
+#include <txml/applications/xdxf/TextElement.hpp>
 
 const char *KeyPhrase::name() const noexcept
 {

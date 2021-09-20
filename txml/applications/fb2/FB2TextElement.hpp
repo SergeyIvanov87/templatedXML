@@ -1,9 +1,10 @@
 #ifndef FB2_TEXT_ELEMENT_HPP
 #define FB2_TEXT_ELEMENT_HPP
 
-#include "XMLNodeLeaf.hpp"
-#include "fb2/FB2TextElement.h"
-#include "XMLSerializable.hpp"
+#include <txml/XMLNodeLeaf.hpp>
+#include <txml/XMLSerializable.hpp>
+
+#include <txml/applications/fb2/FB2TextElement.h>
 
 FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {

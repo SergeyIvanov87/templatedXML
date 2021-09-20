@@ -4,8 +4,8 @@
 #include <ostream>
 #include <regex>
 
-#include "XMLNodeLeaf.h"
-#include "XMLSerializable.h"
+#include <txml/XMLNodeLeaf.h>
+#include <txml/XMLSerializable.h>
 
 class FB2TextElement : public XMLNodeLeaf<std::string>,
                        public XMLSerializable<FB2TextElement>

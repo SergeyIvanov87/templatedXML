@@ -1,12 +1,14 @@
 #ifndef TRANSCRIPTION_HPP
 #define TRANSCRIPTION_HPP
+
 #include <iostream>
 
-#include "xdxf/Transcription.h"
-#include "xdxf/TextElement.hpp"
-#include "XMLSerializable.h"
-#include "XMLCreator.hpp"
-#
+#include <txml/XMLSerializable.h>
+#include <txml/XMLCreator.hpp>
+
+#include <txml/applications/xdxf/Transcription.h>
+#include <txml/applications/xdxf/TextElement.hpp>
+
 
 const char *Transcription::name() const noexcept
 {

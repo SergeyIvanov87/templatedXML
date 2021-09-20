@@ -1,15 +1,15 @@
 #ifndef TO_FB2_SERIALIZER_HPP
 #define TO_FB2_SERIALIZER_HPP
 
-#include "utils/Serializer.hpp"
+#include <txml/utils/Serializer.hpp>
 
-#include "xdxf/XDXFArticle.h"
-#include "xdxf/KeyPhrase.h"
-#include "xdxf/Comment.h"
-#include "xdxf/KeyPhrase.h"
-#include "xdxf/TextElement.h"
+#include <txml/applications/xdxf/XDXFArticle.h>
+#include <txml/applications/xdxf/KeyPhrase.h>
+#include <txml/applications/xdxf/Comment.h>
+#include <txml/applications/xdxf/KeyPhrase.h>
+#include <txml/applications/xdxf/TextElement.h>
 
-#include "fb2/body/Section.hpp"
+#include <txml/applications/fb2/body/Section.hpp>
 
 
 template<class Stream>

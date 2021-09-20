@@ -1,8 +1,9 @@
 #ifndef FB2_SECTION_H
 #define FB2_SECTION_H
-#include "XMLNode.h"
-#include "XMLSerializable.h"
-#include "XMLArrayContainerNode.h"
+
+#include <txml/XMLNode.h>
+#include <txml/XMLSerializable.h>
+#include <txml/XMLArrayContainerNode.h>
 
 class Paragraph;
 class Section : public XMLNode<Section, XMLArrayContainerNode<Paragraph>>,

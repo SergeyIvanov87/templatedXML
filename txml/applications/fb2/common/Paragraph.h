@@ -1,8 +1,8 @@
 #ifndef FB2_PARAGRAPH_H
 #define FB2_PARAGRAPH_H
 
-#include "XMLNode.h"
-#include "XMLSerializable.h"
+#include <txml/XMLNode.h>
+#include <txml/XMLSerializable.h>
 
 class FB2TextElement;
 class Paragraph : public XMLNode<Paragraph, FB2TextElement>,

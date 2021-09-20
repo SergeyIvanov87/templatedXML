@@ -2,12 +2,12 @@
 #define FB2_TITLE_INFO_HPP
 #include <iostream>
 
-#include "fb2/TitleInfo.h"
-#include "fb2/BookTitle.hpp"
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
 
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
+#include <txml/applications/fb2/TitleInfo.h>
+#include <txml/applications/fb2/BookTitle.hpp>
 
 const char *TitleInfo::name() const noexcept
 {

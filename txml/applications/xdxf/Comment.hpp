@@ -1,9 +1,10 @@
 #ifndef COMMENT_HPP
 #define COMMENT_HPP
 
-#include "XMLNodeLeaf.hpp"
-#include "xdxf/Comment.h"
-#include "XMLSerializable.hpp"
+#include <txml/XMLNodeLeaf.hpp>
+#include <txml/XMLSerializable.hpp>
+
+#include <txml/applications/xdxf/Comment.h>
 
 Comment::Comment(std::string&& str) : base(std::move(str))
 {

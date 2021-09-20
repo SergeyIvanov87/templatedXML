@@ -2,13 +2,12 @@
 #define FB2_SECTION_HPP
 #include <iostream>
 
-#include "fb2/body/Section.h"
-#include "fb2/common/Paragraph.hpp"
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
-#include "XMLNode.hpp"
-#include "XMLArrayContainerNode.hpp"
-
+#include <txml/XMLSerializable.hpp>
+#include <txml/XMLCreator.hpp>
+#include <txml/XMLNode.hpp>
+#include <txml/XMLArrayContainerNode.hpp>
+#include <txml/applications/fb2/body/Section.h>
+#include <txml/applications/fb2/common/Paragraph.hpp>
 
 const char *Section::name() const noexcept
 {
