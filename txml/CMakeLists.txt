@@ -11,36 +11,36 @@ endif()
 ###############################################################
 
 # Header-only library
-add_library(txml INTERFACE)
+add_library(TXml INTERFACE)
 
 target_include_directories(
-  txml
+  TXml
   INTERFACE
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications>"
-         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR};include;include/applications>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/;${CMAKE_CURRENT_SOURCE_DIR}/applications>"
+         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR};include>"
          )
-
+#TODO remove extra INSTALL_INTERFACE include and refactor sources
 target_link_libraries(
-  txml
+  TXml
   INTERFACE ${XML_TARGET})
 
 target_compile_definitions(
-  txml
+  TXml
   INTERFACE ${COMPILE_DEFS})
 
-add_dependencies(txml ${XML_TARGET})
+add_dependencies(TXml ${XML_TARGET})
 
-#set_target_properties(txml PROPERTIES
-#  PUBLIC_HEADER include/txml.hpp)
+#set_target_properties(TXml PROPERTIES
+#  PUBLIC_HEADER include/TXml.hpp)
 
-install(TARGETS txml
-  EXPORT TemplatedXMLTargets
+install(TARGETS TXml
+  EXPORT TXmlTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT shlib
   PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
     COMPONENT dev)
 
-install(DIRECTORY include/ applications DESTINATION "${INSTALL_INCLUDE_DIR}"
+install(DIRECTORY ./ applications DESTINATION "${INSTALL_INCLUDE_DIR}"
         FILES_MATCHING PATTERN "*.h*")
 
 install(DIRECTORY ../cmake DESTINATION "${INSTALL_LIB_DIR}"

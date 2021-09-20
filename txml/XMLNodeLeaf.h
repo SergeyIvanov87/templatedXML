@@ -8,9 +8,9 @@
 #include <string>
 #include <optional>
 #include <vector>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
 
 template<class T>
 struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<T>>

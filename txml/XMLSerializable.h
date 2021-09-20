@@ -3,10 +3,9 @@
 
 #include <memory>
 #include <ostream>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
-
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
 
 inline std::ostream& no_sep (std::ostream& os);
 

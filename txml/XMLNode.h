@@ -7,12 +7,11 @@
 #include <string>
 #include <optional>
 #include <vector>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
-
-#include "details/GenericCommandArguments.h"
-#include "XMLProducible.h"
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
+#include <txml/details/GenericCommandArguments.h>
+#include <txml/XMLProducible.h>
 
 template<class Impl, class ...ContainedValues>
 struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValues...>>,

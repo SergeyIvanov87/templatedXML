@@ -2,9 +2,9 @@
 #define XDXF_CREATABLE_H
 
 #include <memory>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
 
 template<class Value>
 struct XMLProducible

@@ -1,7 +1,7 @@
 #ifndef XDXF_ARRAY_CONTAINER_NODE_HPP
 #define XDXF_ARRAY_CONTAINER_NODE_HPP
 
-#include "XMLArrayContainerNode.h"
+#include <txml/XMLArrayContainerNode.h>
 
 template<class Value>
 XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename base::value_t &&val) :

@@ -4,9 +4,9 @@
 #include <cassert>
 #include <memory>
 #include <string>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
 
 struct XMLCreator
 {

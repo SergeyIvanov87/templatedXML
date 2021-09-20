@@ -1,7 +1,7 @@
 #ifndef XDXF_CREATOR_HPP
 #define XDXF_CREATOR_HPP
 
-#include "XMLCreator.h"
+#include <txml/XMLCreator.h>
 
 
 template<class Value, class Tracer>

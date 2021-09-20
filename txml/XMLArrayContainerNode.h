@@ -4,10 +4,10 @@
 #include <memory>
 #include <ostream>
 #include <vector>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
-#include "XMLProducible.h"
+#include <txml/engine/TextReaderWrap.hpp>
+#include <txml/utils/Tracer.hpp>
+#include <txml/XMLProducible.h>
 
 inline std::ostream& no_sep (std::ostream& os);
 

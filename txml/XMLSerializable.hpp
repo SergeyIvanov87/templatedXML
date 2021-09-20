@@ -1,8 +1,8 @@
 #ifndef XDXF_PUBLISHING_HPP
 #define XDXF_PUBLISHING_HPP
 
-#include "XMLSerializable.h"
-#include "utils.h"
+#include <txml/XMLSerializable.h>
+#include <txml/utils.h>
 
 inline std::ostream& no_sep (std::ostream& os)
 {

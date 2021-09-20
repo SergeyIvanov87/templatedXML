@@ -1,7 +1,7 @@
 #ifndef XDXF_TYPED_VALUE_HPP
 #define XDXF_TYPED_VALUE_HPP
-#include "XMLNodeLeaf.h"
-#include "utils.h"
+#include <txml/XMLNodeLeaf.h>
+#include <txml/utils.h>
 
 #define TEMPL_ARGS_DECL    class T
 #define TEMPL_ARGS_DEF     T
