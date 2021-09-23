@@ -3,6 +3,8 @@
 
 #include <txml/include/fwd/XMLArrayContainerNode.h>
 
+namespace txml
+{
 template<class Value>
 XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename base::value_t &&val) :
     base(std::move(val))
@@ -49,5 +51,5 @@ void XMLArrayContainerNode<Value>::fill_impl(std::string &name,
         base::getValue().push_back(std::move(elem));
     }
 }
-
+} // namespace txml
 #endif //XDXF_CREATOR_H

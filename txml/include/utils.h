@@ -1,6 +1,8 @@
 #ifndef XML_UTILS_H
 #define XML_UTILS_H
 
+namespace txml
+{
 inline std::string to_string(TextReaderWrapper::NodeType node_type)
 {
     switch (node_type)
@@ -46,5 +48,5 @@ inline std::string to_string(TextReaderWrapper::NodeType node_type)
     }
     return "UNSPECIFIED";
 }
-
+} // namespace txml
 #endif

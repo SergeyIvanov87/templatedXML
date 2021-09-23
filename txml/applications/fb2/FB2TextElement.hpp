@@ -6,6 +6,8 @@
 
 #include <txml/applications/fb2/FB2TextElement.h>
 
+namespace fb2
+{
 FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {
 }
@@ -43,7 +45,7 @@ void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer(
 }
 
 template<class Tracer>
-std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<FB2TextElement> ret;
 
@@ -53,11 +55,11 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, T
                                  ", got: " + name);
     }
 
-    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
+    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != FB2TextElement::class_node_type())
     {
         tracer.trace("<skip '", FB2TextElement::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(TextReaderWrapper::NodeType::Text));
+                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
         return ret;
     }
 
@@ -81,8 +83,9 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, T
 
 /*
 template<class Tracer>
-void FB2TextElement::fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+void FB2TextElement::fill_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {
 }
 */
+} // namespace fb2
 #endif //FB2_TEXT_ELEMENT_HPP

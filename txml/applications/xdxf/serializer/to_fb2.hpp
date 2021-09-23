@@ -11,9 +11,11 @@
 
 #include <txml/applications/fb2/body/Section.hpp>
 
-
+namespace xdxf
+{
 template<class Stream>
-struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedElement, XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>
+struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticCheckUnscopedElement,
+                                                 XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>
 {
     ToFB2(Stream &stream) :
         out(stream)
@@ -26,9 +28,9 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     {
         tracer.trace(__FUNCTION__, " - ", XDXFArticle::class_name());
 
-        out << "<" << Section::class_name() << ">\n";
+        out << "<" << fb2::Section::class_name() << ">\n";
         val.format_serialize_elements(*this, tracer);
-        out << "</" << Section::class_name() << ">\n";
+        out << "</" << fb2::Section::class_name() << ">\n";
     }
 
     template<class Tracer>
@@ -45,7 +47,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     void serialize_impl(const Comment& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", Comment::class_name());
-        out << "<" << Section::class_name() << ">\n";
+        out << "<" << fb2::Section::class_name() << ">\n";
         out << "<title>";
 
         out << "<p><emphasis>";
@@ -53,7 +55,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
         out << "</emphasis></p>";
 
         out << "</title>\n";
-        out << "</" << Section::class_name() << ">\n";
+        out << "</" << fb2::Section::class_name() << ">\n";
     }
 
     template<class Tracer>
@@ -61,20 +63,20 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
     {
         tracer.trace(__FUNCTION__, " - ", Transcription::class_name());
         out << "<empty-line/>\n";
-        out << "<" << Section::class_name() << ">\n";
+        out << "<" << fb2::Section::class_name() << ">\n";
         out << "<title>";
 
         val.format_serialize_elements(*this, tracer);
 
         out << "</title>\n";
-        out << "</" << Section::class_name() << ">\n";
+        out << "</" << fb2::Section::class_name() << ">\n";
     }
 
     template<class Tracer>
     void serialize_impl(const TextElement& val, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", TextElement::class_name());
-        out << "<" << Paragraph::class_name() << ">";
+        out << "<" << fb2::Paragraph::class_name() << ">";
 
         //each \n or \r is on new paragraph
         std::stringstream ss;
@@ -84,7 +86,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
         while((end_paragraph_pos = text.find_first_of("\n\r", start_paragraph_pos)) != std::string::npos)
         {
             out.write(text.data() + start_paragraph_pos, end_paragraph_pos - start_paragraph_pos);
-            out << "</" << Paragraph::class_name() << ">\n";
+            out << "</" << fb2::Paragraph::class_name() << ">\n";
 
             out << "<empty-line/>\n";
 
@@ -94,7 +96,7 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
                 break;
             }
 
-            out << "<" << Paragraph::class_name() << ">";
+            out << "<" << fb2::Paragraph::class_name() << ">";
         }
 
         if( start_paragraph_pos != std::string::npos)
@@ -105,9 +107,10 @@ struct ToFB2 : public FormatSerializerBase<ToFB2<Stream>, StaticCheckUnscopedEle
             }
             out.write(text.data() + start_paragraph_pos, end_paragraph_pos - start_paragraph_pos);
         }
-        out << "</" << Paragraph::class_name() << ">\n";
+        out << "</" << fb2::Paragraph::class_name() << ">\n";
     }
 
     Stream &out;
 };
+} // namespace xdxf
 #endif //TO_FB2_SERIALIZER_HPP

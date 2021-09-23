@@ -3,14 +3,17 @@
 
 #include <memory>
 
-#include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
+
+namespace txml
+{
+struct TextReaderWrapper;
 
 template<class Value>
 struct XMLProducible
 {
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     static std::shared_ptr<Value> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 };
-
+} // namespace txml
 #endif //XDXF_CREATABLE_H

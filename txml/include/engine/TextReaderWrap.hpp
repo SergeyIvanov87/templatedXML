@@ -3,12 +3,17 @@
 
 #ifdef WITH_XMLPP
 #include <txml/include/engine/TextReaderWrap.hpp>
+namespace txml
+{
 using TextReaderWrapper = xmlpp::TextReader;
+} // namespace txml
 #else
 #include <exception>
 
 #include <libxml/xmlreader.h>
 
+namespace txml
+{
 struct TextReaderWrapper
 {
     enum class NodeType
@@ -93,6 +98,7 @@ struct TextReaderWrapper
 
     xmlTextReaderPtr m_reader;
 };
+} // namespace txml
 #endif
 
 #endif // TXML_ENGINE_TEXT_READER_WRAP_HPP

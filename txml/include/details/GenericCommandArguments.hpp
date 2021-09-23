@@ -3,6 +3,8 @@
 
 #include <txml/include/details/GenericCommandArguments.h>
 
+namespace txml
+{
 #define TEMPL_ARGS_DECL    class ...Arguments
 #define TEMPL_ARGS_DEF     Arguments...
 
@@ -74,7 +76,7 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter 
     }, storage);
 }
 
-
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
+} // namespace txml
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_HPP

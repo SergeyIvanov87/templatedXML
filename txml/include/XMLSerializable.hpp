@@ -4,6 +4,8 @@
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/utils.h>
 
+namespace txml
+{
 inline std::ostream& no_sep (std::ostream& os)
 {
     return os;
@@ -31,5 +33,5 @@ void XMLFormatSerializable<Value>::format_serialize(Formatter& out, Tracer trace
 
     static_cast<const Value*>(this)->format_serialize_impl(out, tracer);
 }
-
+} // namespace txml
 #endif //XDXF_PUBLISHING_HPP

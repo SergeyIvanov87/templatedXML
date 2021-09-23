@@ -4,12 +4,14 @@
 #include <txml/include/fwd/XMLNode.h>
 #include <txml/include/fwd/XMLSerializable.h>
 
+namespace fb2
+{
 class Empty;
-class Binary : public XMLNode<Binary, Empty>,
-                  public XMLSerializable<Binary>
+class Binary : public txml::XMLNode<Binary, Empty>,
+               public txml::XMLSerializable<Binary>
 {
 public:
-    using base = XMLNode<Binary, Empty>;
+    using base = txml::XMLNode<Binary, Empty>;
     using value_t = std::string;
 
     static constexpr const char* class_name()
@@ -17,16 +19,16 @@ public:
         return "binary";
     }
 
-    static constexpr TextReaderWrapper::NodeType class_node_type()
+    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
     {
-        return TextReaderWrapper::NodeType::Element;
+        return txml::TextReaderWrapper::NodeType::Element;
     };
 
     const char *name() const noexcept override;
     const value_t &getValue() const;
 
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
-
+} // namespace fb2
 #endif //BINARY_H

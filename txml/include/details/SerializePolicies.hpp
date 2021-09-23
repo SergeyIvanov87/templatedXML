@@ -1,12 +1,14 @@
 #ifndef SERIALIZE_POLICIES_HPP
 #define SERIALIZE_POLICIES_HPP
 
+namespace txml
+{
 struct SkipUnscopedElement
 {
     template <class Serializer, class UnscopedElementType, class Tracer>
     static void process(Serializer &instance, const UnscopedElementType& in_val, Tracer tracer)
     {
-        tracer.trace(__PRETTY_FUNCTION__, "\nskip serialize for: ", TextElement::class_name());
+        tracer.trace(__PRETTY_FUNCTION__, "\nskip serialize for: ", UnscopedElementType::class_name());
     }
 };
 
@@ -26,4 +28,5 @@ private:
         return std::disjunction_v<std::is_same<One,Other>...>;
     }
 };
+} // namespace txml
 #endif //SERIALIZE_POLICIES_HPP

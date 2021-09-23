@@ -4,6 +4,10 @@
 #include <txml/include/fwd/XMLNodeLeaf.h>
 #include <txml/include/utils.h>
 
+#include <txml/include/engine/TextReaderWrap.hpp>
+
+namespace txml
+{
 #define TEMPL_ARGS_DECL    class T
 #define TEMPL_ARGS_DEF     T
 
@@ -33,4 +37,5 @@ void XMLNodeLeaf<TEMPL_ARGS_DEF>::fill_impl(std::string &name, TextReaderWrapper
 }
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
+} // namespace txml
 #endif //XDXF_TYPED_VALUE_HPP

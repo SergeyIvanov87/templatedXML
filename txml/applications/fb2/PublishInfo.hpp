@@ -9,6 +9,8 @@
 #include <txml/applications/fb2/PublishInfo.h>
 #include <txml/applications/fb2/Empty.hpp>
 
+namespace fb2
+{
 const char *PublishInfo::name() const noexcept
 {
     return PublishInfo::class_name();
@@ -18,7 +20,8 @@ template<class Tracer>
 void PublishInfo::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << PublishInfo::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << PublishInfo::class_name() << ">\n";
 }
+} // namespace fb2
 #endif

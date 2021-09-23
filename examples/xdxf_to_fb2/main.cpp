@@ -16,6 +16,9 @@ enum eLogLevel : int
 
 int main(int argc, char** argv)
 {
+    using namespace txml;
+    using namespace xdxf;
+
     if (argc < 2)
     {
         perror("need file name");

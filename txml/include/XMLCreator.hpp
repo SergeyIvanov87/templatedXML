@@ -3,7 +3,10 @@
 
 #include <txml/include/fwd/XMLCreator.h>
 
+#include <txml/include/engine/TextReaderWrap.hpp>
 
+namespace txml
+{
 template<class Value, class Tracer>
 std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
                                                TextReaderWrapper &reader,
@@ -65,5 +68,5 @@ std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
     }
     return to_fill;
 }
-
+} // namespace txml
 #endif //XDXF_CREATOR_H

@@ -5,26 +5,29 @@
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLArrayContainerNode.h>
 
+namespace fb2
+{
 class Paragraph;
-class Section : public XMLNode<Section, XMLArrayContainerNode<Paragraph>>,
-                public XMLSerializable<Section>
+class Section : public txml::XMLNode<Section, txml::XMLArrayContainerNode<Paragraph>>,
+                public txml::XMLSerializable<Section>
 {
 public:
-    using base = XMLNode<Paragraph>;
+    using base = txml::XMLNode<Paragraph>;
 
     static constexpr const char *class_name()
     {
         return "section";
     }
 
-    static constexpr TextReaderWrapper::NodeType class_node_type()
+    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
     {
-        return TextReaderWrapper::NodeType::Element;
+        return txml::TextReaderWrapper::NodeType::Element;
     }
 
     virtual const char *name() const noexcept override;
 
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
+} // namespace fb2
 #endif //FB2_SECTION_H

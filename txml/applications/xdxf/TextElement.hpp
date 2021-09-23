@@ -7,6 +7,8 @@
 
 #include <txml/applications/xdxf/TextElement.h>
 
+namespace xdxf
+{
 TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
 }
@@ -54,7 +56,7 @@ void TextElement::format_serialize_impl(Formatter& out, Tracer tracer) const
 }
 
 template<class Tracer>
-std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<TextElement> ret;
 
@@ -64,11 +66,11 @@ std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, TextRea
                                  ", got: " + name);
     }
 
-    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
+    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != TextElement::class_node_type())
     {
         tracer.trace("<skip '", TextElement::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(TextReaderWrapper::NodeType::Text));
+                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
         return ret;
     }
 
@@ -96,4 +98,5 @@ void TextElement::fill_impl(std::string &name, TextReaderWrapper &reader, Tracer
 {
 }
 */
+} // namespace xdxf
 #endif //TEXT_ELEMENT_HPP

@@ -9,7 +9,8 @@
 #include <txml/applications/xdxf/Transcription.h>
 #include <txml/applications/xdxf/TextElement.hpp>
 
-
+namespace xdxf
+{
 const char *Transcription::name() const noexcept
 {
     return class_name();
@@ -36,8 +37,8 @@ template<class Tracer>
 void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Transcription::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << Transcription::class_name() << ">\n";
 }
-
+} // namespace xdxf
 #endif //TRANSCRIPTION_HPP

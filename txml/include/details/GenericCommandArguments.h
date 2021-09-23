@@ -4,6 +4,8 @@
 #include <memory>
 #include <tuple>
 
+namespace txml
+{
 template<class ...Arguments>
 class ArgumentContainerBase
 {
@@ -32,4 +34,5 @@ public:
 private:
     Tuple storage;
 };
+} // namespace txml
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_H

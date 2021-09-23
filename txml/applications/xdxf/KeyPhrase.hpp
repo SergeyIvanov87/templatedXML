@@ -8,6 +8,8 @@
 #include <txml/applications/xdxf/KeyPhrase.h>
 #include <txml/applications/xdxf/TextElement.hpp>
 
+namespace xdxf
+{
 const char *KeyPhrase::name() const noexcept
 {
     return class_name();
@@ -28,7 +30,7 @@ template<class Tracer>
 void KeyPhrase::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << KeyPhrase::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << KeyPhrase::class_name() << ">\n";
 }
 
@@ -38,4 +40,5 @@ void KeyPhrase::format_serialize_impl(Formatter& out, Tracer tracer) const
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);
 }
+} // namespace xdxf
 #endif //KEY_PHRASE_HPP

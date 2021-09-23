@@ -6,11 +6,13 @@
 
 #include <txml/include/details/SerializePolicies.hpp>
 
+namespace txml
+{
 namespace details
 {
 template<class Impl, class ElementType>
 struct SingleElementSerializerBase;
-}
+} // namespace details
 
 
 template<class Impl, class UnscopedElementProcessingPolicyT, class ...ElementType>
@@ -65,5 +67,6 @@ struct SingleElementSerializerBase
 protected:
     ~SingleElementSerializerBase() = default;
 };
-}
+} // namespace details
+} // namespace txml
 #endif //FORMAT_SERIALIZER_H

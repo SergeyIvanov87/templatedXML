@@ -4,15 +4,16 @@
 #include <memory>
 #include <ostream>
 
-#include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
 
+namespace txml
+{
 inline std::ostream& no_sep (std::ostream& os);
 
 template<class Value>
 struct XMLSerializable
 {
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void serialize(std::ostream& out, Tracer tracer = Tracer()) const;
 };
 
@@ -20,7 +21,8 @@ struct XMLSerializable
 template<class Value>
 struct XMLFormatSerializable
 {
-    template<class Formatter, class Tracer = EmptyTracer>
+    template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize(Formatter& out, Tracer tracer = Tracer()) const;
 };
+} // namespace txml
 #endif //XDXF_PUBLISHING_H

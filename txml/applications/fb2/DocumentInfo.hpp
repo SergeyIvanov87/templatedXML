@@ -9,6 +9,8 @@
 #include <txml/applications/fb2/DocumentInfo.h>
 #include <txml/applications/fb2/Empty.hpp>
 
+namespace fb2
+{
 const char *DocumentInfo::name() const noexcept
 {
     return DocumentInfo::class_name();
@@ -18,7 +20,8 @@ template<class Tracer>
 void DocumentInfo::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << DocumentInfo::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << DocumentInfo::class_name() << ">\n";
 }
+} // namespace fb2
 #endif
