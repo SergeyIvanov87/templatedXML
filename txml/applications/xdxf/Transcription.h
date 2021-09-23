@@ -9,7 +9,8 @@ namespace xdxf
 class TextElement;
 class Transcription : public txml::XMLNode<Transcription, TextElement>,
                       public txml::XMLSerializable<Transcription>,
-                      public txml::XMLFormatSerializable<Transcription>
+                      public txml::XMLFormatSerializable<Transcription>,
+                      public txml::XMLSchemaSerializable<Transcription>
 {
 public:
     using base = txml::XMLNode<Transcription, TextElement>;
@@ -33,6 +34,9 @@ public:
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace xdxf
 #endif //TRANSCRIPTION_H

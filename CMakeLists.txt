@@ -51,7 +51,7 @@ include_directories(
 add_subdirectory(txml)
 add_subdirectory(examples)
 
-export(TARGETS TXml templatedxml_fb2 templatedxml_xdxf templatedxml_xdxf_to_fb2
+export(TARGETS TXml templatedxml_fb2 templatedxml_xdxf templatedxml_xdxf_to_fb2 templatedxml_xdxf_to_schema
     FILE "${PROJECT_BINARY_DIR}/TXmlTargets.cmake")
 
 export(PACKAGE TXml)

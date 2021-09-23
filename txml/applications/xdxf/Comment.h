@@ -10,7 +10,8 @@ namespace xdxf
 {
 class Comment : public txml::XMLNodeLeaf<std::string>,
                 public txml::XMLSerializable<Comment>,
-                public txml::XMLFormatSerializable<Comment>
+                public txml::XMLFormatSerializable<Comment>,
+                public txml::XMLSchemaSerializable<Comment>
 {
 public:
     using base = txml::XMLNodeLeaf<std::string>;
@@ -40,6 +41,9 @@ public:
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace xdxf
 #endif //COMMENT_H

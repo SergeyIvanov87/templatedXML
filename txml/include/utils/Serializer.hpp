@@ -35,18 +35,7 @@ struct FormatSerializerBase : public details::SingleElementSerializerBase<Impl, 
             details::SingleElementSerializerBase<Impl, InElement>::invoke(in_val, tracer);
         }
     }
-    /*
-    template<class In, int InIndex, class Tracer>
-    void serialize_impl(const In& val, std::integral_constant<int, InIndex> vl, Tracer tracer)
-    {
-        using mapped_type = std::tuple_element_t<InIndex,
-                                    typename out_list_t::impl_t>;
 
-        out << "<" << mapped_type::class_name() << ">";
-        val.format_dump(*this, tracer);
-        out << "</" << mapped_type::class_name() << ">\n";
-    }
-    * */
 protected:
     ~FormatSerializerBase() = default;
 

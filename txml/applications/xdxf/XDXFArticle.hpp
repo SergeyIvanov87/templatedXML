@@ -34,5 +34,12 @@ void XDXFArticle::format_serialize_impl(Formatter& out, Tracer tracer) const
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);
 }
+
+template<class Formatter, class Tracer>
+void XDXFArticle::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<XDXFArticle>(tracer);
+}
 } // namespace xdxf
 #endif

@@ -55,6 +55,13 @@ void TextElement::format_serialize_impl(Formatter& out, Tracer tracer) const
     out.map(*this, tracer);
 }
 
+template<class Formatter, class Tracer>
+void TextElement::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<TextElement>(tracer);
+}
+
 template<class Tracer>
 std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {

@@ -40,5 +40,12 @@ void KeyPhrase::format_serialize_impl(Formatter& out, Tracer tracer) const
     tracer.trace(__FUNCTION__, " - ", class_name());
     out.map(*this, tracer);
 }
+
+template<class Formatter, class Tracer>
+void KeyPhrase::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<KeyPhrase>(tracer);
+}
 } // namespace xdxf
 #endif //KEY_PHRASE_HPP

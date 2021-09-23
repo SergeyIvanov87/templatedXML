@@ -33,6 +33,13 @@ void Transcription::format_serialize_impl(Formatter& out, Tracer tracer) const
     out.map(*this, tracer);
 }
 
+template<class Formatter, class Tracer>
+void Transcription::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<Transcription>(tracer);
+}
+
 template<class Tracer>
 void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {

@@ -6,7 +6,13 @@ namespace txml
 struct SkipUnscopedElement
 {
     template <class Serializer, class UnscopedElementType, class Tracer>
-    static void process(Serializer &instance, const UnscopedElementType& in_val, Tracer tracer)
+    static void process(Serializer &instance, const UnscopedElementType&, Tracer tracer)
+    {
+        tracer.trace(__PRETTY_FUNCTION__, "\nskip serialize for: ", UnscopedElementType::class_name());
+    }
+
+    template <class Serializer, class UnscopedElementType, class Tracer>
+    static void process(Serializer &instance, Tracer tracer)
     {
         tracer.trace(__PRETTY_FUNCTION__, "\nskip serialize for: ", UnscopedElementType::class_name());
     }
@@ -16,7 +22,13 @@ struct SkipUnscopedElement
 struct StaticCheckUnscopedElement
 {
     template <class Serializer, class UnscopedElementType, class Tracer>
-    static void process(Serializer &instance, const UnscopedElementType& in_val, Tracer tracer)
+    static void process(Serializer &instance, const UnscopedElementType&, Tracer tracer)
+    {
+        static_assert(is_one_of<UnscopedElementType>(static_cast<typename Serializer::ElementTupleType*>(nullptr)), "Unexpected Element type for serialize");
+    }
+
+    template <class Serializer, class UnscopedElementType, class Tracer>
+    static void process(Serializer &instance, Tracer tracer)
     {
         static_assert(is_one_of<UnscopedElementType>(static_cast<typename Serializer::ElementTupleType*>(nullptr)), "Unexpected Element type for serialize");
     }

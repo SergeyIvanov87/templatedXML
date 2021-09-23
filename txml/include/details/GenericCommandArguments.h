@@ -26,6 +26,9 @@ public:
     template<class Formatter, class Tracer>
     void format_serialize_elements(Formatter &out, Tracer tracer) const;
 
+    template<class Formatter, class Tracer>
+    static void schema_serialize_elements(Formatter &out, Tracer tracer);
+
     template<class T>
     ArgumentPtr<T> get() const;
 

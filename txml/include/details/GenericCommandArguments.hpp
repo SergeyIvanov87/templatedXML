@@ -76,6 +76,19 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter 
     }, storage);
 }
 
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_elements(Formatter &out, Tracer tracer)
+{
+    std::apply([&out, &tracer](const std::shared_ptr<Arguments> &...element)
+    {
+        bool dispatchingResult[]
+            {
+                (Arguments::schema_serialize(out, tracer), true)...
+            };
+        (void)dispatchingResult;
+    }, Tuple {});
+}
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml
