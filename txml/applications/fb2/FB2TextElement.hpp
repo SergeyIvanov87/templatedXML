@@ -81,6 +81,12 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, t
     return ret;
 }
 
+template<class Formatter, class Tracer>
+void FB2TextElement::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<FB2TextElement>(tracer);
+}
 /*
 template<class Tracer>
 void FB2TextElement::fill_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)

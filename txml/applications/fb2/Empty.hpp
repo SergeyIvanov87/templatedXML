@@ -60,5 +60,12 @@ std::shared_ptr<Empty> Empty::create_impl(std::string &name, txml::TextReaderWra
     tracer.trace("Close tag '", Empty::class_name(), "'");
     return ret;
 }
+
+template<class Formatter, class Tracer>
+void Empty::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<Empty>(tracer);
+}
 } // namespace fb2
 #endif //EMPTY_HPP

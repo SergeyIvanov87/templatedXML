@@ -31,5 +31,12 @@ void Binary::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) con
     this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << Binary::class_name() << ">\n";
 }
+
+template<class Formatter, class Tracer>
+void Binary::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<Binary>(tracer);
+}
 } // namespace fb2
 #endif //FB2_BINARY_HPP

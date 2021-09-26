@@ -10,7 +10,8 @@ class TitleInfo;
 class DocumentInfo;
 class PublishInfo;
 class Description : public txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>,
-                    public txml::XMLSerializable<Description>
+                    public txml::XMLSerializable<Description>,
+                    public txml::XMLSchemaSerializable<Description>
 {
 public:
     using base = txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>;
@@ -29,6 +30,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_DESCRIPTION_H

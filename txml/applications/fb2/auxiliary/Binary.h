@@ -8,7 +8,8 @@ namespace fb2
 {
 class Empty;
 class Binary : public txml::XMLNode<Binary, Empty>,
-               public txml::XMLSerializable<Binary>
+               public txml::XMLSerializable<Binary>,
+               public txml::XMLSchemaSerializable<Binary>
 {
 public:
     using base = txml::XMLNode<Binary, Empty>;
@@ -29,6 +30,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //BINARY_H

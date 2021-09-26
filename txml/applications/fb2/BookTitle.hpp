@@ -31,5 +31,12 @@ void BookTitle::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) 
     this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << BookTitle::class_name() << ">\n";
 }
+
+template<class Formatter, class Tracer>
+void BookTitle::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<BookTitle>(tracer);
+}
 } // namespace fb2
 #endif //FB2_BOOK_TITLE_HPP

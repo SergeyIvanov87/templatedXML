@@ -10,7 +10,8 @@ class Description;
 class Body;
 class Binary;
 class FictionBook : public txml::XMLNode<FictionBook, Description, Body, Binary>,
-                    public txml::XMLSerializable<FictionBook>
+                    public txml::XMLSerializable<FictionBook>,
+                    public txml::XMLSchemaSerializable<FictionBook>
 {
 public:
     using base = txml::XMLNode<FictionBook, Description, Body, Binary>;
@@ -29,6 +30,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FICTION_BOOK_H

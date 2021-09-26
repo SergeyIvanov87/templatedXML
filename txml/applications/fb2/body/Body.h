@@ -9,7 +9,8 @@ namespace fb2
 {
 class Section;
 class Body : public txml::XMLNode<Body, txml::XMLArrayContainerNode<Section>>,
-             public txml::XMLSerializable<Body>
+             public txml::XMLSerializable<Body>,
+             public txml::XMLSchemaSerializable<Body>
 {
 public:
     using base = txml::XMLNode<Body, txml::XMLArrayContainerNode<Section>>;
@@ -28,6 +29,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_BODY_H

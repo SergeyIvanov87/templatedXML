@@ -8,7 +8,8 @@ namespace fb2
 {
 class Empty;
 class PublishInfo : public txml::XMLNode<PublishInfo, Empty>,
-                    public txml::XMLSerializable<PublishInfo>
+                    public txml::XMLSerializable<PublishInfo>,
+                    public txml::XMLSchemaSerializable<PublishInfo>
 {
 public:
     using base = txml::XMLNode<PublishInfo, Empty>;
@@ -27,6 +28,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_PUBLISH_INFO_H

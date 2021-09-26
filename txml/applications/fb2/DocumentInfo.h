@@ -9,7 +9,8 @@ namespace fb2
 class Empty;
 class DocumentInfo :
                     public txml::XMLNode<DocumentInfo, Empty>,
-                    public txml::XMLSerializable<DocumentInfo>
+                    public txml::XMLSerializable<DocumentInfo>,
+                    public txml::XMLSchemaSerializable<DocumentInfo>
 {
 public:
     using base = txml::XMLNode<DocumentInfo, BookTitle>;
@@ -28,6 +29,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_DOCUMENT_INFO_H

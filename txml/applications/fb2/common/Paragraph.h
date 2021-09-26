@@ -8,7 +8,8 @@ namespace fb2
 {
 class FB2TextElement;
 class Paragraph : public txml::XMLNode<Paragraph, FB2TextElement>,
-                  public txml::XMLSerializable<Paragraph>
+                  public txml::XMLSerializable<Paragraph>,
+                  public txml::XMLSchemaSerializable<Paragraph>
 {
 public:
     using base = txml::XMLNode<Paragraph, FB2TextElement>;
@@ -29,6 +30,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_PARAGRAPH_H
