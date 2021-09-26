@@ -1,5 +1,5 @@
-#ifndef XDXF_CREATABLE_HPP
-#define XDXF_CREATABLE_HPP
+#ifndef XDXF_PRODUCIBLE_HPP
+#define XDXF_PRODUCIBLE_HPP
 
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/utils.h>
@@ -57,4 +57,4 @@ void XMLProducible<Value>::fill_impl(std::string &name, TextReaderWrapper &reade
 {
 }
 } // namespace txml
-#endif //XDXF_CREATABLE_HPP
+#endif //XDXF_PRODUCIBLE_HPP

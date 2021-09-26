@@ -1,5 +1,5 @@
-#ifndef XDXF_CREATABLE_H
-#define XDXF_CREATABLE_H
+#ifndef XDXF_PRODUCIBLE_H
+#define XDXF_PRODUCIBLE_H
 
 #include <memory>
 
@@ -19,4 +19,4 @@ struct XMLProducible
     void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 };
 } // namespace txml
-#endif //XDXF_CREATABLE_H
+#endif //XDXF_PRODUCIBLE_H

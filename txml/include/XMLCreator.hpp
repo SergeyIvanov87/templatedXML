@@ -4,6 +4,7 @@
 #include <txml/include/fwd/XMLCreator.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils.h>
 
 namespace txml
 {

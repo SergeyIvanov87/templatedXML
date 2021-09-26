@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <txml/include/fwd/XMLProducible.h>
+#include <txml/include/fwd/XMLNodeLeaf.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
