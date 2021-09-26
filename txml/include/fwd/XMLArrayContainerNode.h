@@ -43,6 +43,9 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
 
     template<class Tracer = txml::EmptyTracer>
     void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
+
+
+    !!!! serialize
 };
 } // namespace txml
 #endif //XDXF_PUBLISHING_H

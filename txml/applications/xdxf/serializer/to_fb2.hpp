@@ -3,13 +3,9 @@
 
 #include <txml/include/utils/Serializer.hpp>
 
-#include <txml/applications/xdxf/XDXFArticle.h>
-#include <txml/applications/xdxf/KeyPhrase.h>
-#include <txml/applications/xdxf/Comment.h>
-#include <txml/applications/xdxf/KeyPhrase.h>
-#include <txml/applications/xdxf/TextElement.h>
+#include <txml/applications/xdxf/xdxf.hpp>
 
-#include <txml/applications/fb2/body/Section.hpp>
+#include <txml/applications/fb2/fb2.hpp>
 
 namespace xdxf
 {

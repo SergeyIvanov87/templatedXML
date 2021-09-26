@@ -3,7 +3,7 @@
 
 
 #include <utils/Tracer.hpp>
-#include <applications/fb2/FictionBook.hpp>
+#include <applications/fb2/fb2.hpp>
 
 enum eLogLevel : int
 {

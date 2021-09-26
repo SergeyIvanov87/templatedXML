@@ -3,7 +3,7 @@
 
 
 #include <utils/Tracer.hpp>
-#include <applications/xdxf/XDXFArticle.hpp>
+#include <applications/xdxf/xdxf.hpp>
 #include <applications/xdxf/serializer/to_fb2.hpp>
 
 enum eLogLevel : int

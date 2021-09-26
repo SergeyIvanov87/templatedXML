@@ -3,11 +3,7 @@
 
 #include <txml/include/utils/SchemaSerializer.hpp>
 
-#include <txml/applications/xdxf/XDXFArticle.h>
-#include <txml/applications/xdxf/KeyPhrase.h>
-#include <txml/applications/xdxf/Comment.h>
-#include <txml/applications/xdxf/KeyPhrase.h>
-#include <txml/applications/xdxf/TextElement.h>
+#include <txml/applications/xdxf/xdxf.hpp>
 
 namespace xdxf
 {

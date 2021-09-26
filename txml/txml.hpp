@@ -10,4 +10,6 @@
 #include <txml/include/XMLProducible.hpp>
 #include <txml/include/XMLSerializable.hpp>
 
+#include <engine/TextReaderWrap.hpp>
+
 #endif // TXML_HPP
