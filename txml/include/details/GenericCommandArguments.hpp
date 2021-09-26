@@ -1,8 +1,10 @@
 #ifndef GENERIC_COMMANDARGUMENTS_VALUE_HPP
 #define GENERIC_COMMANDARGUMENTS_VALUE_HPP
 
-#include "details/GenericCommandArguments.h"
+#include <txml/include/details/GenericCommandArguments.h>
 
+namespace txml
+{
 #define TEMPL_ARGS_DECL    class ...Arguments
 #define TEMPL_ARGS_DEF     Arguments...
 
@@ -74,7 +76,20 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter 
     }, storage);
 }
 
-
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_elements(Formatter &out, Tracer tracer)
+{
+    std::apply([&out, &tracer](const std::shared_ptr<Arguments> &...element)
+    {
+        bool dispatchingResult[]
+            {
+                (Arguments::schema_serialize(out, tracer), true)...
+            };
+        (void)dispatchingResult;
+    }, Tuple {});
+}
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
+} // namespace txml
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_HPP

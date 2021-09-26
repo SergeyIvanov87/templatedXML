@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 
-set (PROC_NAME "templatedxml_xdxf")
+set (PROC_NAME "templatedxml_xdxf_to_schema")
 project(${PROC_NAME})
 
 set (BRANCH_ROOT ${CMAKE_SOURCE_DIR})

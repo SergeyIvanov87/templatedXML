@@ -1,9 +1,13 @@
 #ifndef XDXF_CREATABLE_HPP
 #define XDXF_CREATABLE_HPP
 
-#include "XMLProducible.h"
-#include "utils.h"
+#include <txml/include/fwd/XMLProducible.h>
+#include <txml/include/utils.h>
 
+#include <txml/include/engine/TextReaderWrap.hpp>
+
+namespace txml
+{
 template<class Value>
 template<class Tracer>
 std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
@@ -52,4 +56,5 @@ template<class Tracer>
 void XMLProducible<Value>::fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
 {
 }
+} // namespace txml
 #endif //XDXF_CREATABLE_HPP

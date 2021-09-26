@@ -3,14 +3,16 @@
 
 #include <ostream>
 
-#include "XMLNodeLeaf.h"
-#include "XMLSerializable.h"
+#include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
-class Empty : public XMLNodeLeaf<std::string>,
-                public XMLSerializable<Empty>
+namespace fb2
+{
+class Empty : public txml::XMLNodeLeaf<std::string>,
+              public txml::XMLSerializable<Empty>
 {
 public:
-    using base = XMLNodeLeaf<std::string>;
+    using base = txml::XMLNodeLeaf<std::string>;
     using value_t = typename base::value_t;
 
     static constexpr const char* class_name()
@@ -18,9 +20,9 @@ public:
         return "!--";
     }
 
-    static constexpr TextReaderWrapper::NodeType class_node_type()
+    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
     {
-        return TextReaderWrapper::NodeType::Text;
+        return txml::TextReaderWrapper::NodeType::Text;
     };
 
     Empty(std::string&& str);
@@ -28,11 +30,11 @@ public:
 
     const char *name() const noexcept override;
 
-    template<class Tracer = EmptyTracer>
-    static std::shared_ptr<Empty> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
+    template<class Tracer = txml::EmptyTracer>
+    static std::shared_ptr<Empty> create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer);
 
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
-
+} // namespace fb2
 #endif //EMPTY_H

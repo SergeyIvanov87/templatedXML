@@ -1,10 +1,13 @@
 #ifndef EMPTY_HPP
 #define EMPTY_HPP
 
-#include "XMLNodeLeaf.hpp"
-#include "fb2/Empty.h"
-#include "XMLSerializable.hpp"
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
+#include <txml/applications/fb2/Empty.h>
+
+namespace fb2
+{
 Empty::Empty(std::string&& str) : base(std::move(str))
 {
 }
@@ -22,7 +25,7 @@ void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) cons
 }
 
 template<class Tracer>
-std::shared_ptr<Empty> Empty::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Empty> Empty::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Empty> ret;
 
@@ -32,11 +35,11 @@ std::shared_ptr<Empty> Empty::create_impl(std::string &name, TextReaderWrapper &
                                  ", got: " + name);
     }
 
-    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
+    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != Empty::class_node_type())
     {
         tracer.trace("<skip '", Empty::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(TextReaderWrapper::NodeType::Text));
+                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
         return ret;
     }
 
@@ -57,4 +60,5 @@ std::shared_ptr<Empty> Empty::create_impl(std::string &name, TextReaderWrapper &
     tracer.trace("Close tag '", Empty::class_name(), "'");
     return ret;
 }
+} // namespace fb2
 #endif //EMPTY_HPP

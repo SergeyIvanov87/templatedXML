@@ -4,6 +4,8 @@
 #include <memory>
 #include <tuple>
 
+namespace txml
+{
 template<class ...Arguments>
 class ArgumentContainerBase
 {
@@ -24,6 +26,9 @@ public:
     template<class Formatter, class Tracer>
     void format_serialize_elements(Formatter &out, Tracer tracer) const;
 
+    template<class Formatter, class Tracer>
+    static void schema_serialize_elements(Formatter &out, Tracer tracer);
+
     template<class T>
     ArgumentPtr<T> get() const;
 
@@ -32,4 +37,5 @@ public:
 private:
     Tuple storage;
 };
+} // namespace txml
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_H

@@ -1,13 +1,16 @@
 #ifndef TRANSCRIPTION_HPP
 #define TRANSCRIPTION_HPP
+
 #include <iostream>
 
-#include "xdxf/Transcription.h"
-#include "xdxf/TextElement.hpp"
-#include "XMLSerializable.h"
-#include "XMLCreator.hpp"
-#
+#include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/XMLCreator.hpp>
 
+#include <txml/applications/xdxf/Transcription.h>
+#include <txml/applications/xdxf/TextElement.hpp>
+
+namespace xdxf
+{
 const char *Transcription::name() const noexcept
 {
     return class_name();
@@ -30,12 +33,19 @@ void Transcription::format_serialize_impl(Formatter& out, Tracer tracer) const
     out.map(*this, tracer);
 }
 
+template<class Formatter, class Tracer>
+void Transcription::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<Transcription>(tracer);
+}
+
 template<class Tracer>
 void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Transcription::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << Transcription::class_name() << ">\n";
 }
-
+} // namespace xdxf
 #endif //TRANSCRIPTION_HPP

@@ -2,11 +2,13 @@
 #define FB2_PARAGRAPH_HPP
 #include <iostream>
 
-#include "fb2/common/Paragraph.h"
-#include "fb2/FB2TextElement.hpp"
-#include "XMLSerializable.hpp"
-#include "XMLCreator.hpp"
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLCreator.hpp>
+#include <txml/applications/fb2/common/Paragraph.h>
+#include <txml/applications/fb2/FB2TextElement.hpp>
 
+namespace fb2
+{
 const char *Paragraph::name() const noexcept
 {
     return class_name();
@@ -27,8 +29,8 @@ template<class Tracer>
 void Paragraph::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Paragraph::class_name() << ">";
-    this->serialize_elements(out, tracer, no_sep);
+    this->serialize_elements(out, tracer, txml::no_sep);
     out << "</" << Paragraph::class_name() << ">\n";
 }
-
+} // namespace fb2
 #endif //FB2_PARAGRAPH_HPP

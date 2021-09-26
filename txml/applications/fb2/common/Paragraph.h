@@ -1,15 +1,17 @@
 #ifndef FB2_PARAGRAPH_H
 #define FB2_PARAGRAPH_H
 
-#include "XMLNode.h"
-#include "XMLSerializable.h"
+#include <txml/include/fwd/XMLNode.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
+namespace fb2
+{
 class FB2TextElement;
-class Paragraph : public XMLNode<Paragraph, FB2TextElement>,
-                  public XMLSerializable<Paragraph>
+class Paragraph : public txml::XMLNode<Paragraph, FB2TextElement>,
+                  public txml::XMLSerializable<Paragraph>
 {
 public:
-    using base = XMLNode<Paragraph, FB2TextElement>;
+    using base = txml::XMLNode<Paragraph, FB2TextElement>;
     using value_t = std::string;
 
     static constexpr const char* class_name()
@@ -17,16 +19,16 @@ public:
         return "p";
     }
 
-    static constexpr TextReaderWrapper::NodeType class_node_type()
+    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
     {
-        return TextReaderWrapper::NodeType::Element;
+        return txml::TextReaderWrapper::NodeType::Element;
     };
 
     const char *name() const noexcept override;
     const value_t &getValue() const;
 
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
-
+} // namespace fb2
 #endif //FB2_PARAGRAPH_H

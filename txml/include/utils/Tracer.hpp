@@ -3,7 +3,8 @@
 #include <sstream>
 #include <utility>
 
-
+namespace txml
+{
 template<char ident = ' '>
 struct StackedPolicy
 {
@@ -144,5 +145,5 @@ struct EmptyTracer: public TracerBase<EmptyTracer, EmptyPolicy>
     {
     }
 };
-
+} // namespace txml
 #endif

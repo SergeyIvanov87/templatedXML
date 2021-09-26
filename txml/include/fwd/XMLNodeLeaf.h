@@ -8,9 +8,12 @@
 #include <string>
 #include <optional>
 #include <vector>
-#include <engine/TextReaderWrap.hpp>
 
-#include <utils/Tracer.hpp>
+#include <txml/include/utils/Tracer.hpp>
+
+namespace txml
+{
+struct TextReaderWrapper;
 
 template<class T>
 struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<T>>
@@ -27,10 +30,10 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<T>>
     const value_t& getValue() const;
     value_t& getValue();
 
-    template<class Tracer = EmptyTracer>
+    template<class Tracer = txml::EmptyTracer>
     void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 private:
     value_t val;
 };
-
+} // namespace txml
 #endif //XDXF_TYPED_VALUE_H

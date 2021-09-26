@@ -1,10 +1,13 @@
 #ifndef COMMENT_HPP
 #define COMMENT_HPP
 
-#include "XMLNodeLeaf.hpp"
-#include "xdxf/Comment.h"
-#include "XMLSerializable.hpp"
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
 
+#include <txml/applications/xdxf/Comment.h>
+
+namespace xdxf
+{
 Comment::Comment(std::string&& str) : base(std::move(str))
 {
 }
@@ -30,8 +33,19 @@ void Comment::format_serialize_impl(Formatter& out, Tracer tracer) const
     out.map(*this, tracer);
 }
 
+
+
+template<class Formatter, class Tracer>
+void Comment::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", class_name());
+    out.template map<Comment>(tracer);
+}
+
+
+
 template<class Tracer>
-std::shared_ptr<Comment> Comment::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Comment> Comment::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
 
@@ -41,11 +55,11 @@ std::shared_ptr<Comment> Comment::create_impl(std::string &name, TextReaderWrapp
                                  ", got: " + name);
     }
 
-    TextReaderWrapper::NodeType nodeType = reader.get_node_type();
+    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != Comment::class_node_type())
     {
         tracer.trace("<skip '", Comment::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(TextReaderWrapper::NodeType::Text));
+                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
         return ret;
     }
 
@@ -66,4 +80,5 @@ std::shared_ptr<Comment> Comment::create_impl(std::string &name, TextReaderWrapp
     tracer.trace("Close tag '", Comment::class_name(), "'");
     return ret;
 }
+} // namespace xdxf
 #endif //COMMENT_HPP
