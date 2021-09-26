@@ -1,5 +1,5 @@
 #ifndef XDXF_TO_SCHEMA_SERIALIZER_HPP
-#define TO_FB2_SERIALIZER_HPP
+#define XDXF_TO_SCHEMA_SERIALIZER_HPP
 
 #include <txml/include/utils/SchemaSerializer.hpp>
 
@@ -22,7 +22,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
 
 
     template<class Tracer>
-    void serialize_impl(const XDXFArticle*, Tracer tracer)
+    void serialize_impl(txml::details::SchemaTag<XDXFArticle>, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", XDXFArticle::class_name());
 
@@ -32,7 +32,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     }
 
     template<class Tracer>
-    void serialize_impl(const KeyPhrase*, Tracer tracer)
+    void serialize_impl(txml::details::SchemaTag<KeyPhrase>, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", KeyPhrase::class_name());
         out << "key {\n";
@@ -41,14 +41,14 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     }
 
     template<class Tracer>
-    void serialize_impl(const Comment*, Tracer tracer)
+    void serialize_impl(txml::details::SchemaTag<Comment>, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", Comment::class_name());
         out << "comment : \"string\",\n";
     }
 
     template<class Tracer>
-    void serialize_impl(const Transcription*, Tracer tracer)
+    void serialize_impl(txml::details::SchemaTag<Transcription>, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", Transcription::class_name());
         out << "transcription {\n";
@@ -57,7 +57,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     }
 
     template<class Tracer>
-    void serialize_impl(const TextElement*, Tracer tracer)
+    void serialize_impl(txml::details::SchemaTag<TextElement>, Tracer tracer)
     {
         tracer.trace(__FUNCTION__, " - ", TextElement::class_name());
         out << "text : \"string\"\n";
@@ -66,4 +66,4 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     Stream &out;
 };
 } // namespace xdxf
-#endif //TO_FB2_SERIALIZER_HPP
+#endif //XDXF_TO_SCHEMA_SERIALIZER_HPP

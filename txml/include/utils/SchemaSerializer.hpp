@@ -12,6 +12,11 @@ namespace details
 {
 template<class Impl, class ElementType>
 struct SingleElementSchemaSerializerBase;
+
+template<class T>
+struct SchemaTag {
+    using Type = T;
+};
 } // namespace details
 
 
@@ -50,7 +55,7 @@ struct SingleElementSchemaSerializerBase
     template<class Tracer>
     void invoke(Tracer tracer)
     {
-        static_cast<Impl*>(this)->serialize_impl(static_cast<const ElementType*>(nullptr) , tracer);
+        static_cast<Impl*>(this)->serialize_impl(SchemaTag<ElementType> {} , tracer);
     }
 
 protected:
