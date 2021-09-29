@@ -7,6 +7,7 @@
 
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLSerializable.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
@@ -17,10 +18,12 @@ inline std::ostream& no_sep (std::ostream& os);
 
 template<class Value>
 struct XMLArrayContainerNode : public XMLProducible<Value>,
-                               public txml::XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>
+                               public XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>,
+                               public XMLSerializable<XMLArrayContainerNode<Value>>,
+                               public XMLSchemaSerializable<XMLArrayContainerNode<Value>>
 {
     using producible_base = XMLProducible<Value>;
-    using base = txml::XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>;
+    using base = XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>;
 
     //use tag name as child type
     static constexpr const char *class_name()
@@ -38,14 +41,18 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
 
     const char *name() const noexcept override;
 
-    template<class Tracer = txml::EmptyTracer>
+    template<class Tracer = EmptyTracer>
     static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
 
-    template<class Tracer = txml::EmptyTracer>
+    template<class Tracer = EmptyTracer>
     void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 
 
-    !!!! serialize
+    template<class Tracer = EmptyTracer>
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace txml
 #endif //XDXF_PUBLISHING_H

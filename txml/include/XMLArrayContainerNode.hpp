@@ -3,6 +3,10 @@
 
 #include <txml/include/fwd/XMLArrayContainerNode.h>
 
+#include <txml/include/XMLProducible.hpp>
+#include <txml/include/XMLNodeLeaf.hpp>
+#include <txml/include/XMLSerializable.hpp>
+
 namespace txml
 {
 template<class Value>
@@ -50,6 +54,32 @@ void XMLArrayContainerNode<Value>::fill_impl(std::string &name,
                      elem->name(), "', handle: ", reinterpret_cast<size_t>(this));
         base::getValue().push_back(std::move(elem));
     }
+}
+
+template<class Value>
+template<class Tracer>
+void XMLArrayContainerNode<Value>::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+{
+    out << "<XMLArrayContainerNode<" << XMLArrayContainerNode<Value>::class_name() << ">>";
+
+    const typename base::value_t& array = base::getValue();
+    for (const auto& elem : array)
+    {
+        if (elem)
+        {
+            elem->serialize(out, tracer);
+        }
+    }
+
+    out << "</XMLArrayContainerNode<" << XMLArrayContainerNode<Value>::class_name() << ">>\n";
+}
+
+template<class Value>
+template<class Formatter, class Tracer>
+void XMLArrayContainerNode<Value>::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", class_name(), ">");
+    Value::schema_serialize(out, tracer);
 }
 } // namespace txml
 #endif //XDXF_CREATOR_H

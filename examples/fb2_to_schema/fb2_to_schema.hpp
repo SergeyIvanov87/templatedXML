@@ -103,7 +103,9 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     {
         tracer.trace(__FUNCTION__, " - ", Body::class_name());
         out << "body {\n";
+        out << "[\n";
         Body::schema_serialize_elements(*this, tracer);
+        out << "],\n";
         out << "},\n";
     }
 
@@ -112,7 +114,9 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     {
         tracer.trace(__FUNCTION__, " - ", Section::class_name());
         out << "section {\n";
+        out << "[\n";
         Section::schema_serialize_elements(*this, tracer);
+        out << "],\n";
         out << "},\n";
     }
 
