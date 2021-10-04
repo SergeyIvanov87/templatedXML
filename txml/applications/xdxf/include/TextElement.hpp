@@ -4,6 +4,7 @@
 #include <regex>
 #include <txml/include/XMLNodeLeaf.hpp>
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 
 #include <txml/applications/xdxf/include/fwd/TextElement.h>
 

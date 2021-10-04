@@ -32,6 +32,7 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     bool initialize(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     void serialize_impl(std::ostream &out) const;
+
     template<class Value, class Tracer = txml::EmptyTracer>
     static std::shared_ptr<Value> create(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
 

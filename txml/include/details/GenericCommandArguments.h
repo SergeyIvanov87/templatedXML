@@ -24,6 +24,9 @@ public:
     void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
     template<class Formatter, class Tracer>
+    void format_deserialize_elements(Formatter &in, Tracer tracer);
+
+    template<class Formatter, class Tracer>
     void format_serialize_elements(Formatter &out, Tracer tracer) const;
 
     template<class Formatter, class Tracer>

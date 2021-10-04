@@ -8,6 +8,7 @@
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLNodeLeaf.h>
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
@@ -55,4 +56,4 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace txml
-#endif //XDXF_PUBLISHING_H
+#endif //XDXF_ARRAY_CONTAINER_NODE_H

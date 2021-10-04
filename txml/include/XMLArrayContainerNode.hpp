@@ -6,6 +6,7 @@
 #include <txml/include/XMLProducible.hpp>
 #include <txml/include/XMLNodeLeaf.hpp>
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 
 namespace txml
 {

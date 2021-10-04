@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/XMLCreator.hpp>
 #include <txml/include/XMLNode.hpp>
 

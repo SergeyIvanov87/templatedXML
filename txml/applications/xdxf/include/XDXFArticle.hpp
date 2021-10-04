@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/XMLNode.hpp>
 
 #include <txml/applications/xdxf/include/fwd/XDXFArticle.h>

@@ -5,6 +5,7 @@
 
 #include <txml/include/fwd/XMLNode.h>
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace xdxf
 {

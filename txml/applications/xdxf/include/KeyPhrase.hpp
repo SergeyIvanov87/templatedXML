@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 
 #include <txml/applications/xdxf/include/fwd/KeyPhrase.h>
 #include <txml/applications/xdxf/include/TextElement.hpp>

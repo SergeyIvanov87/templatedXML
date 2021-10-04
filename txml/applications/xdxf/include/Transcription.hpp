@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/XMLCreator.hpp>
 
 #include <txml/applications/xdxf/include/fwd/Transcription.h>

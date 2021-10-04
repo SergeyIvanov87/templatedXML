@@ -28,6 +28,7 @@ inline std::ostream& italic_off(std::ostream& os)
 
 #include <txml/include/fwd/XMLNodeLeaf.h>
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace xdxf
 {

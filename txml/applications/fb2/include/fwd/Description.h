@@ -3,6 +3,7 @@
 
 #include <txml/include/fwd/XMLNode.h>
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace fb2
 {
@@ -11,6 +12,7 @@ class DocumentInfo;
 class PublishInfo;
 class Description : public txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>,
                     public txml::XMLSerializable<Description>,
+                    public txml::XMLFormatDeserializable<Description>,
                     public txml::XMLSchemaSerializable<Description>
 {
 public:
@@ -30,6 +32,9 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());

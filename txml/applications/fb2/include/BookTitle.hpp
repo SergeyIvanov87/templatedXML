@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/XMLCreator.hpp>
 #include <txml/applications/fb2/include/fwd/BookTitle.h>
 #include <txml/applications/fb2/include/FB2TextElement.hpp>

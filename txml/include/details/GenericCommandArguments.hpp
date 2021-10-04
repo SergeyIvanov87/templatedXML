@@ -64,6 +64,12 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatter &in, Tracer tracer)
+{
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
 void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter &out, Tracer tracer) const
 {
     std::apply([&out, &tracer](const std::shared_ptr<Arguments> &...element)
