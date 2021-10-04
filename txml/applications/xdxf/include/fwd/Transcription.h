@@ -5,16 +5,11 @@
 #include <string>
 
 #include <txml/include/fwd/XMLNode.h>
-#include <txml/include/fwd/XMLSerializable.h>
-#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace xdxf
 {
 class TextElement;
-class Transcription : public txml::XMLNode<Transcription, TextElement>,
-                      public txml::XMLSerializable<Transcription>,
-                      public txml::XMLFormatSerializable<Transcription>,
-                      public txml::XMLSchemaSerializable<Transcription>
+class Transcription : public txml::XMLNode<Transcription, TextElement>
 {
 public:
     using base = txml::XMLNode<Transcription, TextElement>;
@@ -32,15 +27,6 @@ public:
 
     const char *name() const noexcept override;
     const value_t &getValue() const;
-
-    template<class Tracer = txml::EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace xdxf
 #endif //TRANSCRIPTION_H

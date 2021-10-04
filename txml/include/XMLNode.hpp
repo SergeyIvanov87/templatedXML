@@ -5,6 +5,8 @@
 
 #include <txml/include/XMLProducible.hpp>
 #include <txml/include/XMLCreator.hpp>
+#include <txml/include/XMLSerializable.hpp>
+#include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/details/GenericCommandArguments.hpp>
 #include <txml/include/engine/TextReaderWrap.hpp>
 
@@ -34,6 +36,40 @@ template<TEMPL_ARGS_DECL>
 void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out) const
 {
     Container::serialize_elements(out);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Tracer>
+void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+{
+    out << "<" << Impl::class_name() << ">";
+    Container::serialize_elements(out, tracer, txml::no_sep);
+    out << "</" << Impl::class_name() << ">\n";
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNode<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
+{
+    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    out.map(static_cast<const Impl&>(*this), tracer);
+}
+
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    in.template map<Impl>(tracer);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    out.template map<Impl>(tracer);
 }
 
 template<TEMPL_ARGS_DECL>

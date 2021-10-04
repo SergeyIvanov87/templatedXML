@@ -2,17 +2,12 @@
 #define FB2_DOCUMENT_INFO_H
 
 #include <txml/include/fwd/XMLNode.h>
-#include <txml/include/fwd/XMLSerializable.h>
-#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace fb2
 {
 class Empty;
 class DocumentInfo :
-                    public txml::XMLNode<DocumentInfo, Empty>,
-                    public txml::XMLSerializable<DocumentInfo>,
-                    public txml::XMLFormatDeserializable<DocumentInfo>,
-                    public txml::XMLSchemaSerializable<DocumentInfo>
+                    public txml::XMLNode<DocumentInfo, Empty>
 {
 public:
     using base = txml::XMLNode<DocumentInfo, Empty>;
@@ -28,15 +23,6 @@ public:
     }
 
     virtual const char *name() const noexcept override;
-
-    template<class Tracer = txml::EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //FB2_DOCUMENT_INFO_H

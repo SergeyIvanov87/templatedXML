@@ -26,27 +26,5 @@ const Transcription::value_t &Transcription::getValue() const
     }
     return val->getValue();
 }
-
-template<class Formatter, class Tracer>
-void Transcription::format_serialize_impl(Formatter& out, Tracer tracer) const
-{
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    out.map(*this, tracer);
-}
-
-template<class Formatter, class Tracer>
-void Transcription::schema_serialize_impl(Formatter& out, Tracer tracer)
-{
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    out.template map<Transcription>(tracer);
-}
-
-template<class Tracer>
-void Transcription::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
-{
-    out << "<" << Transcription::class_name() << ">";
-    this->serialize_elements(out, tracer, txml::no_sep);
-    out << "</" << Transcription::class_name() << ">\n";
-}
 } // namespace xdxf
 #endif //TRANSCRIPTION_HPP
