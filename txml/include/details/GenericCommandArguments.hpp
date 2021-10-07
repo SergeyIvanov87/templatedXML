@@ -25,18 +25,21 @@ void ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
 
 template<TEMPL_ARGS_DECL>
 template<class Fabric, class ...CreationArgs>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
+bool ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
-    std::apply([&next_args...](std::shared_ptr<Arguments> &...element)
+    return std::apply([&next_args...](std::shared_ptr<Arguments> &...element) -> bool
     {
         bool dispatchingResult[]
             {
                 ((element = !element
                             ? Fabric::template try_create<Arguments>(std::forward<CreationArgs>(next_args)...)
                             : Fabric::template try_fill<Arguments>(element, std::forward<CreationArgs>(next_args)...)
-                           ), true)...
+                           ), element.get() != nullptr/* true if created, or false*/)...
             };
-        (void)dispatchingResult;
+        // success if one of element was created at least
+        return std::any_of(dispatchingResult, dispatchingResult + sizeof...(Arguments), [] (bool val) {
+            return val;
+        });
     }, storage);
 }
 

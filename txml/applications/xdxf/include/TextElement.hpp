@@ -64,10 +64,11 @@ void TextElement::schema_serialize_impl(Formatter& out, Tracer tracer)
 }
 
 template<class Tracer>
-std::shared_ptr<TextElement> TextElement::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<TextElement> ret;
 
+    const std::string &name = reader.get_name();
     if (name != TextElement::class_name())
     {
         throw std::runtime_error(std::string("Expected: ") + TextElement::class_name() +

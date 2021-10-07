@@ -45,10 +45,10 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     std::shared_ptr<XMLNode<Impl, ContainedValues...>> get_ptr();
 
     template<class Tracer = txml::EmptyTracer>
-    bool initialize(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
+    bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     template<class Value, class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Value> create(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
+    static std::shared_ptr<Value> create(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     void serialize_impl(std::ostream &out) const;
 

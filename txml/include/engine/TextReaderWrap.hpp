@@ -66,7 +66,7 @@ struct TextReaderWrapper
     std::string get_name() const
     {
         const char* name = reinterpret_cast<const char*>(xmlTextReaderConstName(m_reader));
-        if (name == NULL)
+        if (name == nullptr)
             name = reinterpret_cast<const char*>(BAD_CAST "--");
 
         return {name};
@@ -88,7 +88,8 @@ struct TextReaderWrapper
 
     std::string get_value() const
     {
-        return { reinterpret_cast<const char*>(xmlTextReaderConstValue (m_reader))};
+        const char* value = reinterpret_cast<const char*>(xmlTextReaderConstValue (m_reader));
+        return { value ? value : ""};
     }
 
     NodeType get_node_type() const

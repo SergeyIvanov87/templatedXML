@@ -43,10 +43,10 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
+    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
-    void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
+    void fill_impl(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
 
     template<class Tracer = EmptyTracer>

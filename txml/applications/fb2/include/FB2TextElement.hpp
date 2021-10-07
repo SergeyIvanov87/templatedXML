@@ -46,10 +46,10 @@ void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer(
 }
 
 template<class Tracer>
-std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<FB2TextElement> ret;
-
+    const std::string &name = reader.get_name();
     if (name != FB2TextElement::class_name())
     {
         throw std::runtime_error(std::string("Expected: ") + FB2TextElement::class_name() +

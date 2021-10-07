@@ -10,8 +10,9 @@ namespace txml
 {
 template<class Value>
 template<class Tracer>
-std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Value> XMLProducible<Value>::create_impl(TextReaderWrapper &reader, Tracer tracer)
 {
+    const std::string &name = reader.get_name();
     if (name != Value::class_name())
     {
         throw std::runtime_error(std::string("Expected: ") + Value::class_name() +
@@ -31,20 +32,28 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, Text
 
     {
         Tracer entered_tracer = tracer;
+        bool initialized = false;
         while (reader.read())
         {
-            name = reader.get_name();
+            const std::string& underlying_node_name = reader.get_name();
             nodeType = reader.get_node_type();
 
-            entered_tracer.trace("extract tag: '", name, "', type: ", to_string(nodeType));
-            if (name == Value::class_name() &&
-                reader.get_node_type() == TextReaderWrapper::NodeType::EndElement)
+            entered_tracer.trace("extract tag: '", underlying_node_name, "', type: ", to_string(nodeType));
+            if (underlying_node_name == Value::class_name() &&
+                nodeType == TextReaderWrapper::NodeType::EndElement)
             {
                 tracer.trace("Close tag '", Value::class_name(), "' handle: ", reinterpret_cast<size_t>(ret.get()));
                 break;
             }
 
-            ret->initialize(name, reader, tracer);
+            initialized |= ret->initialize(reader, tracer);
+        }
+
+        // if ret in container node, and no one sub-node is initialized, then throw away that node
+        if (!initialized)
+        {
+            tracer.trace("SKIP tag '", Value::class_name(), "' handle: ", reinterpret_cast<size_t>(ret.get()));
+            ret.reset();
         }
     }
     return ret;
@@ -53,7 +62,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create_impl(std::string &name, Text
 
 template<class Value>
 template<class Tracer>
-void XMLProducible<Value>::fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+void XMLProducible<Value>::fill_impl(TextReaderWrapper &reader, Tracer tracer)
 {
 }
 } // namespace txml

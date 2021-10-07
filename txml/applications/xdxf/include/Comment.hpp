@@ -46,10 +46,10 @@ void Comment::schema_serialize_impl(Formatter& out, Tracer tracer)
 
 
 template<class Tracer>
-std::shared_ptr<Comment> Comment::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
-
+    const std::string &name = reader.get_name();
     if (name != Comment::class_name())
     {
         throw std::runtime_error(std::string("Expected: ") + Comment::class_name() +

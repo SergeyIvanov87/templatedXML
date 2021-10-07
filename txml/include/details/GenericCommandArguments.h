@@ -15,7 +15,7 @@ public:
     using Tuple = std::tuple<ArgumentPtr<Arguments>...>;
 
     template<class Fabric, class ...CreationArgs>
-    void create_from(CreationArgs&&... next_args);
+    bool create_from(CreationArgs&&... next_args);
 
     template<class Argument, class Tracer>
     void serialize_impl(std::ostream &out, Tracer tracer) const;

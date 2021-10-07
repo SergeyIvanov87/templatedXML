@@ -9,11 +9,12 @@
 namespace txml
 {
 template<class Value, class Tracer>
-std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
-                                               TextReaderWrapper &reader,
-                                               Tracer tracer/* = Tracer()*/)
+std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
+                                              Tracer tracer/* = Tracer()*/)
 {
     std::shared_ptr<Value> ret;
+
+    std::string name = reader.get_name();
     if (name != Value::class_name())
     {
         return ret;
@@ -41,7 +42,7 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
         }
 
 
-        ret = Value::create_impl(name, reader, tracer);
+        ret = Value::create_impl(reader, tracer);
     }
 
     return ret;
@@ -50,16 +51,16 @@ std::shared_ptr<Value> XMLCreator::try_create(std::string &name,
 
 template<class Value, class Tracer>
 std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
-                                            std::string &name,
                                             TextReaderWrapper &reader,
                                             Tracer tracer/* = Tracer()*/)
 {
+    const std::string &name = reader.get_name();
     if (name == Value::class_name())
     {
         if (to_fill)
         {
-            tracer.trace("fill xml array container with: ", reader.get_name());
-            to_fill->fill_impl(name, reader, tracer);
+            tracer.trace("fill xml array container with: ", name);
+            to_fill->fill_impl(reader, tracer);
         }
         else
         {

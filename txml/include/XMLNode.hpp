@@ -17,18 +17,19 @@ namespace txml
 
 template<TEMPL_ARGS_DECL>
 template<class Value, class Tracer/* = txml::EmptyTracer>*/>
-std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(std::string &name, TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
 {
+    std::string name = reader.get_name();
     return Value::create(name, reader);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-bool XMLNode<TEMPL_ARGS_DEF>::initialize(std::string &name, TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
+bool XMLNode<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
 {
+    const std::string &name = reader.get_name();
     tracer.trace(__FUNCTION__, " '", Impl::class_name(), "' - got: '", name, "'");
-    this->template create_from<XMLCreator>(name, reader, tracer);
-    return true;
+    return this->template create_from<XMLCreator>(reader, tracer);
 }
 
 

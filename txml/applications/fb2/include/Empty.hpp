@@ -26,10 +26,11 @@ void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) cons
 }
 
 template<class Tracer>
-std::shared_ptr<Empty> Empty::create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Empty> ret;
 
+    const std::string &name = reader.get_name();
     if (name != Empty::class_name())
     {
         throw std::runtime_error(std::string("Expected: ") + Empty::class_name() +

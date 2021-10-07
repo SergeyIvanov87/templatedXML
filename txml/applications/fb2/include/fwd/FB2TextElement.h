@@ -36,7 +36,7 @@ public:
     const char *name() const noexcept override;
 
     template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<FB2TextElement> create_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer);
+    static std::shared_ptr<FB2TextElement> create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer);
 
 /*    template<class Tracer = txml::EmptyTracer>
     void fill_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer);
