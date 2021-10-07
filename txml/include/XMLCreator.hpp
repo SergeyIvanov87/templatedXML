@@ -42,7 +42,7 @@ std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
         }
 
 
-        ret = Value::create_impl(reader, tracer);
+        ret = Value::create(reader, tracer);
     }
 
     return ret;

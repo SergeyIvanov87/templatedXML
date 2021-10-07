@@ -67,24 +67,6 @@ template<class Tracer>
 std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<TextElement> ret;
-
-    const std::string &name = reader.get_name();
-    if (name != TextElement::class_name())
-    {
-        throw std::runtime_error(std::string("Expected: ") + TextElement::class_name() +
-                                 ", got: " + name);
-    }
-
-    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
-    if (nodeType != TextElement::class_node_type())
-    {
-        tracer.trace("<skip '", TextElement::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
-        return ret;
-    }
-
-
-    tracer.trace("Open tag '", TextElement::class_name(), "'");
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -96,8 +78,6 @@ std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txm
         ret.reset( new TextElement(std::string(it, tmp_value.end())));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
-
-    tracer.trace("Close tag '", TextElement::class_name(), "'");
     return ret;
 }
 

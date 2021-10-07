@@ -10,7 +10,7 @@ namespace txml
 {
 template<class Value>
 template<class Tracer>
-std::shared_ptr<Value> XMLProducible<Value>::create_impl(TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     if (name != Value::class_name())

@@ -16,14 +16,6 @@ namespace txml
 #define TEMPL_ARGS_DEF     Impl, ContainedValues...
 
 template<TEMPL_ARGS_DECL>
-template<class Value, class Tracer/* = txml::EmptyTracer>*/>
-std::shared_ptr<Value> XMLNode<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
-{
-    std::string name = reader.get_name();
-    return Value::create(name, reader);
-}
-
-template<TEMPL_ARGS_DECL>
 template<class Tracer>
 bool XMLNode<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
 {

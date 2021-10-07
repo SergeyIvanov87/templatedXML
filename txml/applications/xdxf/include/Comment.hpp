@@ -49,23 +49,6 @@ template<class Tracer>
 std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
-    const std::string &name = reader.get_name();
-    if (name != Comment::class_name())
-    {
-        throw std::runtime_error(std::string("Expected: ") + Comment::class_name() +
-                                 ", got: " + name);
-    }
-
-    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
-    if (nodeType != Comment::class_node_type())
-    {
-        tracer.trace("<skip '", Comment::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
-        return ret;
-    }
-
-
-    tracer.trace("Open tag '", Comment::class_name(), "'");
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -77,8 +60,6 @@ std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextR
         ret.reset( new Comment(std::string(it, tmp_value.end())));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
-
-    tracer.trace("Close tag '", Comment::class_name(), "'");
     return ret;
 }
 } // namespace xdxf

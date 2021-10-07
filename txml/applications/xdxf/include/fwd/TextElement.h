@@ -32,13 +32,13 @@ inline std::ostream& italic_off(std::ostream& os)
 
 namespace xdxf
 {
-class TextElement : public txml::XMLNodeLeaf<std::string>,
+class TextElement : public txml::XMLNodeLeaf<TextElement, std::string>,
                     public txml::XMLSerializable<TextElement>,
                     public txml::XMLFormatSerializable<TextElement>,
                     public txml::XMLSchemaSerializable<TextElement>
 {
 public:
-    using base = txml::XMLNodeLeaf<std::string>;
+    using base = txml::XMLNodeLeaf<TextElement, std::string>;
     using value_t = typename base::value_t;
 
     static constexpr const char* class_name()

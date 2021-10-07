@@ -10,13 +10,13 @@
 
 namespace xdxf
 {
-class Comment : public txml::XMLNodeLeaf<std::string>,
+class Comment : public txml::XMLNodeLeaf<Comment, std::string>,
                 public txml::XMLSerializable<Comment>,
                 public txml::XMLFormatSerializable<Comment>,
                 public txml::XMLSchemaSerializable<Comment>
 {
 public:
-    using base = txml::XMLNodeLeaf<std::string>;
+    using base = txml::XMLNodeLeaf<Comment, std::string>;
     using value_t = typename base::value_t;
 
     static constexpr const char* class_name()

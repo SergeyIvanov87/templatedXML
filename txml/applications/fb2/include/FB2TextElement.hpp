@@ -49,23 +49,6 @@ template<class Tracer>
 std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<FB2TextElement> ret;
-    const std::string &name = reader.get_name();
-    if (name != FB2TextElement::class_name())
-    {
-        throw std::runtime_error(std::string("Expected: ") + FB2TextElement::class_name() +
-                                 ", got: " + name);
-    }
-
-    txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
-    if (nodeType != FB2TextElement::class_node_type())
-    {
-        tracer.trace("<skip '", FB2TextElement::class_name(), "' for node type: ", to_string(nodeType),
-                     ", expected node type: ", to_string(txml::TextReaderWrapper::NodeType::Text));
-        return ret;
-    }
-
-
-    tracer.trace("Open tag '", FB2TextElement::class_name(), "'");
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -78,7 +61,6 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name,
         tracer.trace("Value: '", ret->getValue(), "'");
     }
 
-    tracer.trace("Close tag '", FB2TextElement::class_name(), "'");
     return ret;
 }
 

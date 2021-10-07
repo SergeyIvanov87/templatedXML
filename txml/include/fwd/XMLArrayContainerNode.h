@@ -19,12 +19,14 @@ inline std::ostream& no_sep (std::ostream& os);
 
 template<class Value>
 struct XMLArrayContainerNode : public XMLProducible<Value>,
-                               public XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>,
+                               public XMLNodeLeaf<XMLArrayContainerNode<Value>,
+                                                  std::vector<std::shared_ptr<Value>>>,
                                public XMLSerializable<XMLArrayContainerNode<Value>>,
                                public XMLSchemaSerializable<XMLArrayContainerNode<Value>>
 {
     using producible_base = XMLProducible<Value>;
-    using base = XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>;
+    using base = XMLNodeLeaf<XMLArrayContainerNode<Value>,
+                                                  std::vector<std::shared_ptr<Value>>>;
 
     //use tag name as child type
     static constexpr const char *class_name()
@@ -43,7 +45,7 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
     const char *name() const noexcept override;
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(TextReaderWrapper &reader, Tracer tracer);
+    static std::shared_ptr<XMLArrayContainerNode<Value>> create(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer = Tracer());

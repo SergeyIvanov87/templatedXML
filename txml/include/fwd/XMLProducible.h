@@ -13,7 +13,7 @@ template<class Value>
 struct XMLProducible
 {
     template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Value> create_impl(TextReaderWrapper &reader, Tracer tracer);
+    static std::shared_ptr<Value> create(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = txml::EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);

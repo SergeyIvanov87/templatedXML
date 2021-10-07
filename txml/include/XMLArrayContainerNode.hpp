@@ -19,12 +19,12 @@ XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename base::value_t &&val
 template<class Value>
 template<class Tracer>
 std::shared_ptr<XMLArrayContainerNode<Value>>
-XMLArrayContainerNode<Value>::create_impl(TextReaderWrapper &reader, Tracer tracer)
+XMLArrayContainerNode<Value>::create(TextReaderWrapper &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     tracer.trace("Start creation XMLArrayContainerNode<", Value::class_name(), ">, got: '", name, "'");
     std::shared_ptr<XMLArrayContainerNode<Value>> ret;
-    auto elem = producible_base::create_impl(reader, tracer);
+    auto elem = producible_base::create(reader, tracer);
     if (elem)
     {
         std::vector<std::shared_ptr<Value>> data;
@@ -48,7 +48,7 @@ template<class Tracer>
 void XMLArrayContainerNode<Value>::fill_impl(TextReaderWrapper &reader,
                                              Tracer tracer/* = Tracer()*/)
 {
-    auto elem = producible_base::create_impl(reader, tracer);
+    auto elem = producible_base::create(reader, tracer);
     if (elem)
     {
         tracer.trace("Fill XMLArrayContainerNode<", Value::class_name(), "> with: '",

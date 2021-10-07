@@ -11,13 +11,13 @@
 
 namespace fb2
 {
-class FB2TextElement : public txml::XMLNodeLeaf<std::string>,
+class FB2TextElement : public txml::XMLNodeLeaf<FB2TextElement, std::string>,
                        public txml::XMLSerializable<FB2TextElement>,
                        public txml::XMLFormatDeserializable<FB2TextElement>,
                        public txml::XMLSchemaSerializable<FB2TextElement>
 {
 public:
-    using base = txml::XMLNodeLeaf<std::string>;
+    using base = txml::XMLNodeLeaf<FB2TextElement, std::string>;
     using value_t = typename base::value_t;
 
     static constexpr const char* class_name()
