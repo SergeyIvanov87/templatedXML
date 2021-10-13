@@ -45,7 +45,11 @@ public:
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::shared_ptr<FB2TextElement> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());

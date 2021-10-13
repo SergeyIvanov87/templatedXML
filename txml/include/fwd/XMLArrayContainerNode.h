@@ -22,7 +22,8 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
                                public XMLNodeLeaf<XMLArrayContainerNode<Value>,
                                                   std::vector<std::shared_ptr<Value>>>,
                                public XMLSerializable<XMLArrayContainerNode<Value>>,
-                               public XMLSchemaSerializable<XMLArrayContainerNode<Value>>
+                               public XMLSchemaSerializable<XMLArrayContainerNode<Value>>,
+                               public XMLFormatDeserializable<XMLArrayContainerNode<Value>>
 {
     using producible_base = XMLProducible<Value>;
     using base = XMLNodeLeaf<XMLArrayContainerNode<Value>,
@@ -56,6 +57,13 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
 
     template<class Formatter, class Tracer = EmptyTracer>
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static std::shared_ptr<XMLArrayContainerNode<Value>>
+    format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
 };
 } // namespace txml
 #endif //XDXF_ARRAY_CONTAINER_NODE_H

@@ -1,5 +1,5 @@
-#ifndef XDXF_CREATOR_H
-#define XDXF_CREATOR_H
+#ifndef XML_CREATOR_H
+#define XML_CREATOR_H
 
 #include <cassert>
 #include <memory>
@@ -20,4 +20,4 @@ struct XMLCreator
     static std::shared_ptr<Value> try_fill(std::shared_ptr<Value> to_fill, TextReaderWrapper &reader, Tracer tracer = Tracer());
 };
 } // namespace txml
-#endif //XDXF_CREATOR_H
+#endif //XML_CREATOR_H

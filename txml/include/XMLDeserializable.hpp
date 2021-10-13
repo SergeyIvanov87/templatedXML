@@ -16,5 +16,23 @@ std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_deserialize(Format
 
     return Value::format_deserialize_impl(in, tracer);
 }
+
+template<class Value>
+template<class Formatter, class Tracer>
+std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::shared_ptr<Value> to_fill,
+                                                                          Formatter& in, Tracer tracer)
+{
+    if (to_fill)
+    {
+        tracer.trace("fill xml array container with: ", to_fill.get());
+        to_fill->format_redeserialize_impl(in, tracer);
+    }
+    else
+    {
+        tracer.trace("Incorrect usage for: ", __PRETTY_FUNCTION__);
+        assert(false && __PRETTY_FUNCTION__);
+    }
+    return to_fill;
+}
 } // namespace txml
 #endif //XML_DESERIALIZABLE_HPP

@@ -32,7 +32,7 @@ XMLArrayContainerNode<Value>::create(TextReaderWrapper &reader, Tracer tracer)
         data.push_back(std::move(elem));
         ret.reset( new XMLArrayContainerNode<Value>(std::move(data)));
         tracer.trace("Init XMLArrayContainerNode<", Value::class_name(), "> with: '",
-                     name , "', handle: ", reinterpret_cast<size_t>(ret.get()));
+                     name , "', handle: ", ret.get());
     }
     return ret;
 }
@@ -52,7 +52,7 @@ void XMLArrayContainerNode<Value>::fill_impl(TextReaderWrapper &reader,
     if (elem)
     {
         tracer.trace("Fill XMLArrayContainerNode<", Value::class_name(), "> with: '",
-                     elem->name(), "', handle: ", reinterpret_cast<size_t>(this));
+                     elem->name(), "', handle: ", this);
         base::getValue().push_back(std::move(elem));
     }
 }
@@ -81,6 +81,54 @@ void XMLArrayContainerNode<Value>::schema_serialize_impl(Formatter& out, Tracer 
 {
     tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", class_name(), ">");
     Value::schema_serialize(out, tracer);
+}
+
+template<class Value>
+template<class Formatter, class Tracer>
+std::shared_ptr<XMLArrayContainerNode<Value>> XMLArrayContainerNode<Value>::format_deserialize_impl(Formatter& in, Tracer tracer)
+{
+    tracer.trace("Start - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
+
+    typename base::value_t arr;
+    std::shared_ptr<Value> elem;
+    do {
+        tracer.trace("Begin array index: ", arr.size());
+        elem = in.template map<Value>(tracer);
+        if (elem) {
+            arr.push_back(elem);
+        }
+        tracer.trace("End array index: ", arr.size());
+    } while (elem);
+
+    std::shared_ptr<XMLArrayContainerNode<Value>> ret;
+    if (!arr.empty())
+    {
+        ret = std::make_shared<XMLArrayContainerNode<Value>>(std::move(arr));
+    }
+    tracer.trace("Finish - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), "> with: ", ret.get());
+    return ret;
+}
+
+template<class Value>
+template<class Formatter, class Tracer>
+void XMLArrayContainerNode<Value>::format_redeserialize_impl(Formatter& in, Tracer tracer)
+{
+    tracer.trace("Go on - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(),
+                 "> handle:", this);
+
+    typename base::value_t &arr = this->getValue();
+    std::shared_ptr<Value> elem;
+    do {
+        tracer.trace("Begin array index: ", arr.size());
+        elem = in.template map<Value>(tracer);
+        if (elem) {
+            arr.push_back(elem);
+        }
+        tracer.trace("End array index: ", arr.size());
+    } while (elem);
+
+    tracer.trace("Drop off - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(),
+                 "> handle:", this);
 }
 } // namespace txml
 #endif //XDXF_CREATOR_H

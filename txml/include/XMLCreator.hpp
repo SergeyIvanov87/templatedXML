@@ -1,5 +1,5 @@
-#ifndef XDXF_CREATOR_HPP
-#define XDXF_CREATOR_HPP
+#ifndef XML_CREATOR_HPP
+#define XML_CREATOR_HPP
 
 #include <txml/include/fwd/XMLCreator.h>
 
@@ -71,4 +71,4 @@ std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
     return to_fill;
 }
 } // namespace txml
-#endif //XDXF_CREATOR_H
+#endif //XML_CREATOR_HPP

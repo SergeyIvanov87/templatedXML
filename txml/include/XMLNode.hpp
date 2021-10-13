@@ -51,10 +51,16 @@ void XMLNode<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer trace
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+std::shared_ptr<Impl> XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
     tracer.trace(__FUNCTION__, " - ", Impl::class_name());
-    in.template map<Impl>(tracer);
+    return in.template map<Impl>(tracer);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNode<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
+{
 }
 
 template<TEMPL_ARGS_DECL>

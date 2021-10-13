@@ -24,7 +24,7 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
                  public ArgumentContainerBase<ContainedValues...>,
                  public XMLSerializable<XMLNode<Impl, ContainedValues...>>,
                  public XMLFormatSerializable<XMLNode<Impl, ContainedValues...>>,
-                 public XMLFormatDeserializable<XMLNode<Impl, ContainedValues...>>,
+                 public XMLFormatDeserializable<Impl>,//XMLNode<Impl, ContainedValues...>>,
                  public XMLSchemaSerializable<XMLNode<Impl, ContainedValues...>>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
@@ -56,7 +56,10 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::shared_ptr<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
