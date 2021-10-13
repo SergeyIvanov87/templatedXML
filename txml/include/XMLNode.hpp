@@ -53,8 +53,10 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 std::shared_ptr<Impl> XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
-    return in.template map<Impl>(tracer);
+    tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
+    auto ret = in.template map<Impl>(tracer);
+    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret.get());
+    return ret;
 }
 
 template<TEMPL_ARGS_DECL>

@@ -49,8 +49,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<FictionBook> deserialize_impl(txml::details::SchemaDTag<FictionBook>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", FictionBook::class_name());
-
         if (!in.read() || !check_node_param<FictionBook> (in, tracer)) {
             return {};
         }
@@ -61,8 +59,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Description> deserialize_impl(txml::details::SchemaDTag<Description>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Description::class_name());
-
         if (!check_node_param<Description> (in, tracer)) {
             return {};
         }
@@ -73,8 +69,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<TitleInfo> deserialize_impl(txml::details::SchemaDTag<TitleInfo>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", TitleInfo::class_name());
-
         if (!check_node_param<TitleInfo> (in, tracer)) {
             return {};
         }
@@ -95,15 +89,12 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<FB2TextElement> deserialize_impl(txml::details::SchemaDTag<FB2TextElement>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", FB2TextElement::class_name());
-
         return std::shared_ptr<FB2TextElement>{};
     }
 
     template<class Tracer>
     std::shared_ptr<DocumentInfo> deserialize_impl(txml::details::SchemaDTag<DocumentInfo>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", DocumentInfo::class_name());
         if (!check_node_param<DocumentInfo> (in, tracer)) {
             return {};
         }
@@ -114,15 +105,12 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Empty> deserialize_impl(txml::details::SchemaDTag<Empty>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Empty::class_name());
-
         return std::shared_ptr<Empty>{};
     }
 
     template<class Tracer>
     std::shared_ptr<PublishInfo> deserialize_impl(txml::details::SchemaDTag<PublishInfo>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", PublishInfo::class_name());
         if (!check_node_param<PublishInfo> (in, tracer)) {
             return {};
         }
@@ -133,7 +121,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Body> deserialize_impl(txml::details::SchemaDTag<Body>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Body::class_name());
         if (!check_node_param<Body> (in, tracer)) {
             return {};
         }
@@ -144,7 +131,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Section> deserialize_impl(txml::details::SchemaDTag<Section>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Section::class_name());
         if (!check_node_param<Section> (in, tracer)) {
             return {};
         }
@@ -155,7 +141,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Paragraph::class_name());
         if (!check_node_param<Paragraph> (in, tracer)) {
             return {};
         }
@@ -166,7 +151,6 @@ struct FromXML : public txml::FormatDeserializerBase<FromXML, txml::StaticCheckU
     template<class Tracer>
     std::shared_ptr<Binary> deserialize_impl(txml::details::SchemaDTag<Binary>, Tracer tracer)
     {
-        tracer.trace(__FUNCTION__, " - ", Binary::class_name());
         if (!check_node_param<Binary> (in, tracer)) {
             return {};
         }
@@ -227,7 +211,6 @@ private:
                         in.get_depth() <= depth
                         )
                     {
-                        //in.read();
                         break;
                     }
                     else

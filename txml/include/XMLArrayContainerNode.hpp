@@ -87,7 +87,7 @@ template<class Value>
 template<class Formatter, class Tracer>
 std::shared_ptr<XMLArrayContainerNode<Value>> XMLArrayContainerNode<Value>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Start - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
+    tracer.trace("Begin deserialize map 'XMLArrayContainerNode<", Value::class_name(), ">'");
 
     typename base::value_t arr;
     std::shared_ptr<Value> elem;
@@ -105,7 +105,7 @@ std::shared_ptr<XMLArrayContainerNode<Value>> XMLArrayContainerNode<Value>::form
     {
         ret = std::make_shared<XMLArrayContainerNode<Value>>(std::move(arr));
     }
-    tracer.trace("Finish - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), "> with: ", ret.get());
+    tracer.trace("End deserialize map 'XMLArrayContainerNode<", Value::class_name(), ">', handle: ", ret.get());
     return ret;
 }
 
@@ -113,8 +113,8 @@ template<class Value>
 template<class Formatter, class Tracer>
 void XMLArrayContainerNode<Value>::format_redeserialize_impl(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Go on - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(),
-                 "> handle:", this);
+    tracer.trace("Go on deserialize map 'XMLArrayContainerNode<", Value::class_name(),
+                 ">', handle: ", this);
 
     typename base::value_t &arr = this->getValue();
     std::shared_ptr<Value> elem;
@@ -127,8 +127,8 @@ void XMLArrayContainerNode<Value>::format_redeserialize_impl(Formatter& in, Trac
         tracer.trace("End array index: ", arr.size());
     } while (elem);
 
-    tracer.trace("Drop off - ", __FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(),
-                 "> handle:", this);
+    tracer.trace("Drop off deserialize map 'XMLArrayContainerNode<", Value::class_name(),
+                 ">', handle: ", this);
 }
 } // namespace txml
 #endif //XDXF_CREATOR_H

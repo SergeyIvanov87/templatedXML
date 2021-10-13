@@ -53,8 +53,10 @@ void Empty::schema_serialize_impl(Formatter& out, Tracer tracer)
 template<class Formatter, class Tracer>
 std::shared_ptr<Empty> Empty::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    return in.template map<Empty>(tracer);
+    tracer.trace("Begin deserialize map '", class_name(), "'");
+    auto ret = in.template map<Empty>(tracer);
+    tracer.trace("End deserialize map '", class_name(), "', handle: ", ret.get());
+    return ret;
 }
 
 template<class Formatter, class Tracer>

@@ -11,10 +11,13 @@ template<class Value>
 template<class Formatter, class Tracer>
 std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Format deserialize '", Value::class_name(), "'", " with node type '",
+    tracer.trace("Come in deserialize '", Value::class_name(), "', type '",
                  to_string(Value::class_node_type()), "'");
 
-    return Value::format_deserialize_impl(in, tracer);
+    auto ret =  Value::format_deserialize_impl(in, tracer);
+    tracer.trace("Leave out deserialize '", Value::class_name(), "', type '",
+                 to_string(Value::class_node_type()), "', handle: ", ret.get());
+    return ret;
 }
 
 template<class Value>
