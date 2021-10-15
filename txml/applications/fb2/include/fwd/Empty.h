@@ -6,14 +6,11 @@
 
 #include <txml/include/fwd/XMLNodeLeaf.h>
 #include <txml/include/fwd/XMLSerializable.h>
-#include <txml/include/fwd/XMLDeserializable.h>
 
 namespace fb2
 {
 class Empty : public txml::XMLNodeLeaf<Empty, std::string>,
-              public txml::XMLSerializable<Empty>,
-              public txml::XMLFormatDeserializable<Empty>,
-              public txml::XMLSchemaSerializable<Empty>
+              public txml::XMLSerializable<Empty>
 {
 public:
     using base = txml::XMLNodeLeaf<Empty, std::string>;
@@ -39,15 +36,6 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Empty> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace fb2
 #endif //EMPTY_H

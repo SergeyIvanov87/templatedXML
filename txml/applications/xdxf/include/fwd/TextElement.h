@@ -33,9 +33,7 @@ inline std::ostream& italic_off(std::ostream& os)
 namespace xdxf
 {
 class TextElement : public txml::XMLNodeLeaf<TextElement, std::string>,
-                    public txml::XMLSerializable<TextElement>,
-                    public txml::XMLFormatSerializable<TextElement>,
-                    public txml::XMLSchemaSerializable<TextElement>
+                    public txml::XMLSerializable<TextElement>
 {
 public:
     using base = txml::XMLNodeLeaf<TextElement, std::string>;
@@ -64,12 +62,6 @@ public:
 
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace xdxf
 #endif //KEY_PHRASE_H

@@ -19,6 +19,12 @@ XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(value_t&& v) :
 }
 
 template<TEMPL_ARGS_DECL>
+const char *XMLNodeLeaf<TEMPL_ARGS_DEF>::name() const noexcept
+{
+    return Impl::class_name();
+}
+
+template<TEMPL_ARGS_DECL>
 const typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t &XMLNodeLeaf<TEMPL_ARGS_DEF>::getValue() const
 {
     return val;
@@ -60,6 +66,38 @@ std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &rea
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
 void XMLNodeLeaf<TEMPL_ARGS_DEF>::fill_impl(TextReaderWrapper &reader, Tracer tracer)
+{
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
+{
+    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    out.template map<Impl>(*static_cast<const Impl *>(this), tracer);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNodeLeaf<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer tracer)
+{
+    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    out.template map<Impl>(tracer);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+{
+    tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
+    auto ret = in.template map<Impl>(tracer);
+    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret.get());
+    return ret;
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
 {
 }
 #undef TEMPL_ARGS_DEF

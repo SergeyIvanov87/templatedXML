@@ -26,25 +26,6 @@ void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) co
 }
 
 
-
-template<class Formatter, class Tracer>
-void Comment::format_serialize_impl(Formatter& out, Tracer tracer) const
-{
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    out.map(*this, tracer);
-}
-
-
-
-template<class Formatter, class Tracer>
-void Comment::schema_serialize_impl(Formatter& out, Tracer tracer)
-{
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    out.template map<Comment>(tracer);
-}
-
-
-
 template<class Tracer>
 std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {

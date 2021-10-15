@@ -63,32 +63,5 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name,
 
     return ret;
 }
-
-template<class Formatter, class Tracer>
-void FB2TextElement::schema_serialize_impl(Formatter& out, Tracer tracer)
-{
-    tracer.trace(__FUNCTION__, " - ", class_name());
-    out.template map<FB2TextElement>(tracer);
-}
-
-template<class Formatter, class Tracer>
-std::shared_ptr<FB2TextElement> FB2TextElement::format_deserialize_impl(Formatter& in, Tracer tracer)
-{
-    tracer.trace("Begin deserialize map '", class_name(), "'");
-    auto ret = in.template map<FB2TextElement>(tracer);
-    tracer.trace("End deserialize map '", class_name(), "', handle: ", ret.get());
-    return ret;
-}
-
-template<class Formatter, class Tracer>
-void FB2TextElement::format_redeserialize_impl(Formatter& in, Tracer tracer)
-{
-}
-/*
-template<class Tracer>
-void FB2TextElement::fill_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer)
-{
-}
-*/
 } // namespace fb2
 #endif //FB2_TEXT_ELEMENT_HPP

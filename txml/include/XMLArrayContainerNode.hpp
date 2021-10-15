@@ -11,8 +11,8 @@
 namespace txml
 {
 template<class Value>
-XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename base::value_t &&val) :
-    base(std::move(val))
+XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename aggregared_t::value_t &&val) :
+    leaf_node(std::move(val))
 {
 }
 
@@ -44,6 +44,19 @@ const char *XMLArrayContainerNode<Value>::name() const noexcept
 }
 
 template<class Value>
+const typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::getValue() const
+{
+    return leaf_node.getValue();
+}
+
+template<class Value>
+typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::getValue()
+{
+    return leaf_node.getValue();
+}
+
+
+template<class Value>
 template<class Tracer>
 void XMLArrayContainerNode<Value>::fill_impl(TextReaderWrapper &reader,
                                              Tracer tracer/* = Tracer()*/)
@@ -53,7 +66,7 @@ void XMLArrayContainerNode<Value>::fill_impl(TextReaderWrapper &reader,
     {
         tracer.trace("Fill XMLArrayContainerNode<", Value::class_name(), "> with: '",
                      elem->name(), "', handle: ", this);
-        base::getValue().push_back(std::move(elem));
+        leaf_node.getValue().push_back(std::move(elem));
     }
 }
 
@@ -63,7 +76,7 @@ void XMLArrayContainerNode<Value>::serialize_impl(std::ostream &out, Tracer trac
 {
     out << "<XMLArrayContainerNode<" << XMLArrayContainerNode<Value>::class_name() << ">>";
 
-    const typename base::value_t& array = base::getValue();
+    const typename aggregared_t::value_t& array = leaf_node.getValue();
     for (const auto& elem : array)
     {
         if (elem)
@@ -89,7 +102,7 @@ std::shared_ptr<XMLArrayContainerNode<Value>> XMLArrayContainerNode<Value>::form
 {
     tracer.trace("Begin deserialize map 'XMLArrayContainerNode<", Value::class_name(), ">'");
 
-    typename base::value_t arr;
+    typename aggregared_t::value_t arr;
     std::shared_ptr<Value> elem;
     do {
         tracer.trace("Begin array index: ", arr.size());
@@ -116,7 +129,7 @@ void XMLArrayContainerNode<Value>::format_redeserialize_impl(Formatter& in, Trac
     tracer.trace("Go on deserialize map 'XMLArrayContainerNode<", Value::class_name(),
                  ">', handle: ", this);
 
-    typename base::value_t &arr = this->getValue();
+    typename aggregared_t::value_t &arr = leaf_node.getValue();
     std::shared_ptr<Value> elem;
     do {
         tracer.trace("Begin array index: ", arr.size());

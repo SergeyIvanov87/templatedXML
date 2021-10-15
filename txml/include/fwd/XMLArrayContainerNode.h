@@ -19,14 +19,12 @@ inline std::ostream& no_sep (std::ostream& os);
 
 template<class Value>
 struct XMLArrayContainerNode : public XMLProducible<Value>,
-                               public XMLNodeLeaf<XMLArrayContainerNode<Value>,
-                                                  std::vector<std::shared_ptr<Value>>>,
                                public XMLSerializable<XMLArrayContainerNode<Value>>,
                                public XMLSchemaSerializable<XMLArrayContainerNode<Value>>,
                                public XMLFormatDeserializable<XMLArrayContainerNode<Value>>
 {
     using producible_base = XMLProducible<Value>;
-    using base = XMLNodeLeaf<XMLArrayContainerNode<Value>,
+    using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
                                                   std::vector<std::shared_ptr<Value>>>;
 
     //use tag name as child type
@@ -41,9 +39,12 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
         return Value::class_node_type();
     }
 
-    XMLArrayContainerNode(typename base::value_t &&val);
+    XMLArrayContainerNode(typename aggregared_t::value_t &&val);
 
-    const char *name() const noexcept override;
+    const char *name() const noexcept;
+
+    const typename aggregared_t::value_t& getValue() const;
+    typename aggregared_t::value_t& getValue();
 
     template<class Tracer = EmptyTracer>
     static std::shared_ptr<XMLArrayContainerNode<Value>> create(TextReaderWrapper &reader, Tracer tracer);
@@ -64,6 +65,8 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    aggregared_t leaf_node;
 };
 } // namespace txml
 #endif //XDXF_ARRAY_CONTAINER_NODE_H
