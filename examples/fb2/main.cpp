@@ -3,7 +3,7 @@
 
 
 #include <utils/Tracer.hpp>
-#include <applications/fb2/FictionBook.hpp>
+#include <applications/fb2/fb2.hpp>
 
 enum eLogLevel : int
 {
@@ -41,19 +41,15 @@ int main(int argc, char** argv)
         std::unique_ptr<TextReaderWrapper> xml_reader = std::make_unique<TextReaderWrapper>(xdxf_file_path);
         while(xml_reader->read())
         {
-            std::string name = xml_reader->get_name();
-
             std::shared_ptr<FictionBook> art;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
-                art = XMLCreator::try_create<FictionBook>(name,
-                                                          *xml_reader,
+                art = XMLCreator::try_create<FictionBook>(*xml_reader,
                                                           std_tracer);
             }
             else
             {
-                art = XMLCreator::try_create<FictionBook>(name,
-                                                          *xml_reader,
+                art = XMLCreator::try_create<FictionBook>(*xml_reader,
                                                           empty_tracer);
             }
 

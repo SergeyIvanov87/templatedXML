@@ -10,7 +10,7 @@ get_filename_component(PROCESS_DIR ${PROCESS_DIR} ABSOLUTE)
 
 # configure version
 set(TEMPLATEDXML_MAJOR_VERSION 0)
-set(TEMPLATEDXML_MINOR_VERSION 3)
+set(TEMPLATEDXML_MINOR_VERSION 5)
 set(TEMPLATEDXML_PATCH_VERSION 0)
 set(TEMPLATEDXML_VERSION
     ${TEMPLATEDXML_MAJOR_VERSION}.${TEMPLATEDXML_MINOR_VERSION}.${TEMPLATEDXML_PATCH_VERSION})
@@ -51,7 +51,10 @@ include_directories(
 add_subdirectory(txml)
 add_subdirectory(examples)
 
-export(TARGETS TXml templatedxml_fb2 templatedxml_xdxf templatedxml_xdxf_to_fb2 templatedxml_xdxf_to_schema
+export(TARGETS TXml templatedxml_fb2 templatedxml_xdxf
+                    templatedxml_xdxf_to_fb2
+                    templatedxml_xdxf_to_schema
+                    templatedxml_fb2_to_schema
     FILE "${PROJECT_BINARY_DIR}/TXmlTargets.cmake")
 
 export(PACKAGE TXml)

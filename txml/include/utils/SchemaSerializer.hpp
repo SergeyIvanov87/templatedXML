@@ -55,7 +55,7 @@ struct SingleElementSchemaSerializerBase
     template<class Tracer>
     void invoke(Tracer tracer)
     {
-        static_cast<Impl*>(this)->serialize_impl(SchemaTag<ElementType> {} , tracer);
+        static_cast<Impl*>(this)->serialize_schema_impl(SchemaTag<ElementType> {} , tracer);
     }
 
 protected:

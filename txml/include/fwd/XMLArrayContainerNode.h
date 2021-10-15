@@ -7,6 +7,8 @@
 
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/utils/Tracer.hpp>
@@ -17,10 +19,13 @@ inline std::ostream& no_sep (std::ostream& os);
 
 template<class Value>
 struct XMLArrayContainerNode : public XMLProducible<Value>,
-                               public txml::XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>
+                               public XMLSerializable<XMLArrayContainerNode<Value>>,
+                               public XMLSchemaSerializable<XMLArrayContainerNode<Value>>,
+                               public XMLFormatDeserializable<XMLArrayContainerNode<Value>>
 {
     using producible_base = XMLProducible<Value>;
-    using base = txml::XMLNodeLeaf<std::vector<std::shared_ptr<Value>>>;
+    using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
+                                                  std::vector<std::shared_ptr<Value>>>;
 
     //use tag name as child type
     static constexpr const char *class_name()
@@ -34,15 +39,34 @@ struct XMLArrayContainerNode : public XMLProducible<Value>,
         return Value::class_node_type();
     }
 
-    XMLArrayContainerNode(typename base::value_t &&val);
+    XMLArrayContainerNode(typename aggregared_t::value_t &&val);
 
-    const char *name() const noexcept override;
+    const char *name() const noexcept;
 
-    template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<XMLArrayContainerNode<Value>> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
+    const typename aggregared_t::value_t& getValue() const;
+    typename aggregared_t::value_t& getValue();
 
-    template<class Tracer = txml::EmptyTracer>
-    void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer = Tracer());
+    template<class Tracer = EmptyTracer>
+    static std::shared_ptr<XMLArrayContainerNode<Value>> create(TextReaderWrapper &reader, Tracer tracer);
+
+    template<class Tracer = EmptyTracer>
+    void fill_impl(TextReaderWrapper &reader, Tracer tracer = Tracer());
+
+
+    template<class Tracer = EmptyTracer>
+    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+
+    template<class Formatter, class Tracer = EmptyTracer>
+    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static std::shared_ptr<XMLArrayContainerNode<Value>>
+    format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
+
+    aggregared_t leaf_node;
 };
 } // namespace txml
-#endif //XDXF_PUBLISHING_H
+#endif //XDXF_ARRAY_CONTAINER_NODE_H

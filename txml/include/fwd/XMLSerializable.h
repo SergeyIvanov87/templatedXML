@@ -1,5 +1,5 @@
-#ifndef XDXF_PUBLISHING_H
-#define XDXF_PUBLISHING_H
+#ifndef XML_SERIALIZABLE_H
+#define XML_SERIALIZABLE_H
 
 #include <memory>
 #include <ostream>
@@ -32,4 +32,4 @@ struct XMLSchemaSerializable
     static void schema_serialize(Formatter& out, Tracer tracer = Tracer());
 };
 } // namespace txml
-#endif //XDXF_PUBLISHING_H
+#endif //XML_SERIALIZABLE_H

@@ -1,7 +1,8 @@
-#ifndef XDXF_PUBLISHING_HPP
-#define XDXF_PUBLISHING_HPP
+#ifndef XMK_SERIALIZABLE_HPP
+#define XMK_SERIALIZABLE_HPP
 
 #include <txml/include/fwd/XMLSerializable.h>
+#include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/utils.h>
 
 namespace txml
@@ -45,4 +46,4 @@ void XMLSchemaSerializable<Value>::schema_serialize(Formatter& out, Tracer trace
     Value::schema_serialize_impl(out, tracer);
 }
 } // namespace txml
-#endif //XDXF_PUBLISHING_HPP
+#endif //XMK_SERIALIZABLE_HPP

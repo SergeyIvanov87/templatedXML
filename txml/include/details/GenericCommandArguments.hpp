@@ -25,18 +25,21 @@ void ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
 
 template<TEMPL_ARGS_DECL>
 template<class Fabric, class ...CreationArgs>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
+bool ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
-    std::apply([&next_args...](std::shared_ptr<Arguments> &...element)
+    return std::apply([&next_args...](std::shared_ptr<Arguments> &...element) -> bool
     {
         bool dispatchingResult[]
             {
                 ((element = !element
                             ? Fabric::template try_create<Arguments>(std::forward<CreationArgs>(next_args)...)
                             : Fabric::template try_fill<Arguments>(element, std::forward<CreationArgs>(next_args)...)
-                           ), true)...
+                           ), element.get() != nullptr/* true if created, or false*/)...
             };
-        (void)dispatchingResult;
+        // success if one of element was created at least
+        return std::any_of(dispatchingResult, dispatchingResult + sizeof...(Arguments), [] (bool val) {
+            return val;
+        });
     }, storage);
 }
 
@@ -60,6 +63,27 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out
             };
         (void)dispatchingResult;
     }, storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class Formatter, class Tracer>
+bool ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatter &in, Tracer tracer)
+{
+    tracer.trace("START deserialize element from types count: (", sizeof...(Arguments), ")");
+    size_t deserialized_count = std::apply([&in, &tracer](std::shared_ptr<Arguments> &...element)
+    {
+        bool dispatchingResult[]
+            {
+                ((element = !element
+                            ? Arguments::format_deserialize(in, tracer)
+                            : Arguments::format_redeserialize(element, in, tracer)
+                            ), element.get() != nullptr/* true if created, or false*/)...
+            };
+        // success if one of element was created at least
+        return std::count(dispatchingResult, dispatchingResult + sizeof...(Arguments), true);
+    }, storage);
+    tracer.trace("FINISH deserialized elements: (", deserialized_count, " / ", sizeof...(Arguments), ")");
+    return deserialized_count;
 }
 
 template<TEMPL_ARGS_DECL>

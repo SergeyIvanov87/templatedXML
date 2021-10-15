@@ -3,7 +3,7 @@
 
 
 #include <utils/Tracer.hpp>
-#include <applications/xdxf/XDXFArticle.hpp>
+#include <applications/xdxf/xdxf.hpp>
 #include <applications/xdxf/serializer/to_fb2.hpp>
 
 enum eLogLevel : int
@@ -50,19 +50,15 @@ int main(int argc, char** argv)
 <body>)dict_header" << std::endl;;
         while(xml_reader->read())
         {
-            std::string name = xml_reader->get_name();
-
             std::shared_ptr<XDXFArticle> art;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
-                art = XMLCreator::try_create<XDXFArticle>(name,
-                                                          *xml_reader,
+                art = XMLCreator::try_create<XDXFArticle>(*xml_reader,
                                                           std_tracer);
             }
             else
             {
-                art = XMLCreator::try_create<XDXFArticle>(name,
-                                                          *xml_reader,
+                art = XMLCreator::try_create<XDXFArticle>(*xml_reader,
                                                           empty_tracer);
             }
 

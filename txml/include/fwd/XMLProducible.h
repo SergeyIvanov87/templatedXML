@@ -13,10 +13,10 @@ template<class Value>
 struct XMLProducible
 {
     template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Value> create_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
+    static std::shared_ptr<Value> create(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = txml::EmptyTracer>
-    void fill_impl(std::string &name, TextReaderWrapper &reader, Tracer tracer);
+    void fill_impl(TextReaderWrapper &reader, Tracer tracer);
 };
 } // namespace txml
 #endif //XDXF_PRODUCIBLE_H
