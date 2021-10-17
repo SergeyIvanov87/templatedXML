@@ -12,6 +12,6 @@
 #include <txml/include/XMLSerializable.hpp>
 #include <txml/include/XMLDeserializable.hpp>
 
-#include <engine/TextReaderWrap.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
 
 #endif // TXML_HPP

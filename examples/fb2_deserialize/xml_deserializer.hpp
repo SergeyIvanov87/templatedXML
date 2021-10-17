@@ -2,8 +2,8 @@
 #define XML_TO_FB2_DESERIALIZER_HPP
 
 #include <txml/include/utils/Deserializer.hpp>
-#include <engine/TextReaderWrap.hpp>
-#include <applications/fb2/fb2.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/applications/fb2/fb2.hpp>
 
 namespace fb2
 {

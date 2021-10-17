@@ -1,10 +1,8 @@
 #include <iostream>
-#include <engine/TextReaderWrap.hpp>
-
-
-#include <utils/Tracer.hpp>
-#include <applications/xdxf/xdxf.hpp>
-#include <applications/xdxf/serializer/to_fb2.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils/Tracer.hpp>
+#include <txml/applications/xdxf/xdxf.hpp>
+#include <txml/applications/xdxf/serializer/to_fb2.hpp>
 
 enum eLogLevel : int
 {

@@ -1,9 +1,7 @@
 #include <iostream>
-#include <engine/TextReaderWrap.hpp>
-
-
-#include <utils/Tracer.hpp>
-#include <applications/fb2/fb2.hpp>
+#include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/utils/Tracer.hpp>
+#include <txml/applications/fb2/fb2.hpp>
 
 enum eLogLevel : int
 {
