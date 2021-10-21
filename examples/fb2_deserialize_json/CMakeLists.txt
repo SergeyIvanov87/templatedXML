@@ -21,7 +21,6 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-#include(${BRANCH_ROOT}/cmake/FindJSON.cmake)
 include(FetchContent)
 
 FetchContent_Declare(json

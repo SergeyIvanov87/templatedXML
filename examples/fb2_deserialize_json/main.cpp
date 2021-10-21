@@ -18,17 +18,10 @@ int main(int argc, char** argv)
     using namespace txml;
     using namespace fb2;
 
-
-    if (argc < 2)
-    {
-        perror("need file name");
-        return -1;
-    }
-
     eLogLevel log_level = eLogLevel::ERROR_LEVEL;
-    if (argc > 2)
+    if (argc > 1)
     {
-        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[2]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL)));
+        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[1]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL)));
     }
 
     std::locale::global(std::locale(""));
