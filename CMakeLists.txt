@@ -17,6 +17,7 @@ set(TEMPLATEDXML_VERSION
 
 set(WITH_XMLPP OFF CACHE BOOL "Configure with libxml++")
 set(WITH_XML2 ON CACHE BOOL "Configure with libxml2")
+set(WITH_JSON_EXAMPLE OFF CACHE BOOL "Configure with JSON example")
 
 # set install_path's
 set(INSTALL_LIB_DIR lib/txml CACHE PATH "Installation directory for libraries")
@@ -51,12 +52,8 @@ include_directories(
 add_subdirectory(txml)
 add_subdirectory(examples)
 
-export(TARGETS TXml templatedxml_fb2 templatedxml_xdxf
-                    templatedxml_xdxf_to_fb2
-                    templatedxml_xdxf_to_schema
-                    templatedxml_fb2_to_schema
-    FILE "${PROJECT_BINARY_DIR}/TXmlTargets.cmake")
-
+export(TARGETS TXml ${EXAMPLE_TARGETS_EXPORT}
+       FILE "${PROJECT_BINARY_DIR}/TXmlTargets.cmake")
 export(PACKAGE TXml)
 
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
