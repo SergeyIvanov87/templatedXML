@@ -1,6 +1,8 @@
 #ifndef JSON_TO_FB2_DESERIALIZER_HPP
 #define JSON_TO_FB2_DESERIALIZER_HPP
 
+#include <stack>
+
 #include <nlohmann/json.hpp>
 
 #include <txml/include/utils/Deserializer.hpp>
@@ -28,10 +30,188 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
     FromJSON(json &obj) :
         in(obj)
     {
-        it = in.begin();
-        it_end = in.end();
+        iterators_stack.emplace(in.begin(), in.end());
     }
 
+
+    template<class Tracer>
+    std::shared_ptr<FictionBook> deserialize_impl(txml::details::SchemaDTag<FictionBook>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<FictionBook>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<FictionBook>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Description> deserialize_impl(txml::details::SchemaDTag<Description>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<Description>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<Description>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<TitleInfo> deserialize_impl(txml::details::SchemaDTag<TitleInfo>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<TitleInfo>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<TitleInfo>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<BookTitle> deserialize_impl(txml::details::SchemaDTag<BookTitle>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<BookTitle>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<BookTitle>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<FB2TextElement> deserialize_impl(txml::details::SchemaDTag<FB2TextElement>, Tracer tracer)
+    {
+        return {};
+    }
+
+    template<class Tracer>
+    std::shared_ptr<DocumentInfo> deserialize_impl(txml::details::SchemaDTag<DocumentInfo>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<DocumentInfo>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<DocumentInfo>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Empty> deserialize_impl(txml::details::SchemaDTag<Empty>, Tracer tracer)
+    {
+        return {};
+    }
+
+    template<class Tracer>
+    std::shared_ptr<PublishInfo> deserialize_impl(txml::details::SchemaDTag<PublishInfo>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_node_param<PublishInfo>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<PublishInfo>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Body> deserialize_impl(txml::details::SchemaDTag<Body>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_array_node_param<Body>(begin_it, end_it, json::value_t::array, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<Body>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Section> deserialize_impl(txml::details::SchemaDTag<Section>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_array_node_param<Section>(begin_it, end_it, json::value_t::array, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<Section>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
+    {
+        auto& [begin_it, end_it] = iterators_stack.top();
+        if (!check_array_node_param<Paragraph>(begin_it, end_it, json::value_t::object, tracer))
+        {
+            return {};
+        }
+
+        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        auto ret = create_deserialized_node<Paragraph>(tracer);
+        iterators_stack.pop();
+        ++begin_it;
+
+        return ret;
+    }
+
+    template<class Tracer>
+    std::shared_ptr<Binary> deserialize_impl(txml::details::SchemaDTag<Binary>, Tracer tracer)
+    {
+        return {};
+    }
+
+private:
+    json &in;
+
+    using begin_iterator_t = json::iterator;
+    using end_iterator_t = json::iterator;
+    using range_iterator = std::pair<begin_iterator_t, end_iterator_t>;
+    std::stack<range_iterator> iterators_stack;
 
     static const char* json_type_to_cstring(json::value_t type)
     {
@@ -59,219 +239,6 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
                 return "<unknown>";
         }
     }
-
-    template<class Tracer>
-    std::shared_ptr<FictionBook> deserialize_impl(txml::details::SchemaDTag<FictionBook>, Tracer tracer)
-    {
-        if (!check_node_param<FictionBook>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<FictionBook>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Description> deserialize_impl(txml::details::SchemaDTag<Description>, Tracer tracer)
-    {
-        if (!check_node_param<Description>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<Description>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<TitleInfo> deserialize_impl(txml::details::SchemaDTag<TitleInfo>, Tracer tracer)
-    {
-        if (!check_node_param<TitleInfo>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<TitleInfo>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<BookTitle> deserialize_impl(txml::details::SchemaDTag<BookTitle>, Tracer tracer)
-    {
-        if (!check_node_param<BookTitle>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<BookTitle>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<FB2TextElement> deserialize_impl(txml::details::SchemaDTag<FB2TextElement>, Tracer tracer)
-    {
-        return {};
-    }
-
-    template<class Tracer>
-    std::shared_ptr<DocumentInfo> deserialize_impl(txml::details::SchemaDTag<DocumentInfo>, Tracer tracer)
-    {
-        if (!check_node_param<DocumentInfo>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<DocumentInfo>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Empty> deserialize_impl(txml::details::SchemaDTag<Empty>, Tracer tracer)
-    {
-        return {};
-    }
-
-    template<class Tracer>
-    std::shared_ptr<PublishInfo> deserialize_impl(txml::details::SchemaDTag<PublishInfo>, Tracer tracer)
-    {
-        if (!check_node_param<PublishInfo>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<PublishInfo>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Body> deserialize_impl(txml::details::SchemaDTag<Body>, Tracer tracer)
-    {
-        if (!check_array_node_param<Body>(it, it_end, json::value_t::array, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<Body>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Section> deserialize_impl(txml::details::SchemaDTag<Section>, Tracer tracer)
-    {
-        if (!check_array_node_param<Section>(it, it_end, json::value_t::array, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<Section>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
-    {
-        if (!check_array_node_param<Paragraph>(it, it_end, json::value_t::object, tracer))
-        {
-            return {};
-        }
-
-        auto stored_it = it;
-        auto stored_it_end = it_end;
-
-        it = stored_it.value().begin();
-        it_end = stored_it.value().end();
-
-        auto ret = create_deserialized_node<Paragraph>(tracer);
-
-        it = ++stored_it;
-        it_end = stored_it_end;
-        return ret;
-    }
-
-    template<class Tracer>
-    std::shared_ptr<Binary> deserialize_impl(txml::details::SchemaDTag<Binary>, Tracer tracer)
-    {
-        return {};
-    }
-
-private:
-    json &in;
-    json::iterator it;
-    json::iterator it_end;
-
 
     template<class NodeType, class Tracer>
     static bool check_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
