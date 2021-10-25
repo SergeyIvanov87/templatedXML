@@ -21,23 +21,10 @@ if(NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-include(FetchContent)
-
-FetchContent_Declare(json
-  GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG v3.7.3)
-
-FetchContent_GetProperties(json)
-if(NOT json_POPULATED)
-  FetchContent_Populate(json)
-  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
-
 #==============================================================================
 # Setup project
 add_executable(${PROC_NAME} main.cpp)
-target_link_libraries(${PROC_NAME} TXml ${XML_TARGET} nlohmann_json::nlohmann_json)
+target_link_libraries(${PROC_NAME} TXml ${XML_TARGET} ${JSON_TARGET})
 set_property(TARGET ${PROC_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 

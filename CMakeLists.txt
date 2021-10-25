@@ -17,7 +17,7 @@ set(TEMPLATEDXML_VERSION
 
 set(WITH_XMLPP OFF CACHE BOOL "Configure with libxml++")
 set(WITH_XML2 ON CACHE BOOL "Configure with libxml2")
-set(WITH_JSON_EXAMPLE OFF CACHE BOOL "Configure with JSON example")
+set(WITH_JSON ON CACHE BOOL "Configure with JSON")
 
 # set install_path's
 set(INSTALL_LIB_DIR lib/txml CACHE PATH "Installation directory for libraries")
