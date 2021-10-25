@@ -44,7 +44,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<FictionBook>(tracer);
+        auto ret = create_deserialized_node<FictionBook>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -61,7 +61,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<Description>(tracer);
+        auto ret = create_deserialized_node<Description>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -78,7 +78,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<TitleInfo>(tracer);
+        auto ret = create_deserialized_node<TitleInfo>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -95,7 +95,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<BookTitle>(tracer);
+        auto ret = create_deserialized_node<BookTitle>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -118,7 +118,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<DocumentInfo>(tracer);
+        auto ret = create_deserialized_node<DocumentInfo>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -141,7 +141,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<PublishInfo>(tracer);
+        auto ret = create_deserialized_node<PublishInfo>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -158,7 +158,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<Body>(tracer);
+        auto ret = create_deserialized_node<Body>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -175,7 +175,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<Section>(tracer);
+        auto ret = create_deserialized_node<Section>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -192,7 +192,7 @@ struct FromJSON : public txml::FormatDeserializerBase<FromJSON, txml::StaticChec
         }
 
         iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<Paragraph>(tracer);
+        auto ret = create_deserialized_node<Paragraph>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         iterators_stack.pop();
         ++begin_it;
 
@@ -256,7 +256,7 @@ private:
         tracer.trace("Found '", key, "', value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
         if (value.type() != expected_type || key != NodeType::class_name())
         {
-            tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(json::value_t::object));
+            tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
             return false;
         }
         return true;
@@ -277,20 +277,31 @@ private:
         tracer.trace("Found: array element, value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
         if (value.type() != expected_type)
         {
-            tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(json::value_t::object));
+            tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
             return false;
         }
         return true;
     }
 
     template<class NodeType, class Tracer>
-    std::shared_ptr<NodeType> create_deserialized_node(Tracer tracer)
+    std::shared_ptr<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count)
     {
         std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
         tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
                      ret.get());
 
-        ret->format_deserialize_elements(*this, tracer);
+        size_t deserialized_item_count = ret->format_deserialize_elements(*this, tracer);
+        while (deserialized_item_count != available_item_count)
+        {
+            tracer.trace("refill node '", NodeType::class_name(), "' handle: ",
+                     ret.get(), " deserialized count: ", deserialized_item_count);
+            size_t next_portion_items = ret->format_deserialize_elements(*this, tracer);
+            if (deserialized_item_count == next_portion_items)
+            {
+                break; //nothing more
+            }
+            deserialized_item_count = next_portion_items;
+        }
         return ret;
     }
 };

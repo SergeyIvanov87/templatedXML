@@ -19,6 +19,13 @@ XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(value_t&& v) :
 }
 
 template<TEMPL_ARGS_DECL>
+XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(const value_t& v) :
+    base(),
+    val(v)
+{
+}
+
+template<TEMPL_ARGS_DECL>
 const char *XMLNodeLeaf<TEMPL_ARGS_DEF>::name() const noexcept
 {
     return Impl::class_name();

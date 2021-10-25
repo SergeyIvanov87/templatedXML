@@ -67,7 +67,7 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-bool ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatter &in, Tracer tracer)
+size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatter &in, Tracer tracer)
 {
     tracer.trace("START deserialize element from types count: (", sizeof...(Arguments), ")");
     size_t deserialized_count = std::apply([&in, &tracer](std::shared_ptr<Arguments> &...element)
@@ -79,7 +79,6 @@ bool ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatte
                             : Arguments::format_redeserialize(element, in, tracer)
                             ), element.get() != nullptr/* true if created, or false*/)...
             };
-        // success if one of element was created at least
         return std::count(dispatchingResult, dispatchingResult + sizeof...(Arguments), true);
     }, storage);
     tracer.trace("FINISH deserialized elements: (", deserialized_count, " / ", sizeof...(Arguments), ")");
