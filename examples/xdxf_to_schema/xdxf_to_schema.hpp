@@ -1,7 +1,7 @@
 #ifndef XDXF_TO_SCHEMA_SERIALIZER_HPP
 #define XDXF_TO_SCHEMA_SERIALIZER_HPP
 
-#include <txml/include/utils/SchemaSerializer.hpp>
+#include <txml/include/engine/SchemaSerializerBase.hpp>
 
 #include <txml/applications/xdxf/xdxf.hpp>
 
