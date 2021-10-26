@@ -11,6 +11,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/engine/fwd/TagHolder.h>
 #include <txml/include/utils/Tracer.hpp>
 
 namespace txml
@@ -21,11 +22,13 @@ template<class Value>
 struct XMLArrayContainerNode : public XMLProducible<Value>,
                                public XMLSerializable<XMLArrayContainerNode<Value>>,
                                public XMLSchemaSerializable<XMLArrayContainerNode<Value>>,
-                               public XMLFormatDeserializable<XMLArrayContainerNode<Value>>
+                               public XMLFormatDeserializable<XMLArrayContainerNode<Value>>,
+                               public TagHolder<ArrayTag>
 {
     using producible_base = XMLProducible<Value>;
     using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
                                                   std::vector<std::shared_ptr<Value>>>;
+    using tags_t = TagHolder<ArrayTag>;
 
     //use tag name as child type
     static constexpr const char *class_name()

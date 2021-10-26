@@ -13,6 +13,7 @@
 
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
+#include <txml/include/engine/fwd/TagHolder.h>
 
 namespace txml
 {
@@ -22,9 +23,11 @@ template<class Impl, class T>
 struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
                      public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
-                     public XMLSchemaSerializable<Impl>
+                     public XMLSchemaSerializable<Impl>,
+                     public TagHolder<LeafTag>
 {
     using base = std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>;
+    using tags_t = TagHolder<LeafTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;
     using value_t = T;
 
