@@ -64,7 +64,7 @@ int main(int argc, char** argv)
             }},
         };
 
-        FromJSON in(data);
+        Fb2FromJSON in(data);
 
         std::shared_ptr<FictionBook> art;
         do {

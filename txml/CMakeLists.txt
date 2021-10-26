@@ -9,6 +9,10 @@ if (WITH_XML2)
     include(${BRANCH_ROOT}/cmake/FindLibXML2.cmake)
 endif()
 ###############################################################
+if (WITH_JSON)
+    include(${BRANCH_ROOT}/cmake/FindJSON.cmake)
+endif()
+###############################################################
 
 # Header-only library
 add_library(TXml INTERFACE)
@@ -22,13 +26,13 @@ target_include_directories(
 #TODO remove extra INSTALL_INTERFACE include and refactor sources
 target_link_libraries(
   TXml
-  INTERFACE ${XML_TARGET})
+  INTERFACE ${XML_TARGET} ${JSON_TARGET})
 
 target_compile_definitions(
   TXml
   INTERFACE ${COMPILE_DEFS})
 
-add_dependencies(TXml ${XML_TARGET})
+add_dependencies(TXml ${XML_TARGET} ${JSON_TARGET})
 
 #set_target_properties(TXml PROPERTIES
 #  PUBLIC_HEADER include/TXml.hpp)
