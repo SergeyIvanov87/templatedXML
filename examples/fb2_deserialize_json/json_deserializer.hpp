@@ -9,37 +9,25 @@
 namespace fb2
 {
 
-struct Fb2FromJSON : public json::FromJSON<Fb2FromJSON,
-                                                    FictionBook,
-                                                        Description,
-                                                            TitleInfo,
-                                                                BookTitle,
-                                                                    FB2TextElement,
-                                                            DocumentInfo,
-                                                                Empty,
-                                                            PublishInfo,
-                                                                //Empty,
-                                                        Body,
-                                                            Section,
-                                                                Paragraph,
-                                                        Binary>
+#define DESERIALIZED_TYPES  FictionBook,                                    \
+                                        Description,                        \
+                                                TitleInfo,                  \
+                                                    BookTitle,              \
+                                                        FB2TextElement,     \
+                                                DocumentInfo,               \
+                                                    Empty,                  \
+                                                PublishInfo,                \
+                                                    /*Empty,*/              \
+                                                Body,                       \
+                                                    Section,                \
+                                                        Paragraph,          \
+                                                Binary
+
+struct Fb2FromJSON : public json::FromJSON<Fb2FromJSON, DESERIALIZED_TYPES>
 {
     using json = nlohmann::json;
+    using FromJSON<Fb2FromJSON, DESERIALIZED_TYPES>::deserialize_impl;
 
-    using FromJSON<Fb2FromJSON,
-                                                    FictionBook,
-                                                        Description,
-                                                            TitleInfo,
-                                                                BookTitle,
-                                                                    FB2TextElement,
-                                                            DocumentInfo,
-                                                                Empty,
-                                                            PublishInfo,
-                                                                //Empty,
-                                                        Body,
-                                                            Section,
-                                                                Paragraph,
-                                                        Binary>::deserialize_impl;
     template<class Tracer>
     std::shared_ptr<FB2TextElement> deserialize_impl(txml::details::SchemaDTag<FB2TextElement>, Tracer tracer)
     {
@@ -109,5 +97,6 @@ struct Fb2FromJSON : public json::FromJSON<Fb2FromJSON,
         return {};
     }
 };
+#undef DESERIALIZED_TYPES
 } // namespace fb2
 #endif //FB2_TO_SCHEMA_SERIALIZER_HPP

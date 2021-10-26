@@ -39,7 +39,7 @@ int main(int argc, char** argv)
         EmptyTracer empty_tracer;
 
         TextReaderWrapper xml_reader(xdxf_file_path);
-        FromXML in(xml_reader);
+        Fb2FromXML in(xml_reader);
 
         std::shared_ptr<FictionBook> art;
         do {
