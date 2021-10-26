@@ -3,6 +3,7 @@
 
 #include <tuple>
 #include <txml/include/details/fwd/SerializePolicies.h>
+#include <txml/include/engine/fwd/TagHolder.h>
 
 namespace txml
 {
@@ -12,7 +13,7 @@ template<class Impl, class ElementType>
 struct SingleElementDeserializerBase;
 
 template<class T>
-struct SchemaDTag {
+struct SchemaDTag : public T::tags_t {
     using Type = T;
 };
 
