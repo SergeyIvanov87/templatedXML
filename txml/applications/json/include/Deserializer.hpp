@@ -1,6 +1,7 @@
 #ifndef TXML_APPLICATION_JSON_FWD_DESERIALIZER_HPP
 #define TXML_APPLICATION_JSON_FWD_DESERIALIZER_HPP
 
+#include <txml/include/engine/FormatDeserializerBase.hpp>
 #include <txml/applications/json/include/fwd/Deserializer.h>
 
 namespace json

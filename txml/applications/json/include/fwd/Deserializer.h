@@ -5,7 +5,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include <txml/include/utils/Deserializer.hpp>
+#include <txml/include/engine/fwd/FormatDeserializerBase.h>
 
 namespace json
 {

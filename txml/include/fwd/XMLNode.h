@@ -13,6 +13,7 @@
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
+#include <txml/include/engine/fwd/TagHolder.h>
 
 namespace txml
 {
@@ -25,10 +26,12 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
                  public XMLSerializable<XMLNode<Impl, ContainedValues...>>,
                  public XMLFormatSerializable<XMLNode<Impl, ContainedValues...>>,
                  public XMLFormatDeserializable<Impl>,//XMLNode<Impl, ContainedValues...>>,
-                 public XMLSchemaSerializable<XMLNode<Impl, ContainedValues...>>
+                 public XMLSchemaSerializable<XMLNode<Impl, ContainedValues...>>,
+                 public TagHolder<ContainerTag>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = ArgumentContainerBase<ContainedValues...>;
+    using tags_t = TagHolder<ContainerTag>;
 
     virtual const char *name() const noexcept = 0;
 

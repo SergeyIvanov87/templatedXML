@@ -2,9 +2,8 @@
 #define SCHEMA_SERIALIZER_H
 
 #include <tuple>
-#include <type_traits>
-
-#include <txml/include/details/SerializePolicies.hpp>
+#include <txml/include/details/fwd/SerializePolicies.h>
+#include <txml/include/engine/fwd/TagHolder.h>
 
 namespace txml
 {
@@ -14,7 +13,7 @@ template<class Impl, class ElementType>
 struct SingleElementSchemaSerializerBase;
 
 template<class T>
-struct SchemaTag {
+struct SchemaTag : public T::tags_t  {
     using Type = T;
 };
 } // namespace details
@@ -29,38 +28,10 @@ struct SchemaSerializerBase : public details::SingleElementSchemaSerializerBase<
     using SelfType = SchemaSerializerBase<Impl, UnscopedElementProcessingPolicyType, ElementType...>;
 
     template<class InElement, class Tracer>
-    void map(Tracer tracer)
-    {
-        if constexpr(! std::disjunction_v<std::is_same<InElement,ElementType>...>)
-        {
-            UnscopedElementProcessingPolicyType::template process<SelfType, InElement, Tracer>(*this, tracer);
-        }
-        else
-        {
-            details::SingleElementSchemaSerializerBase<Impl, InElement>::invoke(tracer);
-        }
-    }
-
+    void map(Tracer tracer);
 protected:
     ~SchemaSerializerBase() = default;
 
 };
-
-
-namespace details
-{
-template<class Impl, class ElementType>
-struct SingleElementSchemaSerializerBase
-{
-    template<class Tracer>
-    void invoke(Tracer tracer)
-    {
-        static_cast<Impl*>(this)->serialize_schema_impl(SchemaTag<ElementType> {} , tracer);
-    }
-
-protected:
-    ~SingleElementSchemaSerializerBase() = default;
-};
-} // namespace details
 } // namespace txml
 #endif //SCHEMA_SERIALIZER_H

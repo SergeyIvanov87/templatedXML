@@ -1,7 +1,7 @@
 #ifndef FB2_TO_SCHEMA_SERIALIZER_HPP
 #define FB2_TO_SCHEMA_SERIALIZER_HPP
 
-#include <txml/include/utils/SchemaSerializer.hpp>
+#include <txml/include/engine/SchemaSerializerBase.hpp>
 #include <txml/applications/fb2/fb2.hpp>
 
 namespace fb2
