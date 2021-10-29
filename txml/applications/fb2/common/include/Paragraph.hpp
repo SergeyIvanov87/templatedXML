@@ -17,7 +17,7 @@ const char *Paragraph::name() const noexcept
 
 const Paragraph::value_t &Paragraph::getValue() const
 {
-    auto val = base::get<FB2TextElement>();
+    auto val = base::getValue<FB2TextElement>();
     if (!val)
     {
         std::ostringstream ptr;

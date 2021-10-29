@@ -45,7 +45,7 @@ struct Fb2FromJSON : public json::FromJSON<Fb2FromJSON, DESERIALIZED_TYPES>
     template<class Tracer>
     std::shared_ptr<Body> deserialize_impl(txml::details::SchemaDTag<Body>, Tracer tracer)
     {
-        static_assert(std::is_base_of_v<txml::TagHolder<txml::ContainerTag>, txml::details::SchemaDTag<Body>>, "Must be ContainerTag");
+        static_assert(std::is_base_of_v<txml::TagHolder<txml::ArrayTag>, txml::details::SchemaDTag<Body>>, "Must be ArrayTag");
         auto& [begin_it, end_it] = iterators_stack.top();
         if (!check_array_node_param<Body>(begin_it, end_it, json::value_t::array, tracer))
         {
@@ -63,6 +63,8 @@ struct Fb2FromJSON : public json::FromJSON<Fb2FromJSON, DESERIALIZED_TYPES>
     template<class Tracer>
     std::shared_ptr<Section> deserialize_impl(txml::details::SchemaDTag<Section>, Tracer tracer)
     {
+        static_assert(std::is_base_of_v<txml::TagHolder<txml::ArrayTag>, txml::details::SchemaDTag<Section>>, "Must be ArrayTag");
+
         auto& [begin_it, end_it] = iterators_stack.top();
         if (!check_array_node_param<Section>(begin_it, end_it, json::value_t::array, tracer))
         {

@@ -61,25 +61,20 @@ int main(int argc, char** argv)
         }
 
         //Extract inner tags: `Body`
-        auto body = art->get<Body>();
+        auto body = art->getValue<Body>();
         if (body)
         {
             //Extract 'Section'
-            auto section_container = body->get<XMLArrayContainerNode<Section>>();
-            if (section_container)
+            const auto& section_container = body->getValue();
+            for (const auto& section : section_container)
             {
-                //Extract array of `Paragraph`s
-                const auto &array = section_container->getValue();
-                for (const auto& section : array)
+                const auto& paragraphs = section->getValue();
+                for (const auto & paragraph : paragraphs)
                 {
-                    const auto& paragraphs = section->get<XMLArrayContainerNode<Paragraph>>();
-                    for (const auto & paragraph : paragraphs->getValue())
+                    auto paragraph_val = paragraph->getValue();
+                    if (log_level >= eLogLevel::DEBUG_LEVEL)
                     {
-                        auto paragraph_val = paragraph->getValue();
-                        if (log_level >= eLogLevel::DEBUG_LEVEL)
-                        {
-                            std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
-                        }
+                        std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
                     }
                 }
             }

@@ -10,7 +10,7 @@ namespace txml
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentPtr<T> ArgumentContainerBase<Arguments...>::get() const
+typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentPtr<T> ArgumentContainerBase<Arguments...>::getValue() const
 {
     return std::get<ArgumentPtr<T>>(storage);
 }
@@ -43,12 +43,6 @@ bool ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_a
     }, storage);
 }
 
-template<TEMPL_ARGS_DECL>
-template<class Argument, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer) const
-{
-    this->get<Argument>()->serialize_impl(out, tracer);
-}
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer, class EndElementManipulator>
