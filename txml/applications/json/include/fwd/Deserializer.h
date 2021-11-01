@@ -9,6 +9,11 @@
 
 namespace json
 {
+
+template<class T>
+static constexpr nlohmann::json::value_t type_to_json_type();
+
+
 template<class Impl, class ...DeserializedItems>
 struct FromJSON : public txml::FormatDeserializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                     DeserializedItems...>
@@ -27,6 +32,13 @@ protected:
     using end_iterator_t = json::iterator;
     using range_iterator = std::pair<begin_iterator_t, end_iterator_t>;
     std::stack<range_iterator> iterators_stack;
+
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer);
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer);
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer);
 
     static const char* json_type_to_cstring(json::value_t type)
     {
