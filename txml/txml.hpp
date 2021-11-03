@@ -3,7 +3,6 @@
 
 #include <txml/txml_fwd.h>
 
-#include <txml/include/XMLArrayContainerNode.hpp>
 #include <txml/include/XMLCreator.hpp>
 #include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/XMLNode.hpp>
@@ -13,5 +12,10 @@
 #include <txml/include/XMLDeserializable.hpp>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/engine/FormatDeserializerBase.hpp>
+#include <txml/include/engine/FormatSerializerBase.hpp>
+#include <txml/include/engine/SchemaSerializerBase.hpp>
+#include <txml/include/engine/FormatDeserializerBase.hpp>
+#include <txml/include/details/GenericContainerImpl.hpp>
 
 #endif // TXML_HPP

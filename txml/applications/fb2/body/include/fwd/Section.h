@@ -1,16 +1,15 @@
 #ifndef FB2_SECTION_H
 #define FB2_SECTION_H
 
-#include <txml/include/fwd/XMLNode.h>
-#include <txml/include/fwd/XMLArrayContainerNode.h>
+#include <txml/include/fwd/XMLArray.h>
 
 namespace fb2
 {
 class Paragraph;
-class Section : public txml::XMLNode<Section, txml::XMLArrayContainerNode<Paragraph>>
+class Section : public txml::XMLArray<Section, Paragraph>
 {
 public:
-    using base = txml::XMLNode<Section>;
+    using base = txml::XMLArray<Section, Paragraph>;
 
     static constexpr const char *class_name()
     {
@@ -21,8 +20,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FB2_SECTION_H

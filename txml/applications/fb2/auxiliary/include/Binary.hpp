@@ -15,7 +15,7 @@ const char *Binary::name() const noexcept
 
 const Binary::value_t &Binary::getValue() const
 {
-    auto val = base::get<Empty>();
+    auto val = base::getValue<Empty>();
     if (!val)
     {
         throw std::runtime_error(std::string(Binary::class_name()) + " - no value");

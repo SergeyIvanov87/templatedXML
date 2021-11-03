@@ -20,6 +20,31 @@ template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
+    return deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class DeserializedItem, class Tracer>
+std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+{
+    auto& [begin_it, end_it] = iterators_stack.top();
+    if (!check_array_node_param<DeserializedItem>(begin_it, end_it, json::value_t::array, tracer))
+    {
+        return {};
+    }
+
+    iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+    auto ret = create_deserialized_node<DeserializedItem>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
+    iterators_stack.pop();
+    ++begin_it;
+
+    return ret;
+}
+
+template<TEMPL_ARGS_DECL>
+template<class DeserializedItem, class Tracer>
+std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+{
     auto& [begin_it, end_it] = iterators_stack.top();
     if (!check_node_param<DeserializedItem>(begin_it, end_it, json::value_t::object, tracer))
     {
@@ -34,6 +59,20 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txm
     return ret;
 }
 
+template<TEMPL_ARGS_DECL>
+template<class DeserializedItem, class Tracer>
+std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+{
+    auto& [begin_it, end_it] = iterators_stack.top();
+    if (!check_array_node_param<DeserializedItem>(begin_it, end_it,
+                                                  type_to_json_type<typename DeserializedItem::value_t>(),
+                                                  tracer))
+    {
+        return {};
+    }
+
+    return std::make_shared<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
+}
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
@@ -102,6 +141,33 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
     }
     return ret;
 }
+
+
+// TODO naive mapping
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<bool>()
+{ return nlohmann::json::value_t::boolean; }
+
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<std::string>()
+{ return nlohmann::json::value_t::string; }
+
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<int>()
+{ return nlohmann::json::value_t::number_integer; }
+
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<uint>()
+{ return nlohmann::json::value_t::number_unsigned; }
+
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<float>()
+{ return nlohmann::json::value_t::number_float; }
+
+template<>
+constexpr nlohmann::json::value_t type_to_json_type<double>()
+{ return nlohmann::json::value_t::number_float; }
+
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 }

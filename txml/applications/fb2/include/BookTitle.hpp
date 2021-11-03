@@ -15,7 +15,7 @@ const char *BookTitle::name() const noexcept
 
 const BookTitle::value_t &BookTitle::getValue() const
 {
-    auto val = base::get<FB2TextElement>();
+    auto val = base::getValue<FB2TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(BookTitle::class_name()) + " - no value");

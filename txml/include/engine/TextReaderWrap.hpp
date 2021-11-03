@@ -2,7 +2,6 @@
 #define TXML_ENGINE_TEXT_READER_WRAP_HPP
 
 #ifdef WITH_XMLPP
-#include <txml/include/engine/TextReaderWrap.hpp>
 namespace txml
 {
 using TextReaderWrapper = xmlpp::TextReader;

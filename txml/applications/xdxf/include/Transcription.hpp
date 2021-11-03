@@ -19,7 +19,7 @@ const char *Transcription::name() const noexcept
 
 const Transcription::value_t &Transcription::getValue() const
 {
-    auto val = base::get<TextElement>();
+    auto val = base::getValue<TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(Transcription::class_name()) + " - no value");

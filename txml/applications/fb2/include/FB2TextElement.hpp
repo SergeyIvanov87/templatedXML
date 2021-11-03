@@ -49,6 +49,7 @@ template<class Tracer>
 std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<FB2TextElement> ret;
+    tracer.trace("start to create '", class_name(), "'");
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();

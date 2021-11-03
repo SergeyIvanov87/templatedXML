@@ -32,7 +32,7 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
     using value_t = T;
 
     XMLNodeLeaf(value_t&& v);
-    XMLNodeLeaf(const value_t& v);
+    XMLNodeLeaf(const value_t& v = value_t()); /*TODO required default value. Make pointer*/
     virtual const char *name() const noexcept;
 
     std::shared_ptr<XMLNodeLeaf<Impl, T>> get_ptr();

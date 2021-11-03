@@ -17,14 +17,8 @@ public:
     template<class Fabric, class ...CreationArgs>
     bool create_from(CreationArgs&&... next_args);
 
-    template<class Argument, class Tracer>
-    void serialize_impl(std::ostream &out, Tracer tracer) const;
-
     template<class Tracer, class EndElementManipulator>
     void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
-
-    template<class Formatter, class Tracer>
-    size_t format_deserialize_elements(Formatter &in, Tracer tracer);
 
     template<class Formatter, class Tracer>
     void format_serialize_elements(Formatter &out, Tracer tracer) const;
@@ -32,8 +26,14 @@ public:
     template<class Formatter, class Tracer>
     static void schema_serialize_elements(Formatter &out, Tracer tracer);
 
+    template<class Element, class Formatter, class Tracer>
+    static void schema_serialize_element(Formatter &out, Tracer tracer);
+
+    template<class Formatter, class Tracer>
+    size_t format_deserialize_elements(Formatter &in, Tracer tracer);
+
     template<class T>
-    ArgumentPtr<T> get() const;
+    ArgumentPtr<T> getValue() const;
 
     template<class T>
     void set(ArgumentPtr<T> arg);

@@ -57,10 +57,10 @@ int main(int argc, char** argv)
             }
 
             //Extract inner tags: KeyPhrase, Comment, Transcription and TextElement
-            auto key_phrase = art->get<KeyPhrase>();
-            auto comment = art->get<Comment>();
-            auto transcr = art->get<Transcription>();
-            auto text = art->get<TextElement>();
+            auto key_phrase = art->getValue<KeyPhrase>();
+            auto comment = art->getValue<Comment>();
+            auto transcr = art->getValue<Transcription>();
+            auto text = art->getValue<TextElement>();
 
             //Printout
             if (key_phrase)

@@ -18,7 +18,7 @@ const char *KeyPhrase::name() const noexcept
 
 const KeyPhrase::value_t &KeyPhrase::getValue() const
 {
-    auto val = base::get<TextElement>();
+    auto val = base::getValue<TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(KeyPhrase::class_name()) + " - no value");
