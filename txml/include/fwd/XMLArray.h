@@ -21,26 +21,16 @@ template<class Impl, class ElementType>
 struct XMLArray : public std::enable_shared_from_this<XMLArray<Impl, ElementType>>,
                  public XMLProducible<Impl>,
                  public XMLArrayContainerNode<ElementType>,
-                 public XMLSerializable<Impl>,//<XMLArray<Impl, ElementType>>,
-                 public XMLFormatSerializable<Impl>, //<XMLArray<Impl, ElementType>>,
-                 public XMLFormatDeserializable<Impl>,//XMLArray<Impl, ElementType>>,
-                 public XMLSchemaSerializable<Impl>,//<XMLArray<Impl, ElementType>>,
+                 public XMLSerializable<Impl>,
+                 public XMLFormatSerializable<Impl>,
+                 public XMLFormatDeserializable<Impl>,
+                 public XMLSchemaSerializable<Impl>,
                  public TagHolder<ArrayTag>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = XMLArrayContainerNode<ElementType>;
     using tags_t = TagHolder<ArrayTag>;
-/*
-    static constexpr const char* class_name()
-    {
-        return "XMLArray";
-    }
 
-    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
-    {
-        return txml::TextReaderWrapper::NodeType::Element;
-    };
-*/
     std::shared_ptr<XMLArray<Impl, ElementType>> get_ptr();
 
     template<class Tracer = txml::EmptyTracer>

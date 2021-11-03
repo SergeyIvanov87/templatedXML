@@ -7,7 +7,7 @@
 namespace txml
 {
 template<class ...Tags>
-struct TagHolder : public Tags... {};// = std::tuple<Tags...>;
+struct TagHolder : public Tags... {};
 
 template<class Tag, class ...HolderTags>
 constexpr bool isContainTag(TagHolder<HolderTags...>)

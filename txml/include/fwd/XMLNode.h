@@ -23,10 +23,10 @@ template<class Impl, class ...ContainedValues>
 struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValues...>>,
                  public XMLProducible<Impl>,
                  public ArgumentContainerBase<ContainedValues...>,
-                 public XMLSerializable<Impl>,//<XMLNode<Impl, ContainedValues...>>,
-                 public XMLFormatSerializable<Impl>, //<XMLNode<Impl, ContainedValues...>>,
-                 public XMLFormatDeserializable<Impl>,//XMLNode<Impl, ContainedValues...>>,
-                 public XMLSchemaSerializable<Impl>,//XMLNode<Impl, ContainedValues...>>,
+                 public XMLSerializable<Impl>,
+                 public XMLFormatSerializable<Impl>,
+                 public XMLFormatDeserializable<Impl>,
+                 public XMLSchemaSerializable<Impl>,
                  public TagHolder<ContainerTag>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
@@ -34,17 +34,7 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     using tags_t = TagHolder<ContainerTag>;
 
     virtual const char *name() const noexcept = 0;
-/*
-    static constexpr const char* class_name()
-    {
-        return "XMLNode";
-    }
 
-    static constexpr txml::TextReaderWrapper::NodeType class_node_type()
-    {
-        return txml::TextReaderWrapper::NodeType::Element;
-    };
-*/
     std::shared_ptr<XMLNode<Impl, ContainedValues...>> get_ptr();
 
     template<class Tracer = txml::EmptyTracer>
