@@ -7,18 +7,19 @@
 
 namespace fb2
 {
-#define DESERIALIZED_TYPES  FictionBook,                                    \
-                                        Description,                        \
-                                                TitleInfo,                  \
-                                                    BookTitle,              \
-                                                        FB2TextElement,     \
-                                                DocumentInfo,               \
-                                                    Empty,                  \
-                                                PublishInfo,                \
-                                                    /*Empty,*/              \
-                                                Body,                       \
-                                                    Section,                \
-                                                        Paragraph,          \
+#define DESERIALIZED_TYPES  FictionBook,                                                            \
+                                        Description,                                                \
+                                                TitleInfo,                                          \
+                                                    BookTitle,                                      \
+                                                        FB2TextElement,                             \
+                                                DocumentInfo,                                       \
+                                                    Empty,                                          \
+                                                PublishInfo,                                        \
+                                                    /*Empty,*/                                      \
+                                                Body,                                               \
+                                                    Section,                                        \
+                                                        Paragraph,                                  \
+                                                            /*FB2TextElement,*/                     \
                                                 Binary
 
 
@@ -34,19 +35,6 @@ struct Fb2FromXML : public xml::FromXML<Fb2FromXML,  DESERIALIZED_TYPES>
         }
 
         return create_deserialized_node<FictionBook>(tracer);
-    }
-
-    template<class Tracer>
-    std::shared_ptr<FB2TextElement> deserialize_impl(txml::details::SchemaDTag<FB2TextElement>, Tracer tracer)
-    {
-        return std::shared_ptr<FB2TextElement>{};
-    }
-
-
-    template<class Tracer>
-    std::shared_ptr<Empty> deserialize_impl(txml::details::SchemaDTag<Empty>, Tracer tracer)
-    {
-        return std::shared_ptr<Empty>{};
     }
 };
 
