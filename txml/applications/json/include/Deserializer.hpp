@@ -20,18 +20,6 @@ template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
-    /*auto& [begin_it, end_it] = iterators_stack.top();
-    if (!check_node_param<DeserializedItem>(begin_it, end_it, json::value_t::object, tracer))
-    {
-        return {};
-    }
-
-    iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
-    auto ret = create_deserialized_node<DeserializedItem>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
-    iterators_stack.pop();
-    ++begin_it;
-
-    return ret;*/
     return deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 

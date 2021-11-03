@@ -1,6 +1,9 @@
 #ifndef GENERIC_COMMANDARGUMENTS_VALUE_HPP
 #define GENERIC_COMMANDARGUMENTS_VALUE_HPP
 
+#include <algorithm>
+#include <type_traits>
+
 #include <txml/include/details/GenericCommandArguments.h>
 
 namespace txml
@@ -106,6 +109,16 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_elements(Formatter 
         (void)dispatchingResult;
     }, Tuple {});
 }
+
+template<TEMPL_ARGS_DECL>
+template<class Element, class Formatter, class Tracer>
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_element(Formatter &out, Tracer tracer)
+{
+    static_assert(std::disjunction_v<std::is_same<Element, Arguments>...>, "Element type must be"
+                  " one of Arguments type");
+    Element::schema_serialize(out, tracer);
+}
+
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

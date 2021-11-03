@@ -26,6 +26,9 @@ public:
     template<class Formatter, class Tracer>
     static void schema_serialize_elements(Formatter &out, Tracer tracer);
 
+    template<class Element, class Formatter, class Tracer>
+    static void schema_serialize_element(Formatter &out, Tracer tracer);
+
     template<class Formatter, class Tracer>
     size_t format_deserialize_elements(Formatter &in, Tracer tracer);
 
