@@ -3,7 +3,6 @@
 
 #include <stack>
 
-#include <txml/txml_fwd.h>
 #include <txml/applications/fb2/fb2.hpp>
 #include <txml/applications/json/json.hpp>
 

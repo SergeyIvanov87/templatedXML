@@ -2,6 +2,7 @@
 #define TXML_APPLICATION_XDFX_HPP
 
 #include <txml/applications/xdxf/xdxf_fwd.h>
+#include <txml/txml.hpp>
 
 #include <txml/applications/xdxf/include/XDXFArticle.hpp>
 #include <txml/applications/xdxf/include/Comment.hpp>

@@ -2,6 +2,9 @@
 #define TXML_FWD_H
 
 #include <txml/include/details/fwd/GenericContainerImpl.h>
+#include <txml/include/details/fwd/TracerPolicies.h>
+#include <txml/include/engine/fwd/TextReaderWrap.h>
+
 #include <txml/include/fwd/XMLCreator.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/fwd/XMLNode.h>
@@ -17,5 +20,9 @@
 #include <txml/include/engine/fwd/Helpers.h>
 
 #include <txml/include/engine/fwd/TagHolder.h>
+
+#include <txml/include/utils/fwd/Tracer.h>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
+#include <txml/include/utils/fwd/specific_tracer/StdOutTracer.h>
 
 #endif // TXML_FWD_H

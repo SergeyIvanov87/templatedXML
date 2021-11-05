@@ -8,17 +8,16 @@
 #include <optional>
 #include <vector>
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 #include <txml/include/details/GenericCommandArguments.h>
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
+#include <txml/include/engine/fwd/TextReaderWrap.h>
 
 namespace txml
 {
-struct TextReaderWrapper;
-
 template<class Impl, class ...ContainedValues>
 struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValues...>>,
                  public XMLProducible<Impl>,

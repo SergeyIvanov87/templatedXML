@@ -3,6 +3,8 @@
 
 #include <txml/applications/fb2/fb2_fwd.h>
 
+#include <txml/txml.hpp>
+
 #include <txml/applications/fb2/auxiliary/fb2_aux.hpp>
 #include <txml/applications/fb2/body/fb2_body.hpp>
 #include <txml/applications/fb2/common/fb2_common.hpp>

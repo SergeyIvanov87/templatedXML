@@ -1,6 +1,5 @@
 #include <iostream>
-#include <txml/include/engine/TextReaderWrap.hpp>
-#include <txml/include/utils/Tracer.hpp>
+
 #include <txml/applications/fb2/fb2.hpp>
 
 #include "xml_deserializer.hpp"

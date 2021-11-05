@@ -11,7 +11,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 
 #include <txml/include/engine/fwd/TagHolder.h>
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 namespace txml
 {

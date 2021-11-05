@@ -1,6 +1,6 @@
 #include <iostream>
-#include <txml/include/engine/TextReaderWrap.hpp>
-#include <txml/include/utils/Tracer.hpp>
+
+#include <txml/txml.hpp>
 #include <txml/applications/xdxf/xdxf.hpp>
 
 enum eLogLevel : int

@@ -1,9 +1,7 @@
 #ifndef XML_TO_FB2_DESERIALIZER_HPP
 #define XML_TO_FB2_DESERIALIZER_HPP
 
-#include <txml/txml_fwd.h>
 #include <txml/applications/xml/xml.hpp>
-#include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/applications/fb2/fb2.hpp>
 
 namespace fb2
