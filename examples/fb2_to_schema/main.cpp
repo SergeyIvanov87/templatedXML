@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include <txml/txml.hpp>
 #include <txml/applications/fb2/fb2.hpp>
-#include <txml/include/utils/Tracer.hpp>
 #include "fb2_to_schema.hpp"
 
 enum eLogLevel : int

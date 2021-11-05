@@ -1,7 +1,7 @@
 #ifndef PARAMS_PACKING_H
 #define PARAMS_PACKING_H
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 namespace txml
 {

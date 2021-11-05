@@ -5,12 +5,11 @@
 #include <memory>
 #include <string>
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/engine/fwd/TextReaderWrap.h>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 namespace txml
 {
-struct TextReaderWrapper;
-
 struct XMLCreator
 {
     template<class Value, class Tracer = txml::EmptyTracer>

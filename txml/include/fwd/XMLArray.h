@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 #include <txml/include/details/fwd/GenericContainerImpl.h>
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>

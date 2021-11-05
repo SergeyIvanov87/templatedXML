@@ -4,7 +4,7 @@
 #include <memory>
 #include <ostream>
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 namespace txml
 {

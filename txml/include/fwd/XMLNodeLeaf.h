@@ -9,7 +9,8 @@
 #include <optional>
 #include <vector>
 
-#include <txml/include/utils/Tracer.hpp>
+#include <txml/include/engine/fwd/TextReaderWrap.h>
+#include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
@@ -17,8 +18,6 @@
 
 namespace txml
 {
-struct TextReaderWrapper;
-
 template<class Impl, class T>
 struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
                      public XMLFormatSerializable<Impl>,
