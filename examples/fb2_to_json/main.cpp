@@ -18,10 +18,16 @@ int main(int argc, char** argv)
     using namespace fb2;
     using namespace json;
 
+    if (argc < 2)
+    {
+        perror("need file name");
+        return -1;
+    }
+
     eLogLevel log_level = eLogLevel::ERROR_LEVEL;
     if (argc > 2)
     {
-        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[1]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL)));
+        log_level = static_cast<eLogLevel>(std::max(std::atoi(argv[2]), static_cast<std::underlying_type_t<eLogLevel>>(eLogLevel::ERROR_LEVEL)));
     }
     std::string xdxf_file_path(argv[1]);
     std::locale::global(std::locale(""));
@@ -54,15 +60,21 @@ int main(int argc, char** argv)
                 continue;
             }
 
-            //To JSON format
+            // To JSON format
+            std::cout << "Begin serialize to JSON" << std::endl;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
                 art->format_serialize(serializer, std_tracer);
+                serializer.finalize(std_tracer);
             }
             else
             {
                 art->format_serialize(serializer, empty_tracer);
+                serializer.finalize(empty_tracer);
             }
+
+            std::cout << "Dump serialized JSON:" << std::endl;
+            std::cout << data.dump() << std::endl;
         }
     }
     catch(const std::exception& e)

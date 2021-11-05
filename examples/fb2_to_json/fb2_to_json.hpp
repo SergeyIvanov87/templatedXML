@@ -25,10 +25,7 @@ TXML_DECLARE_SERIALIZER_CLASS(Fb2ToJSON, ToJSON,
 {
     TXML_SERIALIZER_OBJECT
     using json = nlohmann::json;
-    template<class Tracer>
-    void serialize_impl(const fb2::Paragraph &value, Tracer tracer)
-    {
-    }
+
 };
 } // namespace json
 

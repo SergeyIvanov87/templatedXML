@@ -15,6 +15,11 @@ struct ToJSON : public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscope
 {
     using json = nlohmann::json;
     ToJSON(json &out_obj);
+    ~ToJSON();
+
+    // finalize routine: drain all to out
+    template<class Tracer>
+    void finalize(Tracer tracer);
 
     // default serialization routine
     template<class SerializedItem, class Tracer>
@@ -22,11 +27,7 @@ struct ToJSON : public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscope
 
 protected:
     json &out;
-
-    using begin_iterator_t = json::iterator;
-    using end_iterator_t = json::iterator;
-    using range_iterator = std::pair<begin_iterator_t, end_iterator_t>;
-    std::stack<range_iterator> iterators_stack;
+    std::stack<json> json_object_stack;
 
     template<class SerializedItem, class Tracer>
     void serialize_tag_impl(const SerializedItem& value, const txml::ArrayTag&, Tracer &tracer);
