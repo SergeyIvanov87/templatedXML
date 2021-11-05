@@ -1,8 +1,9 @@
-#ifndef TXML_APPLICATION_JSON_FWD_DESERIALIZER_HPP
-#define TXML_APPLICATION_JSON_FWD_DESERIALIZER_HPP
+#ifndef TXML_APPLICATION_JSON_DESERIALIZER_HPP
+#define TXML_APPLICATION_JSON_DESERIALIZER_HPP
 
 #include <txml/include/engine/FormatDeserializerBase.hpp>
 #include <txml/applications/json/include/fwd/Deserializer.h>
+#include <txml/applications/json/include/utils.hpp>
 
 namespace json
 {
@@ -65,7 +66,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 {
     auto& [begin_it, end_it] = iterators_stack.top();
     if (!check_leaf_node_param<DeserializedItem>(begin_it, end_it,
-                                                 type_to_json_type<typename DeserializedItem::value_t>(),
+                                                 utils::type_to_json_type<typename DeserializedItem::value_t>(),
                                                  tracer))
     {
         return {};
@@ -88,10 +89,10 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json::iterator& cur_it, const js
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -110,10 +111,10 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json::iterator& cur_it, co
 
     const auto& value = cur_it.value();
 
-    tracer.trace("Found: array element, value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace("Found: array element, value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
     if (value.type() != expected_type)
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -134,10 +135,10 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json::iterator& cur_it, con
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -166,33 +167,7 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
     return ret;
 }
 
-
-// TODO naive mapping
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<bool>()
-{ return nlohmann::json::value_t::boolean; }
-
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<std::string>()
-{ return nlohmann::json::value_t::string; }
-
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<int>()
-{ return nlohmann::json::value_t::number_integer; }
-
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<uint>()
-{ return nlohmann::json::value_t::number_unsigned; }
-
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<float>()
-{ return nlohmann::json::value_t::number_float; }
-
-template<>
-constexpr nlohmann::json::value_t type_to_json_type<double>()
-{ return nlohmann::json::value_t::number_float; }
-
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 }
-#endif // TXML_APPLICATION_JSON_FWD_DESERIALIZER_HPP
+#endif // TXML_APPLICATION_JSON_DESERIALIZER_HPP
