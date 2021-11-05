@@ -64,9 +64,9 @@ template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
     auto& [begin_it, end_it] = iterators_stack.top();
-    if (!check_array_node_param<DeserializedItem>(begin_it, end_it,
-                                                  type_to_json_type<typename DeserializedItem::value_t>(),
-                                                  tracer))
+    if (!check_leaf_node_param<DeserializedItem>(begin_it, end_it,
+                                                 type_to_json_type<typename DeserializedItem::value_t>(),
+                                                 tracer))
     {
         return {};
     }
@@ -112,6 +112,30 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json::iterator& cur_it, co
 
     tracer.trace("Found: array element, value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
     if (value.type() != expected_type)
+    {
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
+        return false;
+    }
+    return true;
+}
+
+
+template<TEMPL_ARGS_DECL>
+template<class NodeType, class Tracer>
+bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
+                                                     json::value_t expected_type, Tracer tracer)
+{
+    if (cur_it == cur_end_it)
+    {
+        tracer.trace("EOF");
+        return false;
+    }
+
+    const std::string &key = cur_it.key();
+    const auto& value = cur_it.value();
+
+    tracer.trace("Found '", key, "', value type: ", json_type_to_cstring(value.type()), ", value:\n", value);
+    if (value.type() != expected_type || key != NodeType::class_name())
     {
         tracer.trace("Expected '", NodeType::class_name(), "', type: ", json_type_to_cstring(expected_type));
         return false;

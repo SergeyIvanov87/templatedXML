@@ -76,6 +76,10 @@ protected:
                                        json::value_t expected_type, Tracer tracer);
 
     template<class NodeType, class Tracer>
+    static bool check_leaf_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
+                                      json::value_t expected_type, Tracer tracer);
+
+    template<class NodeType, class Tracer>
     std::shared_ptr<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count);
 };
 }
