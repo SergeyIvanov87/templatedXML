@@ -89,7 +89,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
         json_object_stack.pop();
     }
 
-    json_object_stack.push(std::move(cur_json_element));
+    json_object_stack.push({{SerializedItem::class_name(), std::move(cur_json_element)}});
     tracer.trace(__FUNCTION__, " - 'ArrayTag' merged: ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }
@@ -113,11 +113,18 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
         json &serialized_element = json_object_stack.top();
-        auto f = serialized_element.begin();
-        tracer.trace("get_fisrt");
-        auto l = serialized_element.end();
-        tracer.trace("get_last, dist: ", std::distance(f, l));
-        cur_json_element.insert(f, l);
+        if (serialized_element.type() == nlohmann::json::value_t::array)
+        {
+            tracer.trace(__FUNCTION__, " - ", SerializedItem::class_name(), "::emplace array");
+            cur_json_element.emplace(SerializedItem::class_name(), std::move(serialized_element));
+        }
+        else
+        {
+            auto f = serialized_element.begin();
+            auto l = serialized_element.end();
+            tracer.trace(__FUNCTION__, " - insert objects count: ", std::distance(f, l));
+            cur_json_element.insert(f, l);
+        }
         json_object_stack.pop();
     }
 
