@@ -15,4 +15,4 @@ const char *PublishInfo::name() const noexcept
     return PublishInfo::class_name();
 }
 } // namespace fb2
-#endif
+#endif // FB2_PUBLISH_INFO_HPP

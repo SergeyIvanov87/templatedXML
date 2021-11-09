@@ -14,7 +14,9 @@ add_subdirectory(fb2_to_schema)
 add_subdirectory(fb2_deserialize)
 if (WITH_JSON)
     add_subdirectory(fb2_deserialize_json)
-    list (APPEND EXAMPLE_TARGETS templatedxml_fb2_deserialize_json)
+    add_subdirectory(fb2_to_json)
+    list (APPEND EXAMPLE_TARGETS templatedxml_fb2_deserialize_json
+                                 templatedxml_fb2_to_json)
 endif()
 
 set (EXAMPLE_TARGETS_EXPORT ${EXAMPLE_TARGETS} PARENT_SCOPE)
