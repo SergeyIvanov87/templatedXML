@@ -1,8 +1,6 @@
 #ifndef FB2_TO_JSON_SERIALIZER_HPP
 #define FB2_TO_JSON_SERIALIZER_HPP
 
-#include <stack>
-
 #include <txml/applications/fb2/fb2.hpp>
 #include <txml/applications/json/json.hpp>
 

@@ -85,7 +85,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
         json &serialized_element = json_object_stack.top();
-        cur_json_element.insert(cur_json_element.end(), std::move(serialized_element));//.begin(), serialized_element.end());
+        cur_json_element.insert(cur_json_element.end(), std::move(serialized_element));
         json_object_stack.pop();
     }
 
@@ -128,7 +128,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
         json_object_stack.pop();
     }
 
-    json_object_stack.push(std::move(cur_json_element));
+    json_object_stack.push({{SerializedItem::class_name(), std::move(cur_json_element)}});
     tracer.trace(__FUNCTION__, " - 'ContainerTag' merged: ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }

@@ -3,6 +3,7 @@
 #include <txml/applications/fb2/fb2.hpp>
 
 #include "fb2_to_json.hpp"
+#include "json_to_fb2.hpp"
 
 enum eLogLevel : int
 {
@@ -75,6 +76,45 @@ int main(int argc, char** argv)
 
             std::cout << "Dump serialized JSON:" << std::endl;
             std::cout << data.dump() << std::endl;
+
+            // deserialize back to FB2
+            Fb2FromJSON in(data);
+
+            std::shared_ptr<FictionBook> deserialized_art;
+            if (log_level >= eLogLevel::DEBUG_LEVEL)
+            {
+                deserialized_art = FictionBook::format_deserialize(in, std_tracer);
+            }
+            else
+            {
+                deserialized_art = FictionBook::format_deserialize(in, empty_tracer);
+            }
+
+            if (!deserialized_art)
+            {
+                std::cerr << "Cannot deserialize FictionBook" << std::endl;
+                return -1;
+            }
+
+            //Extract inner tags: `Body`
+            auto body = deserialized_art->getValue<Body>();
+            if (body)
+            {
+                //Extract 'Section'
+                const auto& section_container = body->getValue();
+                for (const auto& section : section_container)
+                {
+                    const auto& paragraphs = section->getValue();
+                    for (const auto & paragraph : paragraphs)
+                    {
+                        auto paragraph_val = paragraph->getValue();
+                        if (log_level >= eLogLevel::DEBUG_LEVEL)
+                        {
+                            std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
+                        }
+                    }
+                }
+            }
         }
     }
     catch(const std::exception& e)
