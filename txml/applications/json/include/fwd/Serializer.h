@@ -25,6 +25,7 @@ struct ToJSON : public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscope
     template<class SerializedItem, class Tracer>
     void serialize_impl(const SerializedItem& value, Tracer tracer);
 
+    std::string dump() const;
 protected:
     json &out;
     std::stack<json> json_object_stack;

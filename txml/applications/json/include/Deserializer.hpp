@@ -150,7 +150,7 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
 {
     std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret.get());
+                 ret.get(), ", available subnodes count: ", available_item_count);
 
     size_t deserialized_item_count = ret->format_deserialize_elements(*this, tracer);
     while (deserialized_item_count != available_item_count)

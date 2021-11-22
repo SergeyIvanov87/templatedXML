@@ -67,6 +67,12 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_impl(const SerializedItem &val, Tracer tr
 }
 
 template<TEMPL_ARGS_DECL>
+std::string ToJSON<TEMPL_ARGS_DEF>::dump() const
+{
+    return out.dump();
+}
+
+template<TEMPL_ARGS_DECL>
 template<class SerializedItem, class Tracer>
 void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, const txml::ArrayTag&, Tracer &tracer)
 {
