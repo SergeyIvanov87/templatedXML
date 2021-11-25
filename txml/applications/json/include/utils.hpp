@@ -44,23 +44,23 @@ inline const char* json_type_to_cstring(nlohmann::json::value_t type)
     switch(type)
     {
         case nlohmann::json::value_t::null:
-            return "'null'";
+            return "null";
         case nlohmann::json::value_t::boolean:
-            return "'boolean'";
+            return "boolean";
         case nlohmann::json::value_t::string:
-            return "'string'";
+            return "string";
         case nlohmann::json::value_t::number_integer:
-            return "'number (integer)'";
+            return "number (integer)";
         case nlohmann::json::value_t::number_unsigned:
-            return "'number (unsigned integer)'";
+            return "number (unsigned integer)";
         case nlohmann::json::value_t::number_float:
-            return "'number (floating-point)'";
+            return "number (floating-point)";
         case nlohmann::json::value_t::object:
-            return "'object'";
+            return "object";
         case nlohmann::json::value_t::array:
-            return "'array'";
+            return "array";
         case nlohmann::json::value_t::discarded:
-            return "'discarded'";
+            return "discarded";
         default:
             return "<unknown>";
     }

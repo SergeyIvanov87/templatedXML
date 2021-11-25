@@ -6,7 +6,7 @@
 namespace fb2
 {
 template<class Stream>
-struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::StaticCheckUnscopedElement,
+struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>, txml::StaticCheckUnscopedElement,
                                                     FictionBook,
                                                         Description,
                                                             TitleInfo,
@@ -21,7 +21,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
                                                                 Paragraph,
                                                         Binary>
 {
-    ToSchema(Stream &stream) :
+    ToCustomSchema(Stream &stream) :
         out(stream)
     {
     }

@@ -5,6 +5,7 @@
 #include <txml/txml.hpp>
 
 #include <txml/applications/json/include/Deserializer.hpp>
+#include <txml/applications/json/include/SchemaSerializer.hpp>
 #include <txml/applications/json/include/Serializer.hpp>
 
 #endif // TXML_APPLICATION_JSON_HPP
