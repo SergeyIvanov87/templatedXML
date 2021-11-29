@@ -18,11 +18,11 @@ struct IOCore
 
     // finalize routine: drain all to out
     template<class Tracer = txml::EmptyTracer>
-    json_core_t finalize(Tracer tracer);
+    json_core_t finalize(Tracer tracer = Tracer());
 
 
     template<class Tracer = txml::EmptyTracer>
-    std::string dump(Tracer tracer) const;
+    std::string dump(Tracer tracer = Tracer()) const;
 
 protected:
     ~IOCore();
