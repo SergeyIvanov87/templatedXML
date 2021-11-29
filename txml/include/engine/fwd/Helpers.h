@@ -38,9 +38,29 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
     private:                                                                                        \
         class syntax_filler_##Class
 
+#define TXML_DECLARE_SCHEMA_SERIALIZER_TEMPLATED_CLASS(Class, Class_TEMPLATE_0, BaseImpl,...)       \
+struct Class : public BaseImpl < Class<Class_TEMPLATE_0>, __VA_ARGS__ >                             \
+{                                                                                                   \
+    using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
+    using base_t::BaseImpl;                                                                         \
+    private:                                                                                        \
+        class syntax_filler_##Class
+
+
+#define TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(Class, Class_TEMPLATE_0, BaseImpl,...)       \
+struct Class : public BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >                             \
+{                                                                                                   \
+    using base_t = BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >;                                                 \
+    using base_t::BaseImpl;                                                                         \
+    private:                                                                                        \
+        class syntax_filler_##Class
+
+
+
 #define TXML_SCHEMA_SERIALIZER_OBJECT                                                               \
         }; /* syntax_filler_##Class*/                                                               \
     public:                                                                                         \
-    using base_t::serialize_schema_impl;
+    using base_t::serialize_schema_impl;                                                            \
+    using base_t::serialize_schema_tag_impl;
 
 #endif // SERIALIZER_DESERIALIZER_HELPERS_H

@@ -32,14 +32,22 @@ template<TEMPL_ARGS_DECL>
 template<class InElement, class Tracer>
 void SchemaSerializerBase<TEMPL_ARGS_DEF>::map(Tracer tracer)
 {
-    if constexpr(! std::disjunction_v<std::is_same<InElement,ElementType>...>)
+    /*if constexpr(! std::disjunction_v<std::is_same<InElement,ElementType>...>)
     {
         UnscopedElementProcessingPolicyType::template process<SelfType, InElement, Tracer>(*this, tracer);
     }
-    else
-    {
-        details::SingleElementSchemaSerializerBase<Impl, InElement>::invoke(tracer);
-    }
+    else*/
+    //{
+        static_cast<details::SingleElementSchemaSerializerBase<Impl, InElement>*>(this)->invoke(tracer);
+    //}
+}
+
+
+template<TEMPL_ARGS_DECL>
+template <class InElement>
+constexpr bool SchemaSerializerBase<TEMPL_ARGS_DEF>::is_registered_element()
+{
+    return std::disjunction_v<std::is_same<InElement, ElementType>...>;
 }
 
 #undef TEMPL_ARGS_DEF

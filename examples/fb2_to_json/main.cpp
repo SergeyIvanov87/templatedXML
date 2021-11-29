@@ -39,8 +39,7 @@ int main(int argc, char** argv)
 
         std::unique_ptr<TextReaderWrapper> xml_reader = std::make_unique<TextReaderWrapper>(xdxf_file_path);
 
-        nlohmann::json data;
-        Fb2ToJSON serializer(data);
+        Fb2ToJSON serializer;
 
         while(xml_reader->read())
         {
@@ -63,15 +62,16 @@ int main(int argc, char** argv)
 
             // To JSON format
             std::cout << "Begin serialize to JSON" << std::endl;
+            nlohmann::json data;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
                 art->format_serialize(serializer, std_tracer);
-                serializer.finalize(std_tracer);
+                data = serializer.finalize(std_tracer);
             }
             else
             {
                 art->format_serialize(serializer, empty_tracer);
-                serializer.finalize(empty_tracer);
+                data = serializer.finalize(empty_tracer);
             }
 
             std::cout << "Dump serialized JSON:" << std::endl;

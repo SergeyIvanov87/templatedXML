@@ -29,6 +29,9 @@ struct SchemaSerializerBase : public details::SingleElementSchemaSerializerBase<
 
     template<class InElement, class Tracer>
     void map(Tracer tracer);
+
+    template <class InElement>
+    static constexpr bool is_registered_element();
 protected:
     ~SchemaSerializerBase() = default;
 

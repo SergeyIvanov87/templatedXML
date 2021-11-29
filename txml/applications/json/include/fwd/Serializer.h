@@ -6,29 +6,27 @@
 #include <nlohmann/json.hpp>
 
 #include <txml/include/engine/fwd/FormatSerializerBase.h>
+#include <txml/applications/json/include/fwd/IOCore.h>
 
 namespace json
 {
 template<class Impl, class ...SerializedItems>
-struct ToJSON : public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscopedElement,
+struct ToJSON : public virtual IOCore,
+                public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                   SerializedItems...>
 {
     using json = nlohmann::json;
-    ToJSON(json &out_obj);
-    ~ToJSON();
+    using core_t = IOCore;
 
-    // finalize routine: drain all to out
-    template<class Tracer>
-    void finalize(Tracer tracer);
+    ToJSON(std::shared_ptr<std::stack<json>> shared_object_stack =
+                           std::shared_ptr<std::stack<json>>(new std::stack<json>));
 
     // default serialization routine
     template<class SerializedItem, class Tracer>
     void serialize_impl(const SerializedItem& value, Tracer tracer);
 
-    std::string dump() const;
 protected:
-    json &out;
-    std::stack<json> json_object_stack;
+    ~ToJSON();
 
     template<class SerializedItem, class Tracer>
     void serialize_tag_impl(const SerializedItem& value, const txml::ArrayTag&, Tracer &tracer);
