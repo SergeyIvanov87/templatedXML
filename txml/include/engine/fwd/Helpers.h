@@ -47,20 +47,54 @@ struct Class : public BaseImpl < Class<Class_TEMPLATE_0>, __VA_ARGS__ >         
         class syntax_filler_##Class
 
 
-#define TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(Class, Class_TEMPLATE_0, BaseImpl,...)       \
-struct Class : public BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >                             \
+#define TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(Class, Class_TEMPLATE_0, BaseImpl,...)     \
+struct Class : public BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >                                    \
 {                                                                                                   \
-    using base_t = BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >;                                                 \
+    using base_t = BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >;                                      \
     using base_t::BaseImpl;                                                                         \
     private:                                                                                        \
         class syntax_filler_##Class
-
-
 
 #define TXML_SCHEMA_SERIALIZER_OBJECT                                                               \
         }; /* syntax_filler_##Class*/                                                               \
     public:                                                                                         \
     using base_t::serialize_schema_impl;                                                            \
-    using base_t::serialize_schema_tag_impl;
+    using base_t::serialize_schema_tag_impl;                                                        \
+    using base_t::is_registered_element;
+
+
+
+#define TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(DispatchableClass, Class_Aggregator, BaseImpl,...)     \
+struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >                        \
+{                                                                                                   \
+    using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
+    using base_t::BaseImpl;                                                                         \
+    private:                                                                                        \
+        class syntax_filler_##DispatchableClass
+
+
+#define TXML_SCHEMA_SERIALIZER_DISPATCHABLE_OBJECT                                                  \
+        }; /* syntax_filler_##DispatchableClass*/                                                    \
+    public:                                                                                         \
+    using base_t::serialize_schema_impl;                                                            \
+    using base_t::serialize_schema_tag_impl;                                                        \
+    using base_t::is_registered_element;
+
+
+
+
+#define TXML_DECLARE_SCHEMA_SERIALIZER_AGGREGATOR_CLASS(Class_Aggregator,...)                       \
+struct Class_Aggregator : public txml::Dispatcher< __VA_ARGS__ >                                     \
+{                                                                                                   \
+    using base_t = txml::Dispatcher < __VA_ARGS__ >;                                                  \
+    private:                                                                                        \
+        class syntax_filler_##AggregatorClass
+
+
+
+#define TXML_SCHEMA_SERIALIZER_AGGREGATOR_OBJECT                                                    \
+        }; /* syntax_filler_##CAggregatorClass*/                                                    \
+    public:
+
 
 #endif // SERIALIZER_DESERIALIZER_HELPERS_H

@@ -16,10 +16,9 @@ struct IOCore
     IOCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack =
        std::shared_ptr<std::stack<json_core_t>>(new std::stack<json_core_t>));
 
-    // finalize routine: drain all to out
+    // finalize routine: construct final json_core_t
     template<class Tracer = txml::EmptyTracer>
-    json_core_t finalize(Tracer tracer = Tracer());
-
+    json_core_t finalize(Tracer tracer = Tracer()) const;
 
     template<class Tracer = txml::EmptyTracer>
     std::string dump(Tracer tracer = Tracer()) const;

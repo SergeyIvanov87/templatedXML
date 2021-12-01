@@ -6,10 +6,10 @@
 namespace fb2
 {
 using namespace json;
-template<class Parent>
-TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(ToJSONSchema_1, Parent, SchemaToJSON,
-                                                    FictionBook,
-                                                        Description,
+template<class ParentAggregator>
+TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_1, ParentAggregator, SchemaToJSON,
+                                                        FictionBook,
+                                                            Description,
                                                             TitleInfo,
                                                                 BookTitle,
                                                                     /*FB2TextElement,*/
@@ -22,15 +22,15 @@ TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(ToJSONSchema_1, Parent, SchemaT
                                                                 Paragraph,
                                                         Binary)
 {
-    TXML_SCHEMA_SERIALIZER_OBJECT
+    TXML_SCHEMA_SERIALIZER_DISPATCHABLE_OBJECT
 
 };
 
-template<class Parent>
-TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(ToJSONSchema_2, Parent, SchemaToJSON,
+template<class ParentAggregator>
+TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregator, SchemaToJSON,
                                                             FB2TextElement)
 {
-    TXML_SCHEMA_SERIALIZER_OBJECT
+    TXML_SCHEMA_SERIALIZER_DISPATCHABLE_OBJECT
 
     using json = nlohmann::json;
     template<class SerializedItem, class Tracer>
@@ -49,19 +49,20 @@ TXML_DECLARE_SCHEMA_F_SERIALIZER_TEMPLATED_CLASS(ToJSONSchema_2, Parent, SchemaT
 
 };
 
-struct ToInjectedSchema : public txml::Dispatcher<ToJSONSchema_1<ToInjectedSchema>, ToJSONSchema_2<ToInjectedSchema>>
+TXML_DECLARE_SCHEMA_SERIALIZER_AGGREGATOR_CLASS(ToInjectedSchema, ToJSONSchema_1<ToInjectedSchema>, ToJSONSchema_2<ToInjectedSchema>)
 {
-    using base_t = txml::Dispatcher<ToJSONSchema_1<ToInjectedSchema>, ToJSONSchema_2<ToInjectedSchema>>;
+    TXML_SCHEMA_SERIALIZER_AGGREGATOR_OBJECT
+
     using json = nlohmann::json;
+
+    // Allocate shared object for all intermediate calculations
+    // because each dispatchable serializer must put its own serialized result into shared place
+    // to keep final output consistent
     ToInjectedSchema(std::shared_ptr<std::stack<json>> shared_object_stack =
                                      std::shared_ptr<std::stack<json>>(new std::stack<json>)) :
         base_t(shared_object_stack)
     {
     }
-
-    using ToJSONSchema_1<ToInjectedSchema>::serialize_schema_impl;
-    using ToJSONSchema_2<ToInjectedSchema>::serialize_schema_tag_impl;
-
 };
 } // namespace fb2
 #endif //FB2_TO_SCHEMA_SERIALIZER_INJECTION_HPP

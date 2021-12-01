@@ -6,15 +6,15 @@
 
 namespace json
 {
-IOCore::IOCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack) :
+inline IOCore::IOCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack) :
     json_object_stack_helper(external_object_stack)
 {
 }
 
-IOCore::~IOCore() = default;
+inline IOCore::~IOCore() = default;
 
 template<class Tracer>
-IOCore::json_core_t IOCore::finalize(Tracer tracer)
+inline IOCore::json_core_t IOCore::finalize(Tracer tracer) const
 {
     json_core_t out;
 
@@ -53,9 +53,9 @@ IOCore::json_core_t IOCore::finalize(Tracer tracer)
 }
 
 template<class Tracer>
-std::string IOCore::dump(Tracer tracer) const
+inline std::string IOCore::dump(Tracer tracer) const
 {
-    auto out = dump(tracer);
+    auto out = finalize(tracer);
     return out.dump();
 }
 }
