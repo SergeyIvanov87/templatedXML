@@ -3,6 +3,7 @@
 
 #include <txml/include/engine/FormatDeserializerBase.hpp>
 #include <txml/applications/json/include/fwd/Deserializer.h>
+#include <txml/applications/json/include/DeserializerCore.hpp>
 #include <txml/applications/json/include/utils.hpp>
 
 namespace json
@@ -11,7 +12,8 @@ namespace json
 #define TEMPL_ARGS_DEF     Impl, DeserializedItems...
 
 template<TEMPL_ARGS_DECL>
-FromJSON<TEMPL_ARGS_DEF>::FromJSON(json &obj) :
+FromJSON<TEMPL_ARGS_DEF>::FromJSON(json &obj, std::shared_ptr<std::stack<range_iterator>> shared_iterators_stack) :
+  DeserializerCore(shared_iterators_stack),
   in(obj)
 {
     iterators_stack.emplace(in.begin(), in.end());

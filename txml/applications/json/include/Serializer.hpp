@@ -3,7 +3,7 @@
 
 #include <txml/include/engine/FormatSerializerBase.hpp>
 #include <txml/applications/json/include/fwd/Serializer.h>
-#include <txml/applications/json/include/IOCore.hpp>
+#include <txml/applications/json/include/SerializerCore.hpp>
 #include <txml/applications/json/include/utils.hpp>
 
 namespace json
@@ -13,7 +13,7 @@ namespace json
 
 template<TEMPL_ARGS_DECL>
 ToJSON<TEMPL_ARGS_DEF>::ToJSON(std::shared_ptr<std::stack<json>> shared_object_stack) :
-  IOCore(shared_object_stack)
+  SerializerCore(shared_object_stack)
 {
 }
 

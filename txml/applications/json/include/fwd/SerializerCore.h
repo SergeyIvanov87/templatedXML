@@ -10,10 +10,10 @@
 
 namespace json
 {
-struct IOCore
+struct SerializerCore
 {
     using json_core_t = nlohmann::json;
-    IOCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack =
+    SerializerCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack =
        std::shared_ptr<std::stack<json_core_t>>(new std::stack<json_core_t>));
 
     // finalize routine: construct final json_core_t
@@ -24,7 +24,7 @@ struct IOCore
     std::string dump(Tracer tracer = Tracer()) const;
 
 protected:
-    ~IOCore();
+    ~SerializerCore();
     std::shared_ptr<std::stack<json_core_t>> json_object_stack_helper;
 };
 }

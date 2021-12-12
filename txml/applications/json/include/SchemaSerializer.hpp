@@ -3,7 +3,7 @@
 
 #include <txml/include/engine/SchemaSerializerBase.hpp>
 #include <txml/applications/json/include/fwd/SchemaSerializer.h>
-#include <txml/applications/json/include/IOCore.hpp>
+#include <txml/applications/json/include/SerializerCore.hpp>
 #include <txml/applications/json/include/utils.hpp>
 
 namespace json
@@ -13,7 +13,7 @@ namespace json
 
 template<TEMPL_ARGS_DECL>
 SchemaToJSON<TEMPL_ARGS_DEF>::SchemaToJSON(std::shared_ptr<std::stack<json>> shared_object_stack) :
-  IOCore(shared_object_stack)
+  SerializerCore(shared_object_stack)
 {
 }
 

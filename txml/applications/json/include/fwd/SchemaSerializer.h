@@ -2,12 +2,12 @@
 #define TXML_APPLICATION_JSON_FWD_SCHEMA_SERIALIZER_H
 
 #include <txml/include/engine/fwd/SchemaSerializerBase.h>
-#include <txml/applications/json/include/fwd/IOCore.h>
+#include <txml/applications/json/include/fwd/SerializerCore.h>
 
 namespace json
 {
 template<class Impl, class ...SerializedItems>
-struct SchemaToJSON : public virtual IOCore,
+struct SchemaToJSON : public virtual SerializerCore,
                       public txml::SchemaSerializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                   SerializedItems...>
 {
