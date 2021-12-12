@@ -64,4 +64,4 @@ public:
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 } // namespace xdxf
-#endif //KEY_PHRASE_H
+#endif //TEXT_ELEMENT_H

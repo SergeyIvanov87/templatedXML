@@ -16,6 +16,24 @@ inline TextReaderWrapper::TextReaderWrapper(const std::string& fileName)
     }
 }
 
+inline TextReaderWrapper::TextReaderWrapper(const char *buffer, int size, const char *URL, const char *encoding, int options)
+{
+    m_reader = xmlReaderForMemory(buffer, size, URL, encoding, options);
+    if (!m_reader)
+    {
+        throw std::logic_error("Cannot open document from memory");
+    }
+}
+
+inline TextReaderWrapper::TextReaderWrapper(xmlTextReaderPtr existing_reader)
+{
+    if (!existing_reader)
+    {
+        throw std::logic_error("Cannot create empty reader");
+    }
+    m_reader = existing_reader;
+}
+
 inline TextReaderWrapper::~TextReaderWrapper()
 {
     xmlFreeTextReader(m_reader);
@@ -43,6 +61,26 @@ inline std::string TextReaderWrapper::get_name() const
 inline bool TextReaderWrapper::has_attributes() const
 {
     return 1 == xmlTextReaderHasAttributes(m_reader);
+}
+
+inline int TextReaderWrapper::get_attributes_count() const
+{
+    return xmlTextReaderAttributeCount(m_reader);
+}
+
+inline bool TextReaderWrapper::move_to_first_attribute()
+{
+    return 1 == xmlTextReaderMoveToFirstAttribute(m_reader);
+}
+
+inline bool TextReaderWrapper::move_to_next_attribute()
+{
+    return 1 == xmlTextReaderMoveToNextAttribute(m_reader);
+}
+
+inline bool TextReaderWrapper::move_to_element()
+{
+    return 1 == xmlTextReaderMoveToElement(m_reader);
 }
 
 inline bool TextReaderWrapper::has_value() const

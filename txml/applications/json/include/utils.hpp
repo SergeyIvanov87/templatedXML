@@ -8,7 +8,11 @@ namespace json
 namespace utils
 {
 template<class T>
-static constexpr nlohmann::json::value_t type_to_json_type();
+static constexpr nlohmann::json::value_t type_to_json_type()
+{
+    //TODO
+    return nlohmann::json::value_t::binary;
+};
 
 
 
@@ -39,12 +43,15 @@ constexpr nlohmann::json::value_t type_to_json_type<double>()
 { return nlohmann::json::value_t::number_float; }
 
 
+
 inline const char* json_type_to_cstring(nlohmann::json::value_t type)
 {
     switch(type)
     {
         case nlohmann::json::value_t::null:
             return "null";
+        case nlohmann::json::value_t::binary:
+            return "binary";
         case nlohmann::json::value_t::boolean:
             return "boolean";
         case nlohmann::json::value_t::string:

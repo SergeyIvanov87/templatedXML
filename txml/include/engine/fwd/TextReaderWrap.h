@@ -39,16 +39,19 @@ struct TextReaderWrapper
     };
 
     TextReaderWrapper(const std::string& fileName);
+    TextReaderWrapper(const char * buffer, int size, const char * URL, const char * encoding, int options);
+    TextReaderWrapper(xmlTextReaderPtr existing_reader);
     ~TextReaderWrapper();
 
     bool read();
     int get_depth() const;
     std::string get_name() const;
     bool has_attributes() const;
+    int get_attributes_count() const;
 
-    bool move_to_first_attribute() {return false;}
-    bool move_to_next_attribute() {return false;}
-    bool move_to_element() {return false;}
+    bool move_to_first_attribute();
+    bool move_to_next_attribute();
+    bool move_to_element();
 
     bool has_value() const;
     std::string get_value() const;

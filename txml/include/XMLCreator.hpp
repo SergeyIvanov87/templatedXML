@@ -32,7 +32,7 @@ std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
             reader.move_to_first_attribute();
             do
             {
-                tracer.trace("  ", reader.get_name(), ": ", reader.get_value());;
+                tracer.trace("  ", reader.get_name(), ": ", reader.get_value());
             } while(reader.move_to_next_attribute());
             reader.move_to_element();
         }

@@ -27,7 +27,7 @@ inline IOCore::json_core_t IOCore::finalize(Tracer tracer) const
         json_core_t &serialized_element = json_object_stack_helper->top();
         out = json_core_t::object();
         out.insert(serialized_element.begin(), serialized_element.end());
-        json_object_stack_helper->pop();
+        //json_object_stack_helper->pop();
     }
     else if (awaiting_element_count > 1)
     {
@@ -41,7 +41,7 @@ inline IOCore::json_core_t IOCore::finalize(Tracer tracer) const
             tracer.trace(__FUNCTION__, " - merge: ", serialized_element.dump(),
                                    ", to: ", out.dump());
             out.insert(out.end(),serialized_element.begin(), serialized_element.end());
-            json_object_stack_helper->pop();
+            //json_object_stack_helper->pop();
         }
     }
     else
