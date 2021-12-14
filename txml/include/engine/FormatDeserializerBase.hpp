@@ -36,9 +36,17 @@ std::shared_ptr<InElement> FormatDeserializerBase<TEMPL_ARGS_DEF>::map(Tracer tr
     }
     else
     {
-        return details::SingleElementDeserializerBase<Impl, InElement>::invoke(tracer);
+        //return details::SingleElementDeserializerBase<Impl, InElement>::invoke(tracer);
+        return static_cast<details::SingleElementDeserializerBase<Impl, InElement>*>(this)->invoke(tracer);
     }
     return {};
+}
+
+template<TEMPL_ARGS_DECL>
+template <class InElement>
+constexpr bool FormatDeserializerBase<TEMPL_ARGS_DEF>::is_registered_element()
+{
+    return std::disjunction_v<std::is_same<InElement, ElementType>...>;
 }
 
 #undef TEMPL_ARGS_DEF

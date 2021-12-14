@@ -16,29 +16,30 @@ FromJSON<TEMPL_ARGS_DEF>::FromJSON(json &obj, std::shared_ptr<std::stack<range_i
   DeserializerCore(shared_iterators_stack),
   in(obj)
 {
-    iterators_stack.emplace(in.begin(), in.end());
+    get_shared_mediator_object()->emplace(in.begin(), in.end());
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
-    return deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
+    return static_cast<Impl*>(this)->template deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
-    auto& [begin_it, end_it] = iterators_stack.top();
+    auto mediator = get_shared_mediator_object();
+    auto& [begin_it, end_it] = mediator->top();
     if (!check_array_node_param<DeserializedItem>(begin_it, end_it, json::value_t::array, tracer))
     {
         return {};
     }
 
-    iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+    mediator->emplace(begin_it.value().begin(), begin_it.value().end());
     auto ret = create_deserialized_node<DeserializedItem>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
-    iterators_stack.pop();
+    mediator->pop();
     ++begin_it;
 
     return ret;
@@ -48,15 +49,16 @@ template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
-    auto& [begin_it, end_it] = iterators_stack.top();
+    auto mediator = get_shared_mediator_object();
+    auto& [begin_it, end_it] = mediator->top();
     if (!check_node_param<DeserializedItem>(begin_it, end_it, json::value_t::object, tracer))
     {
         return {};
     }
 
-    iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+    mediator->emplace(begin_it.value().begin(), begin_it.value().end());
     auto ret = create_deserialized_node<DeserializedItem>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
-    iterators_stack.pop();
+    mediator->pop();
     ++begin_it;
 
     return ret;
@@ -66,7 +68,8 @@ template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
 std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
-    auto& [begin_it, end_it] = iterators_stack.top();
+
+    auto& [begin_it, end_it] = get_shared_mediator_object()->top();
     if (!check_leaf_node_param<DeserializedItem>(begin_it, end_it,
                                                  utils::type_to_json_type<typename DeserializedItem::value_t>(),
                                                  tracer))
@@ -154,12 +157,12 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
                  ret.get(), ", available subnodes count: ", available_item_count);
 
-    size_t deserialized_item_count = ret->format_deserialize_elements(*this, tracer);
+    size_t deserialized_item_count = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
     while (deserialized_item_count != available_item_count)
     {
         tracer.trace("refill node '", NodeType::class_name(), "' handle: ",
                      ret.get(), " deserialized count: ", deserialized_item_count);
-        size_t next_portion_items = ret->format_deserialize_elements(*this, tracer);
+        size_t next_portion_items = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
         if (deserialized_item_count == next_portion_items)
         {
             break; //nothing more

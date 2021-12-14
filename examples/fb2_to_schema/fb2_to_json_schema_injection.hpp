@@ -42,9 +42,9 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
         // Add 'properties' object before unfold every Node/Container members
         // So all Node member become members of 'property' and 'property' itself is a member of Node
         json cur_json_element = json::object({{"properties",
-                                               this->json_object_stack_helper->top()[SerializedItem::class_name()]}});
-        this->json_object_stack_helper->pop();
-        this->json_object_stack_helper->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
+                                               this->get_shared_mediator_object()->top()[SerializedItem::class_name()]}});
+        this->get_shared_mediator_object()->pop();
+        this->get_shared_mediator_object()->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
     }
 
 };

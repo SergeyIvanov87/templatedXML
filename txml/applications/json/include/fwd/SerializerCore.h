@@ -23,6 +23,8 @@ struct SerializerCore
     template<class Tracer = txml::EmptyTracer>
     std::string dump(Tracer tracer = Tracer()) const;
 
+    std::shared_ptr<const std::stack<json_core_t>> get_shared_mediator_object() const;
+    std::shared_ptr<std::stack<json_core_t>> get_shared_mediator_object();
 protected:
     ~SerializerCore();
     std::shared_ptr<std::stack<json_core_t>> json_object_stack_helper;

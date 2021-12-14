@@ -24,6 +24,8 @@ struct FormatSerializerBase : public details::SingleElementSerializerBase<Impl, 
     template<class InElement, class Tracer>
     void map(const InElement& in_val, Tracer tracer);
 
+    template <class InElement>
+    static constexpr bool is_registered_element();
 protected:
     ~FormatSerializerBase() = default;
 

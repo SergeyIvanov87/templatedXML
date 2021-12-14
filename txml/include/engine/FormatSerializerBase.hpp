@@ -40,6 +40,14 @@ void FormatSerializerBase<TEMPL_ARGS_DEF>::map(const InElement& in_val, Tracer t
     }
 }
 
+template<TEMPL_ARGS_DECL>
+template <class InElement>
+constexpr bool FormatSerializerBase<TEMPL_ARGS_DEF>::is_registered_element()
+{
+    return std::disjunction_v<std::is_same<InElement, ElementType>...>;
+}
+
+
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

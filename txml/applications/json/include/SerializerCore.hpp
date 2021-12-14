@@ -58,6 +58,16 @@ inline std::string SerializerCore::dump(Tracer tracer) const
     auto out = finalize(tracer);
     return out.dump();
 }
+
+inline std::shared_ptr<const std::stack<SerializerCore::json_core_t>> SerializerCore::get_shared_mediator_object() const
+{
+    return json_object_stack_helper;
+}
+
+inline std::shared_ptr<std::stack<SerializerCore::json_core_t>> SerializerCore::get_shared_mediator_object()
+{
+    return json_object_stack_helper;
+}
 }
 
 #endif // TXML_APPLICATION_JSON_IOCORE_HPP
