@@ -36,7 +36,10 @@ public:
     ArgumentPtr<T> getValue() const;
 
     template<class T>
-    void set(ArgumentPtr<T> arg);
+    ArgumentPtr<T> set(ArgumentPtr<T> arg);
+
+    template<class T, class ...Args>
+    ArgumentPtr<T> emplace(Args&& ...args);
 private:
     Tuple storage;
 };

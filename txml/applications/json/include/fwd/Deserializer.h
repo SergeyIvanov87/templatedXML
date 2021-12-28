@@ -5,17 +5,20 @@
 
 #include <nlohmann/json.hpp>
 
+#include <txml/applications/json/include/fwd/DeserializerCore.h>
 #include <txml/include/engine/fwd/FormatDeserializerBase.h>
 
 namespace json
 {
 
 template<class Impl, class ...DeserializedItems>
-struct FromJSON : public txml::FormatDeserializerBase<Impl, txml::StaticCheckUnscopedElement,
+struct FromJSON : public virtual DeserializerCore,
+                  public txml::FormatDeserializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                       DeserializedItems...>
 {
     using json = nlohmann::json;
-    FromJSON(json &obj);
+    FromJSON(json &obj, std::shared_ptr<std::stack<range_iterator>> shared_iterators_stack =
+                                        std::shared_ptr<std::stack<range_iterator>>(new std::stack<range_iterator>));
 
     // default deserialization routine
     template<class DeserializedItem, class Tracer>
@@ -23,11 +26,6 @@ struct FromJSON : public txml::FormatDeserializerBase<Impl, txml::StaticCheckUns
 
 protected:
     json &in;
-
-    using begin_iterator_t = json::iterator;
-    using end_iterator_t = json::iterator;
-    using range_iterator = std::pair<begin_iterator_t, end_iterator_t>;
-    std::stack<range_iterator> iterators_stack;
 
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer);

@@ -6,17 +6,17 @@
 #include <nlohmann/json.hpp>
 
 #include <txml/include/engine/fwd/FormatSerializerBase.h>
-#include <txml/applications/json/include/fwd/IOCore.h>
+#include <txml/applications/json/include/fwd/SerializerCore.h>
 
 namespace json
 {
 template<class Impl, class ...SerializedItems>
-struct ToJSON : public virtual IOCore,
+struct ToJSON : public virtual SerializerCore,
                 public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                   SerializedItems...>
 {
     using json = nlohmann::json;
-    using core_t = IOCore;
+    using core_t = SerializerCore;
 
     ToJSON(std::shared_ptr<std::stack<json>> shared_object_stack =
                            std::shared_ptr<std::stack<json>>(new std::stack<json>));

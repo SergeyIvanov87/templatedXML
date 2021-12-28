@@ -1,20 +1,20 @@
 #ifndef TXML_APPLICATION_JSON_IOCORE_HPP
 #define TXML_APPLICATION_JSON_IOCORE_HPP
 
-#include <txml/applications/json/include/fwd/IOCore.h>
+#include <txml/applications/json/include/fwd/SerializerCore.h>
 #include <txml/include/utils/specific_tracer/EmptyTracer.hpp>
 
 namespace json
 {
-inline IOCore::IOCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack) :
+inline SerializerCore::SerializerCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack) :
     json_object_stack_helper(external_object_stack)
 {
 }
 
-inline IOCore::~IOCore() = default;
+inline SerializerCore::~SerializerCore() = default;
 
 template<class Tracer>
-inline IOCore::json_core_t IOCore::finalize(Tracer tracer) const
+inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
 {
     json_core_t out;
 
@@ -53,10 +53,20 @@ inline IOCore::json_core_t IOCore::finalize(Tracer tracer) const
 }
 
 template<class Tracer>
-inline std::string IOCore::dump(Tracer tracer) const
+inline std::string SerializerCore::dump(Tracer tracer) const
 {
     auto out = finalize(tracer);
     return out.dump();
+}
+
+inline std::shared_ptr<const std::stack<SerializerCore::json_core_t>> SerializerCore::get_shared_mediator_object() const
+{
+    return json_object_stack_helper;
+}
+
+inline std::shared_ptr<std::stack<SerializerCore::json_core_t>> SerializerCore::get_shared_mediator_object()
+{
+    return json_object_stack_helper;
 }
 }
 

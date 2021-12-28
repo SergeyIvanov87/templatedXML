@@ -31,6 +31,8 @@ struct FormatDeserializerBase : public details::SingleElementDeserializerBase<Im
     template<class InElement, class Tracer>
     std::shared_ptr<InElement> map(Tracer tracer);
 
+    template <class InElement>
+    static constexpr bool is_registered_element();
 protected:
     ~FormatDeserializerBase() = default;
 

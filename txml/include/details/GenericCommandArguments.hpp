@@ -21,9 +21,20 @@ typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentPtr<T> Argument
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-void ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
+typename ArgumentContainerBase<Arguments...>::ArgumentPtr<T>
+ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
 {
     std::get<ArgumentPtr<T>>(storage) = arg;
+    return arg;
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class ...Args>
+typename ArgumentContainerBase<Arguments...>::ArgumentPtr<T>
+ArgumentContainerBase<Arguments...>::emplace(Args &&...args)
+{
+    auto ret = std::make_shared<T>(std::forward<Args>(args)...);
+    return set(ret);
 }
 
 template<TEMPL_ARGS_DECL>

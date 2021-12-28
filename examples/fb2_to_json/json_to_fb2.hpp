@@ -28,15 +28,16 @@ TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromJSON, FromJSON,
     template<class Tracer>
     std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
     {
-        auto& [begin_it, end_it] = iterators_stack.top();
+        auto mediator = get_shared_mediator_object();
+        auto& [begin_it, end_it] = mediator->top();
         if (!check_array_node_param<Paragraph>(begin_it, end_it, json::value_t::object, tracer))
         {
             return {};
         }
 
-        iterators_stack.emplace(begin_it.value().begin(), begin_it.value().end());
+        mediator->emplace(begin_it.value().begin(), begin_it.value().end());
         auto ret = create_deserialized_node<Paragraph>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
-        iterators_stack.pop();
+        mediator->pop();
         ++begin_it;
         return ret;
     }
