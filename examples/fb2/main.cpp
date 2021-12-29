@@ -55,6 +55,68 @@ int main(int argc, char** argv)
                 continue;
             }
 
+            //Extract Info section
+            auto description = art->getValue<Description>();
+            if (description)
+            {
+                auto title_info = description->getValue<TitleInfo>();
+                if (title_info)
+                {
+                    auto book_title = title_info->getValue<BookTitle>();
+                    if (book_title)
+                    {
+                        std::cout << BookTitle::class_name() << ": " << book_title->getValue() << std::endl;
+                    }
+                    auto genre = title_info->getValue<Genre>();
+                    if (genre)
+                    {
+                        std::cout << Genre::class_name() << ": " << genre->getValue() << std::endl;
+                    }
+                    auto lang = title_info->getValue<Language>();
+                    if (lang)
+                    {
+                        std::cout << Language::class_name() << ": " << lang->getValue() << std::endl;
+                    }
+                }
+                auto doc_info = description->getValue<DocumentInfo>();
+                if (doc_info)
+                {
+                    auto author = doc_info->getValue<Author>();
+                    if (author)
+                    {
+                        auto first_name = author->getValue<FirstName>();
+                        if (first_name)
+                        {
+                            std::cout << FirstName::class_name() << ": " << first_name->getValue() << std::endl;
+                        }
+                        auto middle_name = author->getValue<MiddleName>();
+                        if (middle_name)
+                        {
+                            std::cout << MiddleName::class_name() << ": " << middle_name->getValue() << std::endl;
+                        }
+                        auto last_name = author->getValue<LastName>();
+                        if (last_name)
+                        {
+                            std::cout << LastName::class_name() << ": " << last_name->getValue() << std::endl;
+                        }
+                    }
+                }
+                auto publish_info = description->getValue<PublishInfo>();
+                if (publish_info)
+                {
+                    auto publisher = publish_info->getValue<Publisher>();
+                    if (publisher)
+                    {
+                        std::cout << Publisher::class_name() << ": " << publisher->getValue() << std::endl;
+                    }
+
+                    auto isbn = publish_info->getValue<ISBN>();
+                    if (isbn)
+                    {
+                        std::cout << ISBN::class_name() << ": " << isbn->getValue() << std::endl;
+                    }
+                }
+            }
             //Extract inner tags: `Body`
             auto body = art->getValue<Body>();
             if (body)

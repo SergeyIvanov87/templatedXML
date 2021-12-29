@@ -9,19 +9,7 @@
 namespace fb2
 {
 using namespace json;
-TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromJSON, FromJSON,
-                                                    FictionBook,
-                                                        Description,
-                                                            TitleInfo,
-                                                                BookTitle,
-                                                                    FB2TextElement,
-                                                            DocumentInfo,
-                                                                Empty,
-                                                            PublishInfo,
-                                                            Body,
-                                                                Section,
-                                                                    Paragraph,
-                                                                    Binary)
+TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromJSON, FromJSON, FB2_CLASS_LIST)
 {
     TXML_DESERIALIZER_OBJECT
     using json = nlohmann::json;

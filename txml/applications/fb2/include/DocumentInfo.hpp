@@ -6,7 +6,7 @@
 #include <txml/include/XMLNode.hpp>
 
 #include <txml/applications/fb2/include/fwd/DocumentInfo.h>
-#include <txml/applications/fb2/include/Empty.hpp>
+#include <txml/applications/fb2/include/Author.hpp>
 
 namespace fb2
 {

@@ -1,19 +1,22 @@
-#ifndef FB2_DOCUMENT_INFO_H
-#define FB2_DOCUMENT_INFO_H
+#ifndef DOC_INFO_AUTHOR_H
+#define DOC_INFO_AUTHOR_H
 
 #include <txml/include/fwd/XMLNode.h>
 
 namespace fb2
 {
-class Author;
-class DocumentInfo: public txml::XMLNode<DocumentInfo, Author>
+class FirstName;
+class MiddleName;
+class LastName;
+class NickName;
+class Author : public txml::XMLNode<Author, FirstName, MiddleName, LastName, NickName>
 {
 public:
-    using base = txml::XMLNode<DocumentInfo, Author>;
+    using base = txml::XMLNode<Author, FirstName, MiddleName, LastName, NickName>;
 
     static constexpr const char *class_name()
     {
-        return "document-info";
+        return "author";
     }
 
     static constexpr txml::TextReaderWrapper::NodeType class_node_type()
@@ -24,4 +27,4 @@ public:
     virtual const char *name() const noexcept override;
 };
 } // namespace fb2
-#endif //FB2_DOCUMENT_INFO_H
+#endif //DOC_INFO_AUTHOR_H
