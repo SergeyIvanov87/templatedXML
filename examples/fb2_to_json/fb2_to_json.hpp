@@ -7,19 +7,7 @@
 namespace json
 {
 
-TXML_DECLARE_SERIALIZER_CLASS(Fb2ToJSON, ToJSON,
-                                                    fb2::FictionBook,
-                                                        fb2::Description,
-                                                            fb2::TitleInfo,
-                                                                fb2::BookTitle,
-                                                                    fb2::FB2TextElement,
-                                                            fb2::DocumentInfo,
-                                                                fb2::Empty,
-                                                            fb2::PublishInfo,
-                                                            fb2::Body,
-                                                                fb2::Section,
-                                                                    fb2::Paragraph,
-                                                                    fb2::Binary)
+TXML_DECLARE_SERIALIZER_CLASS(Fb2ToJSON, ToJSON, FB2_CLASS_LIST)
 {
     TXML_SERIALIZER_OBJECT
     using json = nlohmann::json;

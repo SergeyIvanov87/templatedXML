@@ -7,20 +7,7 @@
 namespace fb2
 {
 using namespace json;
-TXML_DECLARE_SCHEMA_SERIALIZER_CLASS(ToJSONSchema, SchemaToJSON,
-                                                    FictionBook,
-                                                        Description,
-                                                            TitleInfo,
-                                                                BookTitle,
-                                                                    FB2TextElement,
-                                                            DocumentInfo,
-                                                                Empty,
-                                                            PublishInfo,
-                                                                //Empty,
-                                                        Body,
-                                                            Section,
-                                                                Paragraph,
-                                                        Binary)
+TXML_DECLARE_SCHEMA_SERIALIZER_CLASS(ToJSONSchema, SchemaToJSON, FB2_CLASS_LIST)
 {
     TXML_SCHEMA_SERIALIZER_OBJECT
 

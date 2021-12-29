@@ -6,7 +6,7 @@
 namespace fb2
 {
 template<class Stream>
-struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>, txml::StaticCheckUnscopedElement,
+struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>, txml::SkipUnscopedElement,
                                                     FictionBook,
                                                         Description,
                                                             TitleInfo,

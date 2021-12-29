@@ -16,4 +16,13 @@
 #include <txml/applications/fb2/include/fwd/PublishInfo.h>
 #include <txml/applications/fb2/include/fwd/TitleInfo.h>
 
+#define FB2_CLASS_LIST      fb2::FictionBook, fb2::Description, fb2::Body, fb2::Binary,             \
+                            fb2::TitleInfo, fb2::DocumentInfo, fb2::PublishInfo,                    \
+                            fb2::BookTitle, fb2::Genre, fb2::Language,                              \
+                            fb2::Author, fb2::Publisher, fb2::ISBN,                                 \
+                            fb2::FirstName, fb2::MiddleName, fb2::LastName, fb2::NickName,          \
+                            fb2::Section,                                                           \
+                            fb2::Paragraph,                                                         \
+                            fb2::FB2TextElement, fb2::Empty
+
 #endif // TXML_APPLICATION_FB2_FWD_H

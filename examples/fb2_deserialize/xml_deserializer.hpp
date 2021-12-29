@@ -7,21 +7,7 @@
 namespace fb2
 {
 using namespace xml;
-TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromXML, FromXML,
-                                FictionBook,
-                                        Description,
-                                                TitleInfo,
-                                                    BookTitle,
-                                                        FB2TextElement,
-                                                DocumentInfo,
-                                                    Empty,
-                                                PublishInfo,
-                                                    /*Empty,*/
-                                                Body,
-                                                    Section,
-                                                        Paragraph,
-                                                            /*FB2TextElement,*/
-                                                Binary)
+TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromXML, FromXML, FB2_CLASS_LIST)
 {
     TXML_DESERIALIZER_OBJECT
 

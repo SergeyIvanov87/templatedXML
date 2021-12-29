@@ -5,11 +5,12 @@
 
 namespace fb2
 {
-class Empty;
-class PublishInfo : public txml::XMLNode<PublishInfo, Empty>
+class Publisher;
+class ISBN;
+class PublishInfo : public txml::XMLNode<PublishInfo, Publisher, ISBN>
 {
 public:
-    using base = txml::XMLNode<PublishInfo, Empty>;
+    using base = txml::XMLNode<PublishInfo, Publisher, ISBN>;
 
     static constexpr const char *class_name()
     {

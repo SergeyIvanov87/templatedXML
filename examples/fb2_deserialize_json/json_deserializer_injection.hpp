@@ -9,19 +9,13 @@ namespace fb2
 using namespace json;
 template<class ParentAggregator>
 TXML_PREPARE_DESERIALIZER_DISPATCHABLE_CLASS(Fb2FromJSON_1, ParentAggregator, FromJSON,
-                                                        FictionBook,
-                                                            Description,
-                                                            TitleInfo,
-                                                                BookTitle,
-                                                                    /*FB2TextElement,*/
-                                                            DocumentInfo,
-                                                                Empty,
-                                                            PublishInfo,
-                                                                //Empty,
-                                                        Body,
-                                                            Section,
-                                                                Paragraph,
-                                                        Binary)
+                                                        fb2::FictionBook, fb2::Description, fb2::Body, fb2::Binary,
+                                                        fb2::TitleInfo, fb2::DocumentInfo, fb2::PublishInfo,
+                                                        fb2::BookTitle, fb2::Author, fb2::Publisher, fb2::ISBN,
+                                                        fb2::FirstName, fb2::MiddleName, fb2::LastName, fb2::NickName,
+                                                        fb2::Section,
+                                                        fb2::Paragraph,
+                                                        /*fb2::FB2TextElement, */fb2::Empty)
 {
     TXML_DESERIALIZER_DISPATCHABLE_OBJECT
     using json = nlohmann::json;

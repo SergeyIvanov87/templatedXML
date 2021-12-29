@@ -6,10 +6,12 @@
 namespace fb2
 {
 class BookTitle;
-class TitleInfo : public txml::XMLNode<TitleInfo, BookTitle>
+class Genre;
+class Language;
+class TitleInfo : public txml::XMLNode<TitleInfo, BookTitle, Genre, Language>
 {
 public:
-    using base = txml::XMLNode<TitleInfo, BookTitle>;
+    using base = txml::XMLNode<TitleInfo, BookTitle, Genre, Language>;
 
     static constexpr const char *class_name()
     {
