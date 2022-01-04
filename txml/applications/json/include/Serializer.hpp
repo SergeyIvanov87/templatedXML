@@ -24,7 +24,7 @@ template<TEMPL_ARGS_DECL>
 template<class SerializedItem, class Tracer>
 void ToJSON<TEMPL_ARGS_DEF>::serialize_impl(const SerializedItem &val, Tracer tracer)
 {
-    serialize_tag_impl(val, typename SerializedItem::tags_t {}, tracer);
+    return static_cast<Impl*>(this)->template serialize_tag_impl(val, typename SerializedItem::tags_t {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
@@ -39,7 +39,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     tracer.trace(__FUNCTION__, " - begin 'ArrayTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
-    value.format_serialize_elements(*this, tracer);
+    value.format_serialize_elements(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace(__FUNCTION__, " - end 'ArrayTag': ", SerializedItem::class_name(),
@@ -68,7 +68,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     tracer.trace(__FUNCTION__, " - begin 'ContainerTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
-    value.format_serialize_elements(*this, tracer);
+    value.format_serialize_elements(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace(__FUNCTION__, " - end 'ContainerTag': ", SerializedItem::class_name(),

@@ -130,4 +130,39 @@ struct Class_Aggregator : public txml::DeserializerDispatcher < __VA_ARGS__ >   
         }; /* syntax_filler_##CAggregatorClass*/                                                    \
     public:
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define TXML_PREPARE_SERIALIZER_DISPATCHABLE_CLASS(DispatchableClass, Class_Aggregator, BaseImpl,...)     \
+struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >                        \
+{                                                                                                   \
+    using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
+    using base_t::BaseImpl;                                                                         \
+    private:                                                                                        \
+        class syntax_filler_##DispatchableClass
+
+
+#define TXML_SERIALIZER_DISPATCHABLE_OBJECT                                                       \
+        }; /* syntax_filler_##DispatchableClas*/                                                    \
+    public:                                                                                         \
+    using base_t::serialize_impl;                                                                 \
+    using base_t::serialize_tag_impl;                                                             \
+    using base_t::is_registered_element;
+
+
+
+
+#define TXML_DECLARE_SERIALIZER_AGGREGATOR_CLASS(Class_Aggregator,...)                            \
+struct Class_Aggregator : public txml::SerializerDispatcher < __VA_ARGS__ >                       \
+{                                                                                                   \
+    using base_t = txml::SerializerDispatcher < __VA_ARGS__ >;                                    \
+    private:                                                                                        \
+        class syntax_filler_##AggregatorClass
+
+
+
+#define TXML_SERIALIZER_AGGREGATOR_OBJECT                                                         \
+        }; /* syntax_filler_##CAggregatorClass*/                                                    \
+    public:
+
 #endif // SERIALIZER_DESERIALIZER_HELPERS_H

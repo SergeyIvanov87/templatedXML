@@ -20,6 +20,7 @@
 #include <txml/include/engine/fwd/FormatDeserializerBase.h>
 #include <txml/include/engine/fwd/SerializerSchemaDispatcher.h>
 #include <txml/include/engine/fwd/DeserializerDispatcher.h>
+#include <txml/include/engine/fwd/SerializerDispatcher.h>
 #include <txml/include/engine/fwd/Helpers.h>
 
 #include <txml/include/engine/fwd/TagHolder.h>

@@ -36,7 +36,8 @@ void FormatSerializerBase<TEMPL_ARGS_DEF>::map(const InElement& in_val, Tracer t
     }
     else
     {
-        details::SingleElementSerializerBase<Impl, InElement>::invoke(in_val, tracer);
+        //details::SingleElementSerializerBase<Impl, InElement>::invoke(in_val, tracer);
+        return static_cast<details::SingleElementSerializerBase<Impl, InElement>*>(this)->invoke(in_val, tracer);
     }
 }
 
