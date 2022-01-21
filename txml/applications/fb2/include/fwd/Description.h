@@ -13,7 +13,7 @@ class Description : public txml::XMLNode<Description, TitleInfo, DocumentInfo, P
 public:
     using base = txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "description";
     }
@@ -22,8 +22,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FB2_DESCRIPTION_H

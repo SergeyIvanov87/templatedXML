@@ -8,11 +8,6 @@
 
 namespace fb2
 {
-const char *ISBN::name() const noexcept
-{
-    return class_name();
-}
-
 const ISBN::value_t &ISBN::getValue() const
 {
     auto val = base::getValue<FB2TextElement>();

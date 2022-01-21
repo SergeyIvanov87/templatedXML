@@ -14,7 +14,7 @@ class Author : public txml::XMLNode<Author, FirstName, MiddleName, LastName, Nic
 public:
     using base = txml::XMLNode<Author, FirstName, MiddleName, LastName, NickName>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "author";
     }
@@ -23,8 +23,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //DOC_INFO_AUTHOR_H

@@ -13,7 +13,7 @@ class TitleInfo : public txml::XMLNode<TitleInfo, BookTitle, Genre, Language>
 public:
     using base = txml::XMLNode<TitleInfo, BookTitle, Genre, Language>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "title-info";
     }
@@ -22,8 +22,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FB2_TITLE_INFO_H

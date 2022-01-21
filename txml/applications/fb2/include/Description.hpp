@@ -10,11 +10,4 @@
 #include <txml/applications/fb2/include/DocumentInfo.hpp>
 #include <txml/applications/fb2/include/PublishInfo.hpp>
 
-namespace fb2
-{
-const char *Description::name() const noexcept
-{
-    return Description::class_name();
-}
-} // namespace fb2
 #endif

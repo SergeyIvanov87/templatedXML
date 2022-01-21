@@ -12,11 +12,6 @@
 
 namespace xdxf
 {
-const char *Transcription::name() const noexcept
-{
-    return class_name();
-}
-
 const Transcription::value_t &Transcription::getValue() const
 {
     auto val = base::getValue<TextElement>();

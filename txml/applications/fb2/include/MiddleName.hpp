@@ -8,11 +8,6 @@
 
 namespace fb2
 {
-const char *MiddleName::name() const noexcept
-{
-    return class_name();
-}
-
 const MiddleName::value_t &MiddleName::getValue() const
 {
     auto val = base::getValue<FB2TextElement>();

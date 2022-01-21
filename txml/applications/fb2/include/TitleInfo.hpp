@@ -10,11 +10,4 @@
 #include <txml/applications/fb2/include/Language.hpp>
 #include <txml/applications/fb2/include/Genre.hpp>
 
-namespace fb2
-{
-const char *TitleInfo::name() const noexcept
-{
-    return TitleInfo::class_name();
-}
-} // namespace fb2
 #endif

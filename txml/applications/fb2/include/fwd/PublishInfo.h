@@ -12,7 +12,7 @@ class PublishInfo : public txml::XMLNode<PublishInfo, Publisher, ISBN>
 public:
     using base = txml::XMLNode<PublishInfo, Publisher, ISBN>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "publish-info";
     }
@@ -21,8 +21,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FB2_PUBLISH_INFO_H

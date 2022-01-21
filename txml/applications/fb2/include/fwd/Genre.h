@@ -12,7 +12,7 @@ public:
     using base = txml::XMLNode<Genre, FB2TextElement>;
     using value_t = std::string;
 
-    static constexpr const char* class_name()
+    static constexpr std::string_view class_name()
     {
         return "genre";
     }
@@ -22,7 +22,6 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const char *name() const noexcept override;
     const value_t &getValue() const;
 };
 } // namespace fb2

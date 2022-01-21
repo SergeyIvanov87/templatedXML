@@ -16,7 +16,7 @@ class XDXFArticle : public txml::XMLNode<XDXFArticle, KeyPhrase, Comment, Transc
 public:
     using base = txml::XMLNode<XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "ar";
     }
@@ -25,8 +25,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace xdxf
 #endif //XDXF_ARTICLE_H

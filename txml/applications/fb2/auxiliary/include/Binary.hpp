@@ -8,11 +8,6 @@
 
 namespace fb2
 {
-const char *Binary::name() const noexcept
-{
-    return class_name();
-}
-
 const Binary::value_t &Binary::getValue() const
 {
     auto val = base::getValue<Empty>();

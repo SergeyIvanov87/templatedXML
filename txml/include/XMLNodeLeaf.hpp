@@ -26,12 +26,6 @@ XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(const value_t& v) :
 }
 
 template<TEMPL_ARGS_DECL>
-const char *XMLNodeLeaf<TEMPL_ARGS_DEF>::name() const noexcept
-{
-    return Impl::class_name();
-}
-
-template<TEMPL_ARGS_DECL>
 const typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t &XMLNodeLeaf<TEMPL_ARGS_DEF>::getValue() const
 {
     return val;
@@ -50,7 +44,7 @@ std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &rea
     const std::string &name = reader.get_name();
     if (name != Impl::class_name())
     {
-        throw std::runtime_error(std::string("Expected: ") + Impl::class_name() +
+        throw std::runtime_error(std::string("Expected: ") + std::string(Impl::class_name()) +
                                  ", got: " + name);
     }
 

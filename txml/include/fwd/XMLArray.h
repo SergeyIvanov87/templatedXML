@@ -12,6 +12,7 @@
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
+#include <txml/include/details/fwd/Searchable.h>
 
 namespace txml
 {
@@ -25,6 +26,7 @@ struct XMLArray : public std::enable_shared_from_this<XMLArray<Impl, ElementType
                  public XMLFormatSerializable<Impl>,
                  public XMLFormatDeserializable<Impl>,
                  public XMLSchemaSerializable<Impl>,
+                 public Searchable<Impl, ElementType>,
                  public TagHolder<ArrayTag>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;

@@ -15,7 +15,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, T
     const std::string &name = reader.get_name();
     if (name != Value::class_name())
     {
-        throw std::runtime_error(std::string("Expected: ") + Value::class_name() +
+        throw std::runtime_error(std::string("Expected: ") + std::string(Value::class_name()) +
                                  ", got: " + name);
     }
 

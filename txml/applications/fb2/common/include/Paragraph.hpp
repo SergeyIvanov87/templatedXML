@@ -10,11 +10,6 @@
 
 namespace fb2
 {
-const char *Paragraph::name() const noexcept
-{
-    return class_name();
-}
-
 const Paragraph::value_t &Paragraph::getValue() const
 {
     auto val = base::getValue<FB2TextElement>();

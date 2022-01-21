@@ -9,11 +9,4 @@
 #include <txml/applications/fb2/include/Publisher.hpp>
 #include <txml/applications/fb2/include/ISBN.hpp>
 
-namespace fb2
-{
-const char *PublishInfo::name() const noexcept
-{
-    return PublishInfo::class_name();
-}
-} // namespace fb2
 #endif // FB2_PUBLISH_INFO_HPP

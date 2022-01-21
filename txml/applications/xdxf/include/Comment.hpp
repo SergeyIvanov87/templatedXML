@@ -13,12 +13,6 @@ Comment::Comment(std::string&& str) : base(std::move(str))
 {
 }
 
-const char *Comment::name() const noexcept
-{
-    return class_name();
-}
-
-
 template<class Tracer>
 void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {

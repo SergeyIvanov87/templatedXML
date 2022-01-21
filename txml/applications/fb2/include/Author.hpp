@@ -11,11 +11,4 @@
 #include <txml/applications/fb2/include/LastName.hpp>
 #include <txml/applications/fb2/include/NickName.hpp>
 
-namespace fb2
-{
-const char *Author::name() const noexcept
-{
-    return Author::class_name();
-}
-} // namespace fb2
 #endif

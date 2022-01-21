@@ -23,7 +23,7 @@ struct XMLArrayContainerNode
     using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
                                                   std::vector<std::shared_ptr<Value>>>;
 
-    static constexpr const char* class_name()
+    static constexpr std::string_view class_name()
     {
         return "Container";
     }

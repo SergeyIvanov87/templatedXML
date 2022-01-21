@@ -15,6 +15,7 @@
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
+#include <txml/include/details/fwd/Searchable.h>
 
 namespace txml
 {
@@ -23,6 +24,7 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
                      public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
                      public XMLSchemaSerializable<Impl>,
+                     public Searchable<Impl>,
                      public TagHolder<LeafTag>
 {
     using base = std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>;
@@ -32,7 +34,6 @@ struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
 
     XMLNodeLeaf(value_t&& v);
     XMLNodeLeaf(const value_t& v = value_t()); /*TODO required default value. Make pointer*/
-    virtual const char *name() const noexcept;
 
     std::shared_ptr<XMLNodeLeaf<Impl, T>> get_ptr();
 

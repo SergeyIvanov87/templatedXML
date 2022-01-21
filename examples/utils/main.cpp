@@ -232,5 +232,6 @@ int main(int argc, char** argv)
 
 
     std::cout << Test<A_3>::class_name() << std::endl;
+    std::cout << fb2::FictionBook::get_path<fb2::FirstName, '!'>() << std::endl;
     return 0;
 }

@@ -11,7 +11,7 @@ class Section : public txml::XMLArray<Section, Paragraph>
 public:
     using base = txml::XMLArray<Section, Paragraph>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "section";
     }

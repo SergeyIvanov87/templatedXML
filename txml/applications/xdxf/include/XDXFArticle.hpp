@@ -13,11 +13,4 @@
 #include <txml/applications/xdxf/include/Transcription.hpp>
 #include <txml/applications/xdxf/include/TextElement.hpp>
 
-namespace xdxf
-{
-const char *XDXFArticle::name() const noexcept
-{
-    return XDXFArticle::class_name();
-}
-} // namespace xdxf
 #endif

@@ -11,11 +11,6 @@
 
 namespace xdxf
 {
-const char *KeyPhrase::name() const noexcept
-{
-    return class_name();
-}
-
 const KeyPhrase::value_t &KeyPhrase::getValue() const
 {
     auto val = base::getValue<TextElement>();

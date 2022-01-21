@@ -8,11 +8,6 @@
 
 namespace fb2
 {
-const char *Language::name() const noexcept
-{
-    return class_name();
-}
-
 const Language::value_t &Language::getValue() const
 {
     auto val = base::getValue<FB2TextElement>();

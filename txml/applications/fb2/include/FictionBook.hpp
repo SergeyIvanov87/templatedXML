@@ -10,11 +10,4 @@
 #include <txml/applications/fb2/body/include/Body.hpp>
 #include <txml/applications/fb2/auxiliary/include/Binary.hpp>
 
-namespace fb2
-{
-const char *FictionBook::name() const noexcept
-{
-    return FictionBook::class_name();
-}
-} // namespace fb2
 #endif

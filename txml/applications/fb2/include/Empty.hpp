@@ -13,12 +13,6 @@ Empty::Empty(std::string&& str) : base(std::move(str))
 {
 }
 
-const char *Empty::name() const noexcept
-{
-    return class_name();
-}
-
-
 template<class Tracer>
 void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {

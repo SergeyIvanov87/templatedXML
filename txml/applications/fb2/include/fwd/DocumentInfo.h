@@ -11,7 +11,7 @@ class DocumentInfo: public txml::XMLNode<DocumentInfo, Author>
 public:
     using base = txml::XMLNode<DocumentInfo, Author>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "document-info";
     }
@@ -20,8 +20,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FB2_DOCUMENT_INFO_H

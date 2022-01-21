@@ -16,7 +16,7 @@ public:
     using base = txml::XMLNodeLeaf<Empty, std::string>;
     using value_t = typename base::value_t;
 
-    static constexpr const char* class_name()
+    static constexpr std::string_view class_name()
     {
         return "!--";
     }
@@ -28,8 +28,6 @@ public:
 
     Empty(std::string&& str);
     ~Empty() = default;
-
-    const char *name() const noexcept override;
 
     template<class Tracer = txml::EmptyTracer>
     static std::shared_ptr<Empty> create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer);

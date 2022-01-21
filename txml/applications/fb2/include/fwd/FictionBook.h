@@ -13,7 +13,7 @@ class FictionBook : public txml::XMLNode<FictionBook, Description, Body, Binary>
 public:
     using base = txml::XMLNode<FictionBook, Description, Body, Binary>;
 
-    static constexpr const char *class_name()
+    static constexpr std::string_view class_name()
     {
         return "FictionBook";
     }
@@ -22,8 +22,6 @@ public:
     {
         return txml::TextReaderWrapper::NodeType::Element;
     }
-
-    virtual const char *name() const noexcept override;
 };
 } // namespace fb2
 #endif //FICTION_BOOK_H

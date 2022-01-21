@@ -13,12 +13,6 @@ FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {
 }
 
-const char *FB2TextElement::name() const noexcept
-{
-    return class_name();
-}
-
-
 template<class Tracer>
 void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {

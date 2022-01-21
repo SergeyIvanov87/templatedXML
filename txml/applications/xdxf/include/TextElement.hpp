@@ -14,12 +14,6 @@ TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
 }
 
-const char *TextElement::name() const noexcept
-{
-    return class_name();
-}
-
-
 template<class Tracer>
 void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
