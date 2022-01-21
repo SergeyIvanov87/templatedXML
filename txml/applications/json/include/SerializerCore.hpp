@@ -33,7 +33,7 @@ inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
     {
         tracer.trace(__FUNCTION__, " - from object count: ", awaiting_element_count, ", chose ",
                      utils::json_type_to_cstring(json_core_t::value_t::array), " as result holder");
-
+/*
         out = json_core_t::array();
         for (size_t i = 0; i < json_object_stack_helper->size(); i++)
         {
@@ -42,6 +42,35 @@ inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
                                    ", to: ", out.dump());
             out.insert(out.end(),serialized_element.begin(), serialized_element.end());
             //json_object_stack_helper->pop();
+        }
+*/
+        std::stack<json_core_t> tmp_stack;
+        out = json_core_t::object();
+        try{
+            while (json_object_stack_helper->size())
+            {
+                json_core_t &serialized_element = json_object_stack_helper->top();
+                tracer.trace(__FUNCTION__, " - merge: ", serialized_element.dump(),
+                                   ", to: ", out.dump());
+                out.insert(serialized_element.begin(), serialized_element.end());
+                tmp_stack.push(std::move(serialized_element));
+                json_object_stack_helper->pop();
+            }
+        }
+        catch(...)
+        {
+            while(tmp_stack.size())
+            {
+                json_object_stack_helper->push(tmp_stack.top());
+                tmp_stack.pop();
+            }
+            throw;
+        }
+
+        while(tmp_stack.size())
+        {
+            json_object_stack_helper->push(tmp_stack.top());
+            tmp_stack.pop();
         }
     }
     else

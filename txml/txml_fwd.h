@@ -3,6 +3,7 @@
 
 #include <txml/include/details/fwd/GenericContainerImpl.h>
 #include <txml/include/details/fwd/TracerPolicies.h>
+#include <txml/include/details/fwd/Searchable.h>
 #include <txml/include/engine/fwd/TextReaderWrap.h>
 
 #include <txml/include/fwd/XMLArray.h>

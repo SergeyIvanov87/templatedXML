@@ -165,7 +165,14 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
         size_t next_portion_items = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
         if (deserialized_item_count == next_portion_items)
         {
-            break; //nothing more
+            auto& [begin_it, end_it] = get_shared_mediator_object()->top();
+            if (++begin_it == end_it)
+            {
+                // TODO process skipped elements, which are not part of model!
+                break; //nothing more
+            }
+
+            available_item_count--;
         }
         deserialized_item_count = next_portion_items;
     }

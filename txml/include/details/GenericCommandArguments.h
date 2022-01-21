@@ -39,7 +39,7 @@ public:
     ArgumentPtr<T> set(ArgumentPtr<T> arg);
 
     template<class T, class ...Args>
-    ArgumentPtr<T> emplace(Args&& ...args);
+    ArgumentPtr<std::decay_t<T>> emplace(Args&& ...args);
 private:
     Tuple storage;
 };

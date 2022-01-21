@@ -3,7 +3,8 @@ list (APPEND EXAMPLE_TARGETS templatedxml_xdxf
                              templatedxml_xdxf_to_schema
                              templatedxml_fb2
                              templatedxml_fb2_to_schema
-                             templatedxml_fb2_deserialize)
+                             templatedxml_fb2_deserialize
+                             templatedxml_utils)
 
 
 add_subdirectory(fb2)
@@ -12,6 +13,7 @@ add_subdirectory(xdxf_to_fb2)
 add_subdirectory(xdxf_to_schema)
 add_subdirectory(fb2_to_schema)
 add_subdirectory(fb2_deserialize)
+add_subdirectory(utils)
 if (WITH_JSON)
     add_subdirectory(fb2_deserialize_json)
     add_subdirectory(fb2_to_json)

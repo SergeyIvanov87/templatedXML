@@ -30,10 +30,10 @@ ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
-typename ArgumentContainerBase<Arguments...>::ArgumentPtr<T>
+typename ArgumentContainerBase<Arguments...>::ArgumentPtr<std::decay_t<T>>
 ArgumentContainerBase<Arguments...>::emplace(Args &&...args)
 {
-    auto ret = std::make_shared<T>(std::forward<Args>(args)...);
+    auto ret = std::make_shared<std::decay_t<T>>(std::forward<Args>(args)...);
     return set(ret);
 }
 

@@ -32,6 +32,7 @@ struct XMLArrayContainerNode
     bool create_from(CreationArgs&&... next_args);
 
     XMLArrayContainerNode(typename aggregared_t::value_t &&val);
+    XMLArrayContainerNode(std::initializer_list<typename aggregared_t::value_t::value_type> list);
     XMLArrayContainerNode() = default;
 
     const typename aggregared_t::value_t& getValue() const;

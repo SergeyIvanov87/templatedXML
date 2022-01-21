@@ -17,6 +17,12 @@ XMLArrayContainerNode<Value>::XMLArrayContainerNode(typename aggregared_t::value
 }
 
 template<class Value>
+XMLArrayContainerNode<Value>::XMLArrayContainerNode(std::initializer_list<typename aggregared_t::value_t::value_type> list) :
+    XMLArrayContainerNode(typename aggregared_t::value_t {list})
+{
+}
+
+template<class Value>
 template<class Fabric, class ...CreationArgs>
 bool XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
 {
