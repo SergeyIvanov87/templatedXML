@@ -14,9 +14,14 @@ inline SerializerCore::SerializerCore(std::shared_ptr<std::stack<json_core_t>> e
 inline SerializerCore::~SerializerCore() = default;
 
 template<class Tracer>
-inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
+inline void SerializerCore::finalize(SerializerCore::json_core_t& out, Tracer tracer) const
 {
-    json_core_t out;
+    // check on null json object
+    // we must operate with valid json object here
+    if( out.type() == json_core_t::value_t::null)
+    {
+        out == json_core_t::object();
+    }
 
     size_t awaiting_element_count = json_object_stack_helper->size();
     if (awaiting_element_count == 1)
@@ -25,7 +30,6 @@ inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
                      utils::json_type_to_cstring(json_core_t::value_t::object), " as result holder");
 
         json_core_t &serialized_element = json_object_stack_helper->top();
-        out = json_core_t::object();
         out.insert(serialized_element.begin(), serialized_element.end());
         //json_object_stack_helper->pop();
     }
@@ -45,7 +49,6 @@ inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
         }
 */
         std::stack<json_core_t> tmp_stack;
-        out = json_core_t::object();
         try{
             while (json_object_stack_helper->size())
             {
@@ -77,7 +80,13 @@ inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
     {
         tracer.trace(__FUNCTION__, " - nothing to finalize...");
     }
+}
 
+template<class Tracer>
+inline SerializerCore::json_core_t SerializerCore::finalize(Tracer tracer) const
+{
+    json_core_t out = json_core_t::object();;
+    finalize(out, tracer);
     return out;
 }
 

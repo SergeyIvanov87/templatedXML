@@ -13,14 +13,12 @@ namespace txml
 
 template<TEMPL_ARGS_DECL>
 XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(value_t&& v) :
-    base(),
     val(std::move(v))
 {
 }
 
 template<TEMPL_ARGS_DECL>
 XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(const value_t& v) :
-    base(),
     val(v)
 {
 }

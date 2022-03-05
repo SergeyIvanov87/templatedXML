@@ -73,11 +73,6 @@ void XMLArray<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer trac
     out.template map<Impl>(tracer);
 }
 
-template<TEMPL_ARGS_DECL>
-inline std::shared_ptr<XMLArray<TEMPL_ARGS_DEF>> XMLArray<TEMPL_ARGS_DEF>::get_ptr()
-{
-    return this->shared_from_this();
-}
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

@@ -72,12 +72,6 @@ void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer trace
     tracer.trace(__FUNCTION__, " - ", Impl::class_name());
     out.template map<Impl>(tracer);
 }
-
-template<TEMPL_ARGS_DECL>
-inline std::shared_ptr<XMLNode<TEMPL_ARGS_DEF>> XMLNode<TEMPL_ARGS_DEF>::get_ptr()
-{
-    return this->shared_from_this();
-}
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

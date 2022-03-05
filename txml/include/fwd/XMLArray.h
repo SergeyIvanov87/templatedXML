@@ -19,8 +19,7 @@ namespace txml
 struct TextReaderWrapper;
 
 template<class Impl, class ElementType>
-struct XMLArray : public std::enable_shared_from_this<XMLArray<Impl, ElementType>>,
-                 public XMLProducible<Impl>,
+struct XMLArray: public XMLProducible<Impl>,
                  public XMLArrayContainerNode<ElementType>,
                  public XMLSerializable<Impl>,
                  public XMLFormatSerializable<Impl>,
@@ -34,8 +33,6 @@ struct XMLArray : public std::enable_shared_from_this<XMLArray<Impl, ElementType
     using tags_t = TagHolder<ArrayTag>;
 
     using Container::Container;
-
-    std::shared_ptr<XMLArray<Impl, ElementType>> get_ptr();
 
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());

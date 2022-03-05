@@ -20,22 +20,18 @@
 namespace txml
 {
 template<class Impl, class T>
-struct XMLNodeLeaf : public std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>,
-                     public XMLFormatSerializable<Impl>,
+struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
                      public XMLSchemaSerializable<Impl>,
                      public Searchable<Impl>,
                      public TagHolder<LeafTag>
 {
-    using base = std::enable_shared_from_this<XMLNodeLeaf<Impl, T>>;
     using tags_t = TagHolder<LeafTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;
     using value_t = T;
 
     XMLNodeLeaf(value_t&& v);
     XMLNodeLeaf(const value_t& v = value_t()); /*TODO required default value. Make pointer*/
-
-    std::shared_ptr<XMLNodeLeaf<Impl, T>> get_ptr();
 
     const value_t& getValue() const;
     value_t& getValue();

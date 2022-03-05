@@ -20,8 +20,7 @@
 namespace txml
 {
 template<class Impl, class ...ContainedValues>
-struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValues...>>,
-                 public XMLProducible<Impl>,
+struct XMLNode : public XMLProducible<Impl>,
                  public ArgumentContainerBase<ContainedValues...>,
                  public XMLSerializable<Impl>,
                  public XMLFormatSerializable<Impl>,
@@ -33,8 +32,6 @@ struct XMLNode : public std::enable_shared_from_this<XMLNode<Impl, ContainedValu
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = ArgumentContainerBase<ContainedValues...>;
     using tags_t = TagHolder<ContainerTag>;
-
-    std::shared_ptr<XMLNode<Impl, ContainedValues...>> get_ptr();
 
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
