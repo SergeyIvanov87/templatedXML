@@ -109,5 +109,19 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     tracer.trace(__FUNCTION__, " - end 'LeafTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
 }
+
+template<TEMPL_ARGS_DECL>
+template<class SerializedItem, class Tracer>
+void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, const txml::NoDataTag&, Tracer &tracer)
+{
+    auto mediator = get_shared_mediator_object();
+    tracer.trace(__FUNCTION__, " - begin 'NoDataTag': ", SerializedItem::class_name(),
+                               ", stack size: ", mediator->size());
+    json element(SerializedItem::class_name());
+    tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
+    mediator->push(std::move(element));
+    tracer.trace(__FUNCTION__, " - end 'NoDataTag': ", SerializedItem::class_name(),
+                               ", stack size: ", mediator->size());
+}
 } // namespace json
 #endif // TXML_APPLICATION_JSON_SERIALIZER_HPP

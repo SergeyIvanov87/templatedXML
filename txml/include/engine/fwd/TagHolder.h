@@ -18,6 +18,7 @@ constexpr bool isContainTag(TagHolder<HolderTags...>)
 struct ArrayTag { };
 struct ContainerTag { };
 struct LeafTag { };
+struct NoDataTag { };
 
 } // namespace txml
 #endif // TAG_HOLDER_H

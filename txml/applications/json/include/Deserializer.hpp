@@ -81,6 +81,22 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 }
 
 template<TEMPL_ARGS_DECL>
+template<class DeserializedItem, class Tracer>
+std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+{
+
+    auto& [begin_it, end_it] = get_shared_mediator_object()->top();
+    if (!check_leaf_no_data_node_param<DeserializedItem>(begin_it, end_it, tracer))
+    {
+        return {};
+    }
+
+    begin_it++;
+    return std::make_shared<DeserializedItem>();
+}
+
+
+template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
 bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
                                  json::value_t expected_type, Tracer tracer)
@@ -149,6 +165,28 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json::iterator& cur_it, con
     return true;
 }
 
+template<TEMPL_ARGS_DECL>
+template<class NodeType, class Tracer>
+bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
+                                                             Tracer tracer)
+{
+    if (cur_it == cur_end_it)
+    {
+        tracer.trace("EOF");
+        return false;
+    }
+
+    const std::string &key = cur_it.key();
+    const auto& value = cur_it.value();
+
+    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    if (value.type() != nlohmann::json::value_t::discarded || key != NodeType::class_name())
+    {
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(nlohmann::json::value_t::discarded));
+        return false;
+    }
+    return true;
+}
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
 std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)

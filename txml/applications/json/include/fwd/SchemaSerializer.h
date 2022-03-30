@@ -28,6 +28,8 @@ protected:
     void serialize_schema_tag_impl(const txml::ContainerTag&, Tracer &tracer);
     template<class SerializedItem, class Tracer>
     void serialize_schema_tag_impl(const txml::LeafTag&, Tracer &tracer);
+    template<class SerializedItem, class Tracer>
+    void serialize_schema_tag_impl(const txml::NoDataTag&, Tracer &tracer);
 };
 } // namespace json
 #endif // TXML_APPLICATION_JSON_FWD_SCHEMA_SERIALIZER_H

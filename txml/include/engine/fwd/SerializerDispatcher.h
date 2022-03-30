@@ -65,6 +65,17 @@ struct SerializerDispatcher : public DispatcherBase<Contexts...>
             element_processing_context->template serialize_tag_impl<SerializedItem>(value, t, tracer);
         }
     }
+
+    //TODO why not templated tag???
+    template<class SerializedItem, class Tracer>
+    void serialize_tag_impl(const SerializedItem& value, const txml::NoDataTag &t, Tracer &tracer)
+    {
+        auto* element_processing_context = this->template dispatch_context<SerializedItem>();
+        if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
+        {
+            element_processing_context->template serialize_tag_impl<SerializedItem>(value, t, tracer);
+        }
+    }
 };
 } // namespace txml
 #endif // SERIALIZER_DISPATCHER_H

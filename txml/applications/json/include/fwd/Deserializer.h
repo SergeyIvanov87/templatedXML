@@ -33,6 +33,8 @@ protected:
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer);
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer);
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer);
 
     template<class NodeType, class Tracer>
     static bool check_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
@@ -45,6 +47,9 @@ protected:
     template<class NodeType, class Tracer>
     static bool check_leaf_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
                                       json::value_t expected_type, Tracer tracer);
+    template<class NodeType, class Tracer>
+    static bool check_leaf_no_data_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
+                                              Tracer tracer);
 
     template<class NodeType, class Tracer>
     std::shared_ptr<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count);

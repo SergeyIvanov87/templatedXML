@@ -20,7 +20,7 @@ inline void SerializerCore::finalize(SerializerCore::json_core_t& out, Tracer tr
     // we must operate with valid json object here
     if( out.type() == json_core_t::value_t::null)
     {
-        out == json_core_t::object();
+        out = json_core_t::object();
     }
 
     size_t awaiting_element_count = json_object_stack_helper->size();

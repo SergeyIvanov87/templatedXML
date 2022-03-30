@@ -66,6 +66,16 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
             element_processing_context->template serialize_schema_tag_impl<InElement>(txml::LeafTag{} , tracer);
         }
     }
+
+    template<class InElement, class Tracer>
+    void serialize_schema_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+    {
+        auto* element_processing_context = this->template dispatch_context<InElement>();
+        if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
+        {
+            element_processing_context->template serialize_schema_tag_impl<InElement>(txml::NoDataTag{} , tracer);
+        }
+    }
 };
 } // namespace txml
 #endif // SERIALIZER_SCHEMA_DISPATCHER_H

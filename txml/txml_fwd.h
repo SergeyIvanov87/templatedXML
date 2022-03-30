@@ -11,6 +11,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/fwd/XMLNode.h>
 #include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLNodeLeafNoData.h>
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>

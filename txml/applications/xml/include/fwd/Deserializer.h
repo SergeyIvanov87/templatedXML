@@ -27,6 +27,8 @@ protected:
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer);
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer);
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer);
 
     template<class NodeType, class Tracer>
     bool check_node_param(const txml::TextReaderWrapper &reader, Tracer tracer);

@@ -1,5 +1,5 @@
-#ifndef XML_NODE_LEAF_H
-#define XML_NODE_LEAF_H
+#ifndef XML_NODE_LEAF_NO_DATA_H
+#define XML_NODE_LEAF_NO_DATA_H
 
 #include <iostream>
 #include <memory>
@@ -19,22 +19,17 @@
 
 namespace txml
 {
-template<class Impl, class T>
-struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
+template<class Impl>
+struct XMLNodeLeafNoData : public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
                      public XMLSchemaSerializable<Impl>,
                      public Searchable<Impl>,
-                     public TagHolder<LeafTag>
+                     public TagHolder<NoDataTag>
 {
-    using tags_t = TagHolder<LeafTag>;
+    using tags_t = TagHolder<NoDataTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;
-    using value_t = T;
 
-    XMLNodeLeaf(value_t&& v);
-    XMLNodeLeaf(const value_t& v = value_t()); /*TODO required default value. Make pointer*/
-
-    const value_t& getValue() const;
-    value_t& getValue();
+    XMLNodeLeafNoData() = default;
 
     template<class Tracer = EmptyTracer>
     static std::shared_ptr<Impl> create(TextReaderWrapper &reader, Tracer tracer);
@@ -53,8 +48,6 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
-private:
-    value_t val;
 };
 } // namespace txml
-#endif //XML_NODE_LEAF_H
+#endif //XML_NODE_LEAF_NO_DATA_H

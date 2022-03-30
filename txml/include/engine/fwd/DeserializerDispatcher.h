@@ -90,6 +90,22 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
             return {};
         }
     }
+
+    //TODO why not templated tag???
+    template<class DeserializedItem, class Tracer>
+    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+    {
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
+        {
+            return element_processing_context->template deserialize_tag_impl<DeserializedItem>(txml::NoDataTag{} , tracer);
+        }
+        else
+        {
+            // TODO use Policy?
+            return {};
+        }
+    }
 };
 } // namespace txml
 #endif // DESERIALIZER_DISPATCHER_H

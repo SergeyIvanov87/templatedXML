@@ -56,6 +56,17 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 }
 
 
+template<TEMPL_ARGS_DECL>
+template<class DeserializedItem, class Tracer>
+std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+{
+    if (!check_node_param<DeserializedItem> (in, tracer)) {
+        return {};
+    }
+
+    return std::make_shared<DeserializedItem>();
+}
+
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>

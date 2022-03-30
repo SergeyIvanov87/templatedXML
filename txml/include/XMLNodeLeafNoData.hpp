@@ -1,43 +1,20 @@
-#ifndef XML_NODE_LEAF_HPP
-#define XML_NODE_LEAF_HPP
+#ifndef XML_NODE_LEAF_NO_DATA_HPP
+#define XML_NODE_LEAF_NO_DATA_HPP
 
-#include <txml/include/fwd/XMLNodeLeaf.h>
+#include <txml/include/fwd/XMLNodeLeafNoData.h>
 #include <txml/include/utils.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
 
 namespace txml
 {
-#define TEMPL_ARGS_DECL    class Impl, class T
-#define TEMPL_ARGS_DEF     Impl, T
+#define TEMPL_ARGS_DECL    class Impl
+#define TEMPL_ARGS_DEF     Impl
 
-template<TEMPL_ARGS_DECL>
-XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(value_t&& v) :
-    val(std::move(v))
-{
-}
-
-template<TEMPL_ARGS_DECL>
-XMLNodeLeaf<TEMPL_ARGS_DEF>::XMLNodeLeaf(const value_t& v) :
-    val(v)
-{
-}
-
-template<TEMPL_ARGS_DECL>
-const typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t &XMLNodeLeaf<TEMPL_ARGS_DEF>::getValue() const
-{
-    return val;
-}
-
-template<TEMPL_ARGS_DECL>
-typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t& XMLNodeLeaf<TEMPL_ARGS_DEF>::getValue()
-{
-    return val;
-}
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
+std::shared_ptr<Impl> XMLNodeLeafNoData<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     if (name != Impl::class_name())
@@ -57,20 +34,20 @@ std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &rea
 
 
     tracer.trace("Open tag '", Impl::class_name(), "'");
-    ret = Impl::create_impl(reader, tracer);
+    ret.reset(new Impl);//(std::string(it, tmp_value.end()))); = //Impl::create_impl(reader, tracer);
     tracer.trace("Close tag '", Impl::class_name(), "'");
     return ret;
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-void XMLNodeLeaf<TEMPL_ARGS_DEF>::fill_impl(TextReaderWrapper &reader, Tracer tracer)
+void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::fill_impl(TextReaderWrapper &reader, Tracer tracer)
 {
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
+void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - ", Impl::class_name());
     out.template map<Impl>(*static_cast<const Impl *>(this), tracer);
@@ -78,7 +55,7 @@ void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer t
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNodeLeaf<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer tracer)
+void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer tracer)
 {
     tracer.trace(__FUNCTION__, " - ", Impl::class_name());
     out.template map<Impl>(tracer);
@@ -86,7 +63,7 @@ void XMLNodeLeaf<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer t
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+std::shared_ptr<Impl> XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);
@@ -96,10 +73,10 @@ std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_impl(Forma
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
+void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
 {
 }
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml
-#endif //XML_NODE_LEAF_HPP
+#endif //XML_NODE_LEAF_NO_DATA_HPP
