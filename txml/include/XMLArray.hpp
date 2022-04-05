@@ -20,8 +20,10 @@ template<class Tracer>
 bool XMLArray<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
 {
     const std::string &name = reader.get_name();
-    tracer.trace(__FUNCTION__, " '", Impl::class_name(), "' - got: '", name, "'");
-    return this->template create_from<XMLCreator>(reader, tracer);
+    tracer.trace("try saturate array '", Impl::class_name(), "' by '", name, "'");
+    size_t ret = this->template create_from<XMLCreator>(reader, tracer);
+    tracer.trace("saturation array '", Impl::class_name(), "' with: '", name, "', got count: ", ret);
+    return ret;
 }
 
 
@@ -44,8 +46,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLArray<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    tracer.trace("map array node '", Impl::class_name(), "'");
     out.map(static_cast<const Impl&>(*this), tracer);
+    tracer.trace("unmap array node '", Impl::class_name(), "'");
 }
 
 

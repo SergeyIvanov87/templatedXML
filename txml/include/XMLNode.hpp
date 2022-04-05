@@ -20,8 +20,12 @@ template<class Tracer>
 bool XMLNode<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
 {
     const std::string &name = reader.get_name();
-    tracer.trace(__FUNCTION__, " '", Impl::class_name(), "' - got: '", name, "'");
-    return this->template create_from<XMLCreator>(reader, tracer);
+    tracer.trace("try saturate node '", Impl::class_name(), "' with: '", name,
+                 "', expected count: ", sizeof...(ContainedValues));
+    size_t ret = this->template create_from<XMLCreator>(reader, tracer);
+    tracer.trace("saturation node '", Impl::class_name(), "' with: '", name,
+                "', ratio got: ", ret, "/", sizeof...(ContainedValues));
+    return ret;
 }
 
 
@@ -44,8 +48,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNode<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    tracer.trace("map node '", Impl::class_name(), "'");
     out.map(static_cast<const Impl&>(*this), tracer);
+    tracer.trace("unmap node '", Impl::class_name(), "'");
 }
 
 

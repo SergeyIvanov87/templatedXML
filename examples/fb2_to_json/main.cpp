@@ -126,6 +126,7 @@ int main(int argc, char** argv)
         }
 
         //
+        xml_reader = std::make_unique<TextReaderWrapper>(xdxf_file_path);
         try
         {
             ToInjectedSerializer serializer;

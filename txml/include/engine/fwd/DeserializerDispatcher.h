@@ -19,7 +19,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
 
     template<class InElement, class Tracer>
     std::shared_ptr<InElement> map(Tracer tracer) {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (not std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template map<InElement>(tracer);
@@ -34,7 +34,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template deserialize_impl(txml::details::SchemaDTag<DeserializedItem> {} , tracer);
@@ -49,7 +49,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template deserialize_tag_impl<DeserializedItem>(txml::ArrayTag{} , tracer);
@@ -64,7 +64,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template deserialize_tag_impl<DeserializedItem>(txml::ContainerTag{} , tracer);
@@ -79,7 +79,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template deserialize_tag_impl<DeserializedItem>(txml::LeafTag{} , tracer);
@@ -95,7 +95,7 @@ struct DeserializerDispatcher : public DispatcherBase<Contexts...>
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<DeserializedItem>();
+        auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             return element_processing_context->template deserialize_tag_impl<DeserializedItem>(txml::NoDataTag{} , tracer);

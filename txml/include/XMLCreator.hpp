@@ -17,11 +17,12 @@ std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
     std::string name = reader.get_name();
     if (name != Value::class_name())
     {
+        tracer.trace("skip unexpected node '", name, "', waiting for: '", Value::class_name(), "'");
         return ret;
     }
 
     TextReaderWrapper::NodeType nodeType = reader.get_node_type();
-    tracer.trace("Found '", to_string(nodeType), "', tag name: '", name, "'");
+    tracer.trace("try on: '", name, "', type: '", to_string(nodeType), "'/'", to_string(Value::class_node_type()), "'");
 
     if (nodeType == Value::class_node_type())
     {
@@ -40,7 +41,6 @@ std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
         {
             tracer.trace("no attributes");
         }
-
 
         ret = Value::create(reader, tracer);
     }

@@ -19,7 +19,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
 
     template<class InElement, class Tracer>
     void map(Tracer tracer) {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (not std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             element_processing_context->template map<InElement>(tracer);
@@ -29,7 +29,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
     template<class InElement, class Tracer>
     void serialize_schema_impl(txml::details::SchemaTag<InElement>, Tracer tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         //element_processing_context->template serialize_schema_tag_impl<InElement>(typename InElement::tags_t {}, tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
@@ -40,7 +40,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
     template<class InElement, class Tracer>
     void serialize_schema_tag_impl(const txml::ArrayTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             element_processing_context->template serialize_schema_tag_impl<InElement>(txml::ArrayTag{} , tracer);
@@ -50,7 +50,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
     template<class InElement, class Tracer>
     void serialize_schema_tag_impl(const txml::ContainerTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             element_processing_context->template serialize_schema_tag_impl<InElement>(txml::ContainerTag{} , tracer);
@@ -60,7 +60,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
     template<class InElement, class Tracer>
     void serialize_schema_tag_impl(const txml::LeafTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             element_processing_context->template serialize_schema_tag_impl<InElement>(txml::LeafTag{} , tracer);
@@ -70,7 +70,7 @@ struct SerializerSchemaDispatcher : public DispatcherBase<Contexts...>
     template<class InElement, class Tracer>
     void serialize_schema_tag_impl(const txml::NoDataTag&, Tracer &tracer)
     {
-        auto* element_processing_context = this->template dispatch_context<InElement>();
+        auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
             element_processing_context->template serialize_schema_tag_impl<InElement>(txml::NoDataTag{} , tracer);

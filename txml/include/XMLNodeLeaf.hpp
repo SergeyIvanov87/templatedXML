@@ -72,8 +72,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    tracer.trace("map leaf node '", Impl::class_name(), "'");
     out.template map<Impl>(*static_cast<const Impl *>(this), tracer);
+    tracer.trace("unmap leaf node '", Impl::class_name(), "'");
 }
 
 template<TEMPL_ARGS_DECL>

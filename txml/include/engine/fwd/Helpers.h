@@ -1,5 +1,6 @@
 #ifndef SERIALIZER_DESERIALIZER_HELPERS_H
 #define SERIALIZER_DESERIALIZER_HELPERS_H
+#include <txml/include/utils/fwd/utils.h>
 
 #define TXML_DECLARE_DESERIALIZER_CLASS(Class,BaseImpl,...)                                         \
 struct Class : public BaseImpl < Class, __VA_ARGS__ >                                               \
@@ -69,6 +70,10 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                   \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
     using base_t::BaseImpl;                                                                         \
+    static constexpr const char *name() { return #DispatchableClass"<"#__VA_ARGS__">"; }             \
+        static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }           \
+    template<class ...Elements>                                                                     \
+    static constexpr std::string_view enumerate_impl() { return txml::utils::join_node_names_v<'[',',', ']', Elements...>; }           \
     private:                                                                                        \
         class syntax_filler_##DispatchableClass
 
@@ -87,6 +92,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 struct Class_Aggregator : public txml::SerializerSchemaDispatcher< __VA_ARGS__ >                    \
 {                                                                                                   \
     using base_t = txml::SerializerSchemaDispatcher < __VA_ARGS__ >;                                \
+    static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }             \
     private:                                                                                        \
         class syntax_filler_##AggregatorClass
 
@@ -103,6 +109,10 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                   \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
     using base_t::BaseImpl;                                                                         \
+    static constexpr const char *name() { return #DispatchableClass"<"#__VA_ARGS__">"; }            \
+    static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }           \
+    template<class ...Elements>                                                                     \
+    static constexpr std::string_view enumerate_impl() { return txml::utils::join_node_names_v<'[', ',', ']', Elements...>; }           \
     private:                                                                                        \
         class syntax_filler_##DispatchableClass
 
@@ -121,6 +131,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 struct Class_Aggregator : public txml::DeserializerDispatcher < __VA_ARGS__ >                       \
 {                                                                                                   \
     using base_t = txml::DeserializerDispatcher < __VA_ARGS__ >;                                    \
+    static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }             \
     private:                                                                                        \
         class syntax_filler_##AggregatorClass
 
@@ -138,15 +149,19 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                   \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
     using base_t::BaseImpl;                                                                         \
+    static constexpr const char *name() { return #DispatchableClass":"#Class_Aggregator"<"#__VA_ARGS__">"; }            \
+    static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }           \
+    template<class ...Elements>                                                                     \
+    static constexpr std::string_view enumerate_impl() { return txml::utils::join_node_names_v<'[',',', ']', Elements...>; }           \
     private:                                                                                        \
         class syntax_filler_##DispatchableClass
 
 
-#define TXML_SERIALIZER_DISPATCHABLE_OBJECT                                                       \
+#define TXML_SERIALIZER_DISPATCHABLE_OBJECT                                                         \
         }; /* syntax_filler_##DispatchableClas*/                                                    \
     public:                                                                                         \
-    using base_t::serialize_impl;                                                                 \
-    using base_t::serialize_tag_impl;                                                             \
+    using base_t::serialize_impl;                                                                   \
+    using base_t::serialize_tag_impl;                                                               \
     using base_t::is_registered_element;
 
 
@@ -156,6 +171,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 struct Class_Aggregator : public txml::SerializerDispatcher < __VA_ARGS__ >                       \
 {                                                                                                   \
     using base_t = txml::SerializerDispatcher < __VA_ARGS__ >;                                    \
+    static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }            \
     private:                                                                                        \
         class syntax_filler_##AggregatorClass
 

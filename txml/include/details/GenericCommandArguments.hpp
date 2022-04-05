@@ -39,9 +39,9 @@ ArgumentContainerBase<Arguments...>::emplace(Args &&...args)
 
 template<TEMPL_ARGS_DECL>
 template<class Fabric, class ...CreationArgs>
-bool ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
+size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
-    return std::apply([&next_args...](std::shared_ptr<Arguments> &...element) -> bool
+    return std::apply([&next_args...](std::shared_ptr<Arguments> &...element) -> size_t
     {
         bool dispatchingResult[]
             {
@@ -51,7 +51,7 @@ bool ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_a
                            ), element.get() != nullptr/* true if created, or false*/)...
             };
         // success if one of element was created at least
-        return std::any_of(dispatchingResult, dispatchingResult + sizeof...(Arguments), [] (bool val) {
+        return std::count_if(dispatchingResult, dispatchingResult + sizeof...(Arguments), [] (bool val) {
             return val;
         });
     }, storage);

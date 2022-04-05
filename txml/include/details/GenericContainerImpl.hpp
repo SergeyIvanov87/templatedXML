@@ -24,7 +24,7 @@ XMLArrayContainerNode<Value>::XMLArrayContainerNode(std::initializer_list<typena
 
 template<class Value>
 template<class Fabric, class ...CreationArgs>
-bool XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
+size_t XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
 {
     typename aggregared_t::value_t &arr = leaf_node.getValue();
     std::shared_ptr<Value> elem;
@@ -34,7 +34,7 @@ bool XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
             arr.push_back(elem);
         }
     } while (elem);
-    return !arr.empty();
+    return arr.size();
 }
 
 template<class Value>

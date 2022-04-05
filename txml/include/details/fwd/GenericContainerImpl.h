@@ -29,7 +29,7 @@ struct XMLArrayContainerNode
     }
 
     template<class Fabric, class ...CreationArgs>
-    bool create_from(CreationArgs&&... next_args);
+    size_t create_from(CreationArgs&&... next_args);
 
     XMLArrayContainerNode(typename aggregared_t::value_t &&val);
     XMLArrayContainerNode(std::initializer_list<typename aggregared_t::value_t::value_type> list);

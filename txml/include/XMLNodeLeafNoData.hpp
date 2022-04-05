@@ -49,8 +49,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    tracer.trace("map leaf-no-data-node '", Impl::class_name(), "'");
     out.template map<Impl>(*static_cast<const Impl *>(this), tracer);
+    tracer.trace("unmap leaf-no-data-node '", Impl::class_name(), "'");
 }
 
 template<TEMPL_ARGS_DECL>
