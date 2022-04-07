@@ -18,7 +18,6 @@ TXML_PREPARE_SERIALIZER_DISPATCHABLE_CLASS(Fb2ToJSON_1, ParentAggregator, ToJSON
                                                         /*fb2::FB2TextElement, */fb2::Empty)
 {
     TXML_SERIALIZER_DISPATCHABLE_OBJECT
-    using json = nlohmann::json;
 };
 
 template<class ParentAggregator>
@@ -27,7 +26,6 @@ TXML_PREPARE_SERIALIZER_DISPATCHABLE_CLASS(Fb2ToJSON_2, ParentAggregator, ToJSON
 {
     TXML_SERIALIZER_DISPATCHABLE_OBJECT
 
-    using json = nlohmann::json;
     template<class Item, class Tracer>
     void serialize_tag_impl(const Item& value, const txml::LeafTag& t, Tracer &tracer)
     {

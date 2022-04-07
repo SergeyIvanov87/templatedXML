@@ -11,9 +11,11 @@ struct SchemaToJSON : public virtual SerializerCore,
                       public txml::SchemaSerializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                   SerializedItems...>
 {
-    using json = nlohmann::json;
-    SchemaToJSON(std::shared_ptr<std::stack<json>> shared_object_stack =
-                                 std::shared_ptr<std::stack<json>>(new std::stack<json>));
+    using core_t = SerializerCore;
+    using json_core_t = core_t::json_core_t;
+    using ctor_arg_t = core_t::ctor_arg_t;
+
+    SchemaToJSON(ctor_arg_t shared_object_stack = core_t::default_ctor_arg());
     ~SchemaToJSON();
 
     // default serialization routine

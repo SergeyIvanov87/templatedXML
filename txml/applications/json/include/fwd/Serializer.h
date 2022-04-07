@@ -15,11 +15,11 @@ struct ToJSON : public virtual SerializerCore,
                 public txml::FormatSerializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                   SerializedItems...>
 {
-    using json = nlohmann::json;
     using core_t = SerializerCore;
+    using json_core_t = core_t::json_core_t;
+    using ctor_arg_t = core_t::ctor_arg_t;
 
-    ToJSON(std::shared_ptr<std::stack<json>> shared_object_stack =
-                           std::shared_ptr<std::stack<json>>(new std::stack<json>));
+    ToJSON(ctor_arg_t shared_object_stack = core_t::default_ctor_arg());
 
     // default serialization routine
     template<class SerializedItem, class Tracer>

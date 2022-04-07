@@ -10,8 +10,6 @@ namespace json
 TXML_DECLARE_SERIALIZER_CLASS(Fb2ToJSON, ToJSON, FB2_CLASS_LIST)
 {
     TXML_SERIALIZER_OBJECT
-    using json = nlohmann::json;
-
 };
 } // namespace json
 

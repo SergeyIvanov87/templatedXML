@@ -12,8 +12,8 @@ namespace json
 #define TEMPL_ARGS_DEF     Impl, SerializedItems...
 
 template<TEMPL_ARGS_DECL>
-SchemaToJSON<TEMPL_ARGS_DEF>::SchemaToJSON(std::shared_ptr<std::stack<json>> shared_object_stack) :
-  SerializerCore(shared_object_stack)
+SchemaToJSON<TEMPL_ARGS_DEF>::SchemaToJSON(ctor_arg_t shared_object_stack) :
+  core_t(shared_object_stack)
 {
 }
 
@@ -32,7 +32,7 @@ template<class SerializedItem, class Tracer>
 void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
     //TODO
-    json cur_json_element = json::array();
+    json_core_t cur_json_element = json_core_t::array();
     auto mediator = get_shared_mediator_object();
     size_t stack_size_before = mediator->size();
 
@@ -46,7 +46,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ArrayTa
                                ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
-        json &serialized_element = mediator->top();
+        json_core_t &serialized_element = mediator->top();
         cur_json_element.insert(cur_json_element.end(), std::move(serialized_element));
         mediator->pop();
     }
@@ -60,7 +60,7 @@ template<TEMPL_ARGS_DECL>
 template<class SerializedItem, class Tracer>
 void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
-    json cur_json_element = json::object({});
+    json_core_t cur_json_element = json_core_t::object({});
     auto mediator = get_shared_mediator_object();
     size_t stack_size_before = mediator->size();
 
@@ -75,8 +75,8 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::Contain
                                ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
-        json &serialized_element = mediator->top();
-        if (serialized_element.type() == nlohmann::json::value_t::array)
+        json_core_t &serialized_element = mediator->top();
+        if (serialized_element.type() == json_core_t::value_t::array)
         {
             tracer.trace(__FUNCTION__, " - ", SerializedItem::class_name(), "::emplace array");
             cur_json_element.emplace(SerializedItem::class_name(), std::move(serialized_element));
@@ -103,7 +103,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::LeafTag
     auto mediator = get_shared_mediator_object();
     tracer.trace(__FUNCTION__, " - begin 'LeafTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
-    json element({{SerializedItem::class_name(),
+    json_core_t element({{SerializedItem::class_name(),
                    utils::json_type_to_cstring(utils::type_to_json_type<typename SerializedItem::value_t>()) }});
     tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
     mediator->push(std::move(element));
@@ -118,7 +118,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::NoDataT
     auto mediator = get_shared_mediator_object();
     tracer.trace(__FUNCTION__, " - begin 'NoDataTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
-    json element({{SerializedItem::class_name()}});
+    json_core_t element({{SerializedItem::class_name()}});
     tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
     mediator->push(std::move(element));
     tracer.trace(__FUNCTION__, " - end 'NoDataTag': ", SerializedItem::class_name(),

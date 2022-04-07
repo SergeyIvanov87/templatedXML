@@ -26,7 +26,6 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
 {
     TXML_SCHEMA_SERIALIZER_DISPATCHABLE_OBJECT
 
-    using json = nlohmann::json;
     template<class SerializedItem, class Tracer>
     void serialize_schema_tag_impl(txml::LeafTag&& t, Tracer &tracer)
     {
@@ -35,8 +34,8 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
         // REPACK example
         // Add 'properties' object before unfold every Node/Container members
         // So all Node member become members of 'property' and 'property' itself is a member of Node
-        json cur_json_element = json::object({{"properties",
-                                               this->get_shared_mediator_object()->top()[SerializedItem::class_name().data()]}});
+        auto cur_json_element = base_t::json_core_t::object({{"properties",
+                                                             this->get_shared_mediator_object()->top()[SerializedItem::class_name().data()]}});
         this->get_shared_mediator_object()->pop();
         this->get_shared_mediator_object()->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
     }
