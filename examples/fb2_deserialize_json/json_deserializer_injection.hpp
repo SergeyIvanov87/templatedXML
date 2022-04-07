@@ -55,15 +55,6 @@ TXML_PREPARE_DESERIALIZER_DISPATCHABLE_CLASS(Fb2FromJSON_2, ParentAggregator, Fr
 TXML_DECLARE_DESERIALIZER_AGGREGATOR_CLASS(ToInjectedDeserializer, Fb2FromJSON_1<ToInjectedDeserializer>, Fb2FromJSON_2<ToInjectedDeserializer>)
 {
     TXML_DESERIALIZER_AGGREGATOR_OBJECT
-
-    // Allocate shared object for all intermediate calculations
-    // because each dispatchable serializer must put its own serialized result into shared place
-    // to keep final output consistent
-    ToInjectedDeserializer(nlohmann::json &obj, std::shared_ptr<std::stack<json::DeserializerCore::range_iterator>> external_iterators_stack =
-                           std::shared_ptr<std::stack<json::DeserializerCore::range_iterator>>(new std::stack<json::DeserializerCore::range_iterator>)) :
-        base_t(obj, external_iterators_stack)
-    {
-    }
 };
 } // namespace fb2
 #endif //JSON_TO_FB2_DESERIALIZER_INJECTION_HPP

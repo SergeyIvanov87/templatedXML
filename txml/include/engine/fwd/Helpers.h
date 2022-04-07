@@ -131,6 +131,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 struct Class_Aggregator : public txml::DeserializerDispatcher < __VA_ARGS__ >                       \
 {                                                                                                   \
     using base_t = txml::DeserializerDispatcher < __VA_ARGS__ >;                                    \
+    using base_t::base_t;                                                                           \
     static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }             \
     private:                                                                                        \
         class syntax_filler_##AggregatorClass
@@ -186,6 +187,7 @@ struct Class_Aggregator : public txml::SerializerDispatcher < __VA_ARGS__ >     
 #define TXML_PREPARE_VIRTUAL_SERIALIZER_DISPATCHABLE_CLASS(DispatchableClass, Class_Aggregator, BaseImpl,...)     \
 struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >                        \
 {                                                                                                   \
+    using dispatchable_self_t = DispatchableClass<Class_Aggregator>;                                \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
     using virtual_base_t = typename base_t::core_t;                                                 \
     using base_t::BaseImpl;                                                                         \
@@ -197,31 +199,33 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
         class syntax_filler_##DispatchableClass
 
 
-#define TXML_VIRTUAL_SERIALIZER_DISPATCHABLE_OBJECT(...)                                                         \
+#define TXML_VIRTUAL_SERIALIZER_DISPATCHABLE_OBJECT()                                                         \
         }; /* syntax_filler_##DispatchableClas*/                                                    \
     public:                                                                                         \
     using base_t::serialize_impl;                                                                   \
     using base_t::serialize_tag_impl;                                                               \
     using base_t::is_registered_element;                                                            \
-     DispatchableClass(__VA_ARGS__) :                                                               \
-            virtual_base_t(__VA_ARGS__),                                                            \
-            base_t(__VA_ARGS__) {}
+     dispatchable_self_t(virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :                                                               \
+            virtual_base_t(shared_arg),                                                            \
+            base_t(shared_arg) {}
 
-#define TXML_DECLARE_VIRTUAL_SERIALIZER_AGGREGATOR_CLASS(Class_Aggregator,Class_VirtualBase,...)                            \
-struct Class_Aggregator : public txml::SerializerVirtualDispatcher <Class_VirtualBase, __VA_ARGS__ >                       \
+#define TXML_DECLARE_VIRTUAL_SERIALIZER_AGGREGATOR_CLASS(Class_Aggregator,...)                            \
+struct Class_Aggregator : public txml::SerializerVirtualDispatcher <txml::utils::core_t_extractor_t<__VA_ARGS__>, __VA_ARGS__ >                       \
 {                                                                                                   \
-    using base_t = txml::SerializerVirtualDispatcher <Class_VirtualBase, __VA_ARGS__ >;                                    \
+    using base_t = txml::SerializerVirtualDispatcher <txml::utils::core_t_extractor_t<__VA_ARGS__>, __VA_ARGS__ >;                                    \
+    using aggregator_self_t = Class_Aggregator;                                                     \
+    using virtual_base_t = typename base_t::core_t;                                                 \
     static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }            \
     private:                                                                                        \
-        class syntax_filler_##AggregatorClass##Class_VirtualBase
+        class syntax_filler_##AggregatorClass##virtual_base_t
 
 
 
-#define TXML_VIRTUAL_SERIALIZER_AGGREGATOR_OBJECT(...)                                                         \
-        }; /* syntax_filler_##CAggregatorClass##Class_VirtualBase*/                                                    \
+#define TXML_VIRTUAL_SERIALIZER_AGGREGATOR_OBJECT()                                                         \
+        }; /* syntax_filler_##CAggregatorClass##virtual_base_t*/                                                    \
     public:                                                                                         \
-        Class_Aggregator(__VA_ARGS__) :                                                             \
-            Class_VirtualBase(__VA_ARGS__),                                                         \
-            base_t(__VA_ARGS__) {}
+        aggregator_self_t(virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :     \
+            virtual_base_t(shared_arg),                                                         \
+            base_t(shared_arg) {}
 
 #endif // SERIALIZER_DESERIALIZER_HELPERS_H

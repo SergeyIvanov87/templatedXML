@@ -45,17 +45,6 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
 TXML_DECLARE_SCHEMA_SERIALIZER_AGGREGATOR_CLASS(ToInjectedSchema, ToJSONSchema_1<ToInjectedSchema>, ToJSONSchema_2<ToInjectedSchema>)
 {
     TXML_SCHEMA_SERIALIZER_AGGREGATOR_OBJECT
-
-    using json = nlohmann::json;
-
-    // Allocate shared object for all intermediate calculations
-    // because each dispatchable serializer must put its own serialized result into shared place
-    // to keep final output consistent
-    ToInjectedSchema(std::shared_ptr<std::stack<json>> shared_object_stack =
-                                     std::shared_ptr<std::stack<json>>(new std::stack<json>)) :
-        base_t(shared_object_stack)
-    {
-    }
 };
 } // namespace fb2
 #endif //FB2_TO_SCHEMA_SERIALIZER_INJECTION_HPP
