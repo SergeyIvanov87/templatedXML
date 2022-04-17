@@ -12,7 +12,7 @@
 
 namespace xdxf
 {
-const Transcription::value_t &Transcription::getValue() const
+inline const Transcription::value_t &Transcription::getValue() const
 {
     auto val = base::getValue<TextElement>();
     if (!val)

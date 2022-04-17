@@ -9,19 +9,19 @@
 
 namespace xdxf
 {
-Comment::Comment(std::string&& str) : base(std::move(str))
+inline Comment::Comment(std::string&& str) : base(std::move(str))
 {
 }
 
 template<class Tracer>
-void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Comment::class_name() <<  " word used: " << getValue() << " times -->\n";
 }
 
 
 template<class Tracer>
-std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<Comment> ret;
     if (reader.has_value())
