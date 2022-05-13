@@ -21,7 +21,13 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
 struct Class : public BaseImpl < Class, __VA_ARGS__ >                                               \
 {                                                                                                   \
     using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
+    using virtual_base_t = typename base_t::core_t;                                                 \
     using base_t::BaseImpl;                                                                         \
+                                                                                                    \
+    Class(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
+        virtual_base_t(shared_arg),                                                                 \
+        base_t(shared_arg) {}                                                                       \
+                                                                                                    \
     private:                                                                                        \
         class syntax_filler_##Class
 
