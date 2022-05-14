@@ -12,13 +12,12 @@ using namespace json;
 TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromJSON, FromJSON, FB2_CLASS_LIST)
 {
     TXML_DESERIALIZER_OBJECT
-    using json = nlohmann::json;
     template<class Tracer>
     std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
     {
         auto mediator = this->get_shared_mediator_object();
         auto& [begin_it, end_it] = mediator->top();
-        if (!check_array_node_param<Paragraph>(begin_it, end_it, json::value_t::object, tracer))
+        if (!check_array_node_param<Paragraph>(begin_it, end_it, base_t::json_core_t::value_t::object, tracer))
         {
             return {};
         }

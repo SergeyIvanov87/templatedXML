@@ -26,7 +26,6 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
 {
     TXML_SCHEMA_SERIALIZER_DISPATCHABLE_OBJECT
 
-    using json = nlohmann::json;
     template<class SerializedItem, class Tracer>
     void serialize_schema_tag_impl(txml::LeafTag&& t, Tracer &tracer)
     {
@@ -35,8 +34,8 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
         // REPACK example
         // Add 'properties' object before unfold every Node/Container members
         // So all Node member become members of 'property' and 'property' itself is a member of Node
-        json cur_json_element = json::object({{"properties",
-                                               this->get_shared_mediator_object()->top()[SerializedItem::class_name().data()]}});
+        auto cur_json_element = base_t::json_core_t::object({{"properties",
+                                                             this->get_shared_mediator_object()->top()[SerializedItem::class_name().data()]}});
         this->get_shared_mediator_object()->pop();
         this->get_shared_mediator_object()->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
     }
@@ -46,17 +45,6 @@ TXML_PREPARE_SCHEMA_SERIALIZER_DISPATCHABLE_CLASS(ToJSONSchema_2, ParentAggregat
 TXML_DECLARE_SCHEMA_SERIALIZER_AGGREGATOR_CLASS(ToInjectedSchema, ToJSONSchema_1<ToInjectedSchema>, ToJSONSchema_2<ToInjectedSchema>)
 {
     TXML_SCHEMA_SERIALIZER_AGGREGATOR_OBJECT
-
-    using json = nlohmann::json;
-
-    // Allocate shared object for all intermediate calculations
-    // because each dispatchable serializer must put its own serialized result into shared place
-    // to keep final output consistent
-    ToInjectedSchema(std::shared_ptr<std::stack<json>> shared_object_stack =
-                                     std::shared_ptr<std::stack<json>>(new std::stack<json>)) :
-        base_t(shared_object_stack)
-    {
-    }
 };
 } // namespace fb2
 #endif //FB2_TO_SCHEMA_SERIALIZER_INJECTION_HPP

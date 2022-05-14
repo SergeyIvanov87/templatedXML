@@ -35,6 +35,9 @@ public:
     template<class T>
     ArgumentPtr<T> getValue() const;
 
+    const Tuple& getValue() const;
+    Tuple& getValue();
+
     template<class T>
     ArgumentPtr<T> set(ArgumentPtr<T> arg);
 

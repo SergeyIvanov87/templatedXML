@@ -18,6 +18,16 @@ typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentPtr<T> Argument
     return std::get<ArgumentPtr<T>>(storage);
 }
 
+template<TEMPL_ARGS_DECL>
+const typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::getValue() const
+{
+    return storage;
+}
+template<TEMPL_ARGS_DECL>
+typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::getValue()
+{
+    return storage;
+}
 
 template<TEMPL_ARGS_DECL>
 template<class T>

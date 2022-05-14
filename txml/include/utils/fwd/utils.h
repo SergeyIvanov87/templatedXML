@@ -63,6 +63,26 @@ struct join_node_names
 template <char begin, char sep, char endl, class ...Node>
 static constexpr auto join_node_names_v = join_node_names<begin, sep, endl, Node...>::value;
 
+
+template<class T, class ...U>
+struct core_t_extractor
+{
+    using type = std::enable_if_t<std::conjunction_v<std::is_same<typename U::core_t, typename T::core_t>...>, typename T::core_t>;
+};
+
+template<class T, class ...U>
+using core_t_extractor_t = typename core_t_extractor<T, U...>::type;
+
+template<class T, class ...U>
+struct in_stream_core_t_extractor
+{
+    using type = std::enable_if_t<std::conjunction_v<std::is_same<typename U::in_stream_core_t,
+                                                                  typename T::in_stream_core_t>...>,
+                                  typename T::in_stream_core_t>;
+};
+
+template<class T, class ...U>
+using in_stream_core_t_extractor_t = typename in_stream_core_t_extractor<T, U...>::type;
 } // namespace utils
 } // namespace txml
 #endif //  TXML_INCLUDE_UTILS_H

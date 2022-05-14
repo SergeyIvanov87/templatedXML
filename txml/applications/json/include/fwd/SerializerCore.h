@@ -13,8 +13,9 @@ namespace json
 struct SerializerCore
 {
     using json_core_t = nlohmann::json;
-    SerializerCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack =
-       std::shared_ptr<std::stack<json_core_t>>(new std::stack<json_core_t>));
+    using ctor_arg_t = std::shared_ptr<std::stack<json_core_t>>;
+    static ctor_arg_t default_ctor_arg ();
+    SerializerCore(ctor_arg_t external_object_stack = default_ctor_arg());
 
     // finalize routine: construct final json_core_t
     template<class Tracer = txml::EmptyTracer>
@@ -28,10 +29,10 @@ struct SerializerCore
     std::string dump(Tracer tracer = Tracer()) const;
 
     std::shared_ptr<const std::stack<json_core_t>> get_shared_mediator_object() const;
-    std::shared_ptr<std::stack<json_core_t>> get_shared_mediator_object();
+    ctor_arg_t get_shared_mediator_object();
 protected:
     ~SerializerCore();
-    std::shared_ptr<std::stack<json_core_t>> json_object_stack_helper;
+    ctor_arg_t json_object_stack_helper;
 };
 }
 #endif // TXML_APPLICATION_JSON_FWD_IOCORE_H

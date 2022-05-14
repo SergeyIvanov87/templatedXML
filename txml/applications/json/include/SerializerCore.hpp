@@ -6,7 +6,12 @@
 
 namespace json
 {
-inline SerializerCore::SerializerCore(std::shared_ptr<std::stack<json_core_t>> external_object_stack) :
+inline SerializerCore::ctor_arg_t SerializerCore::default_ctor_arg ()
+{
+    return ctor_arg_t(new std::stack<json_core_t>());
+}
+
+inline SerializerCore::SerializerCore(ctor_arg_t external_object_stack) :
     json_object_stack_helper(external_object_stack)
 {
 }
@@ -102,7 +107,7 @@ inline std::shared_ptr<const std::stack<SerializerCore::json_core_t>> Serializer
     return json_object_stack_helper;
 }
 
-inline std::shared_ptr<std::stack<SerializerCore::json_core_t>> SerializerCore::get_shared_mediator_object()
+inline SerializerCore::ctor_arg_t SerializerCore::get_shared_mediator_object()
 {
     return json_object_stack_helper;
 }

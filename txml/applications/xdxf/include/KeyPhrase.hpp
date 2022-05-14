@@ -1,5 +1,5 @@
-#ifndef KEY_PHRASE_HPP
-#define KEY_PHRASE_HPP
+#ifndef XDXF_KEY_PHRASE_HPP
+#define XDXF_KEY_PHRASE_HPP
 
 #include <iostream>
 
@@ -11,7 +11,7 @@
 
 namespace xdxf
 {
-const KeyPhrase::value_t &KeyPhrase::getValue() const
+inline const KeyPhrase::value_t &KeyPhrase::getValue() const
 {
     auto val = base::getValue<TextElement>();
     if (!val)
@@ -21,4 +21,4 @@ const KeyPhrase::value_t &KeyPhrase::getValue() const
     return val->getValue();
 }
 } // namespace xdxf
-#endif //KEY_PHRASE_HPP
+#endif //XDXF_KEY_PHRASE_HPP

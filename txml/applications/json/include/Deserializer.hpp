@@ -12,9 +12,8 @@ namespace json
 #define TEMPL_ARGS_DEF     Impl, DeserializedItems...
 
 template<TEMPL_ARGS_DECL>
-FromJSON<TEMPL_ARGS_DEF>::FromJSON(json &obj, std::shared_ptr<std::stack<range_iterator>> shared_iterators_stack) :
-  DeserializerCore(shared_iterators_stack),
-  in(obj)
+FromJSON<TEMPL_ARGS_DEF>::FromJSON(json_core_t &obj, ctor_arg_t shared_iterators_stack) :
+  core_t(obj, shared_iterators_stack)
 {
     get_shared_mediator_object()->emplace(in.begin(), in.end());
 }
@@ -32,7 +31,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
-    if (!check_array_node_param<DeserializedItem>(begin_it, end_it, json::value_t::array, tracer))
+    if (!check_array_node_param<DeserializedItem>(begin_it, end_it, json_core_t::value_t::array, tracer))
     {
         return {};
     }
@@ -51,7 +50,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
-    if (!check_node_param<DeserializedItem>(begin_it, end_it, json::value_t::object, tracer))
+    if (!check_node_param<DeserializedItem>(begin_it, end_it, json_core_t::value_t::object, tracer))
     {
         return {};
     }
@@ -98,8 +97,8 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
-                                 json::value_t expected_type, Tracer tracer)
+bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json_core_t::iterator& cur_it, const json_core_t::iterator& cur_end_it,
+                                 json_core_t::value_t expected_type, Tracer tracer)
 {
     if (cur_it == cur_end_it)
     {
@@ -121,8 +120,8 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json::iterator& cur_it, const js
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
-                                                      json::value_t expected_type, Tracer tracer)
+bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json_core_t::iterator& cur_it, const json_core_t::iterator& cur_end_it,
+                                                      json_core_t::value_t expected_type, Tracer tracer)
 {
     if (cur_it == cur_end_it)
     {
@@ -144,8 +143,8 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json::iterator& cur_it, co
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
-                                                     json::value_t expected_type, Tracer tracer)
+bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json_core_t::iterator& cur_it, const json_core_t::iterator& cur_end_it,
+                                                     json_core_t::value_t expected_type, Tracer tracer)
 {
     if (cur_it == cur_end_it)
     {
@@ -167,7 +166,7 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json::iterator& cur_it, con
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json::iterator& cur_it, const json::iterator& cur_end_it,
+bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json_core_t::iterator& cur_it, const json_core_t::iterator& cur_end_it,
                                                              Tracer tracer)
 {
     if (cur_it == cur_end_it)
@@ -180,9 +179,9 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json::iterator& cur
     const auto& value = cur_it.value();
 
     tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
-    if (value.type() != nlohmann::json::value_t::discarded || key != NodeType::class_name())
+    if (value.type() != json_core_t::value_t::discarded || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(nlohmann::json::value_t::discarded));
+        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(json_core_t::value_t::discarded));
         return false;
     }
     return true;

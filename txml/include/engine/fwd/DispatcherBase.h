@@ -25,12 +25,12 @@ struct ContextResolver<InElement, T> {
 };
 } // namespace details
 
-
-template<class ...Contexts>
-struct DispatcherBase : public Contexts...
+template<class VirtualBaseContext, class ...Contexts>
+struct DispatcherVirtualBase : public Contexts...
 {
     template<class ...Args>
-    DispatcherBase(Args &&...args) :
+    DispatcherVirtualBase(Args &&...args) :
+        VirtualBaseContext(std::forward<Args>(args)...),
         Contexts{std::forward<Args>(args)...}...
     {
     }

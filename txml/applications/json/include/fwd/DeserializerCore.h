@@ -17,14 +17,17 @@ struct DeserializerCore
     using end_iterator_t = json_core_t::iterator;
     using range_iterator = std::pair<begin_iterator_t, end_iterator_t>;
 
-    DeserializerCore(std::shared_ptr<std::stack<range_iterator>> external_iterators_stack =
-       std::shared_ptr<std::stack<range_iterator>>(new std::stack<range_iterator>));
+    using ctor_arg_t = std::shared_ptr<std::stack<range_iterator>>;
+    static ctor_arg_t default_ctor_arg ();
+
+    DeserializerCore (json_core_t &stream, ctor_arg_t external_iterators_stack = default_ctor_arg());
 
     std::shared_ptr<const std::stack<range_iterator>> get_shared_mediator_object() const;
-    std::shared_ptr<std::stack<range_iterator>> get_shared_mediator_object();
+    ctor_arg_t get_shared_mediator_object();
 protected:
     ~DeserializerCore();
-    std::shared_ptr<std::stack<range_iterator>> json_iterators_stack_helper;
+    json_core_t &in;
+    ctor_arg_t json_iterators_stack_helper;
 };
 }
 #endif // TXML_APPLICATION_JSON_FWD_DESERIALIZER_CORE_H

@@ -1,5 +1,5 @@
-#ifndef TEXT_ELEMENT_HPP
-#define TEXT_ELEMENT_HPP
+#ifndef XDXF_TEXT_ELEMENT_HPP
+#define XDXF_TEXT_ELEMENT_HPP
 
 #include <regex>
 #include <txml/include/XMLNodeLeaf.hpp>
@@ -10,12 +10,12 @@
 
 namespace xdxf
 {
-TextElement::TextElement(std::string&& str) : base(std::move(str))
+inline TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
 }
 
 template<class Tracer>
-void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");
@@ -43,7 +43,7 @@ void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/
 }
 
 template<class Tracer>
-std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::shared_ptr<TextElement> ret;
     if (reader.has_value())
@@ -60,4 +60,4 @@ std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txm
     return ret;
 }
 } // namespace xdxf
-#endif //TEXT_ELEMENT_HPP
+#endif //XDXF_TEXT_ELEMENT_HPP

@@ -7,7 +7,13 @@
 
 namespace json
 {
-inline DeserializerCore::DeserializerCore(std::shared_ptr<std::stack<range_iterator>> external_iterators_stack) :
+inline DeserializerCore::ctor_arg_t DeserializerCore::default_ctor_arg ()
+{
+    return ctor_arg_t(new std::stack<range_iterator>());
+}
+
+inline DeserializerCore::DeserializerCore(json_core_t &stream, ctor_arg_t external_iterators_stack) :
+    in(stream),
     json_iterators_stack_helper(external_iterators_stack)
 {
 }
@@ -19,7 +25,7 @@ inline std::shared_ptr<const std::stack<DeserializerCore::range_iterator>> Deser
     return json_iterators_stack_helper;
 }
 
-inline std::shared_ptr<std::stack<DeserializerCore::range_iterator>> DeserializerCore::get_shared_mediator_object()
+inline DeserializerCore::ctor_arg_t DeserializerCore::get_shared_mediator_object()
 {
     return json_iterators_stack_helper;
 }
