@@ -20,12 +20,13 @@ struct DeserializerCore
     using ctor_arg_t = std::shared_ptr<std::stack<range_iterator>>;
     static ctor_arg_t default_ctor_arg ();
 
-    DeserializerCore(ctor_arg_t external_iterators_stack = default_ctor_arg());
+    DeserializerCore (json_core_t &stream, ctor_arg_t external_iterators_stack = default_ctor_arg());
 
     std::shared_ptr<const std::stack<range_iterator>> get_shared_mediator_object() const;
     ctor_arg_t get_shared_mediator_object();
 protected:
     ~DeserializerCore();
+    json_core_t &in;
     ctor_arg_t json_iterators_stack_helper;
 };
 }

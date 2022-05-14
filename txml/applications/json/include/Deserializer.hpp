@@ -13,8 +13,7 @@ namespace json
 
 template<TEMPL_ARGS_DECL>
 FromJSON<TEMPL_ARGS_DEF>::FromJSON(json_core_t &obj, ctor_arg_t shared_iterators_stack) :
-  core_t(shared_iterators_stack),
-  in(obj)
+  core_t(obj, shared_iterators_stack)
 {
     get_shared_mediator_object()->emplace(in.begin(), in.end());
 }

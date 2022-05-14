@@ -16,20 +16,19 @@ struct FromJSON : public virtual DeserializerCore,
                   public txml::FormatDeserializerBase<Impl, txml::StaticCheckUnscopedElement,
                                                       DeserializedItems...>
 {
-    using json = nlohmann::json;
     using core_t = DeserializerCore;
     using json_core_t = core_t::json_core_t;
+    using in_stream_core_t = json_core_t;
     using ctor_arg_t = core_t::ctor_arg_t;
 
 
-    FromJSON(json_core_t &obj, ctor_arg_t = core_t::default_ctor_arg());
+    FromJSON(in_stream_core_t &obj, ctor_arg_t = core_t::default_ctor_arg());
 
     // default deserialization routine
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer);
 
 protected:
-    json_core_t &in;
 
     template<class DeserializedItem, class Tracer>
     std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer);

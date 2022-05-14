@@ -2,6 +2,7 @@
 #define TXML_APPLICATION_XML_DESERIALIZER_HPP
 
 #include <txml/include/engine/FormatDeserializerBase.hpp>
+#include <txml/applications/json/include/DeserializerCore.hpp>
 #include <txml/applications/xml/include/fwd/Deserializer.h>
 
 namespace xml
@@ -10,8 +11,8 @@ namespace xml
 #define TEMPL_ARGS_DEF     Impl, DeserializedItems...
 
 template<TEMPL_ARGS_DECL>
-FromXML<TEMPL_ARGS_DEF>::FromXML(txml::TextReaderWrapper &stream) :
-  in(stream)
+FromXML<TEMPL_ARGS_DEF>::FromXML(xml_core_t &stream, ctor_arg_t helper) :
+  core_t(stream, helper)
 {
 }
 
@@ -70,7 +71,7 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const txml::TextReaderWrapper &reader, Tracer tracer)
+bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();

@@ -5,14 +5,15 @@
 
 namespace txml
 {
-template <class ...Contexts>
-struct DeserializerDispatcher : public DispatcherBase<Contexts...>
+template <class VirtualBaseContext, class ...Contexts>
+struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext, Contexts...>
 {
-    using base_t = DispatcherBase<Contexts...>;
+    using base_t = DispatcherVirtualBase<VirtualBaseContext, Contexts...>;
     using base_t::dispatch_context;
 
     template<class ...Args>
     DeserializerDispatcher(Args &&...args) :
+        VirtualBaseContext(std::forward<Args>(args)...),
         base_t(std::forward<Args>(args)...)
     {
     }
