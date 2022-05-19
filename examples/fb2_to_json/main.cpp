@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
             while(xml_reader->read())
             {
-                std::shared_ptr<FictionBook> art;
+                std::optional<FictionBook> art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     art = XMLCreator::try_create<FictionBook>(*xml_reader,
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
                 // deserialize back to FB2
                 Fb2FromJSON in(data);
 
-                std::shared_ptr<FictionBook> deserialized_art;
+                std::optional<FictionBook> deserialized_art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     deserialized_art = FictionBook::format_deserialize(in, std_tracer);
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 
             while(xml_reader->read())
             {
-                std::shared_ptr<FictionBook> art;
+                std::optional<FictionBook> art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     art = XMLCreator::try_create<FictionBook>(*xml_reader,
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
                 // deserialize back to FB2
                 Fb2FromJSON in(data);
 
-                std::shared_ptr<FictionBook> deserialized_art;
+                std::optional<FictionBook> deserialized_art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     deserialized_art = FictionBook::format_deserialize(in, std_tracer);

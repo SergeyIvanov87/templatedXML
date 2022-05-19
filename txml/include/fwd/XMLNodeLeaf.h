@@ -2,7 +2,7 @@
 #define XML_NODE_LEAF_H
 
 #include <iostream>
-#include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -10,6 +10,7 @@
 #include <vector>
 
 #include <txml/include/engine/fwd/TextReaderWrap.h>
+#include <txml/include/utils/fwd/utils.h>
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
 
 #include <txml/include/fwd/XMLSerializable.h>
@@ -37,7 +38,7 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     value_t& getValue();
 
     template<class Tracer = EmptyTracer>
-    static std::shared_ptr<Impl> create(TextReaderWrapper &reader, Tracer tracer);
+    static std::optional<Impl> create(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);
@@ -46,7 +47,7 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::optional<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
@@ -57,4 +58,18 @@ private:
     value_t val;
 };
 } // namespace txml
+
+////////////
+namespace std {
+template <typename ... tt>
+struct hash<txml::XMLNodeLeaf<tt...>>
+{
+size_t
+operator()(txml::XMLNodeLeaf<tt...> const& t) const
+{
+return hash<typename txml::XMLNodeLeaf<tt...>::value_t>() (t.getValue());
+}
+};
+}
+////////////
 #endif //XML_NODE_LEAF_H

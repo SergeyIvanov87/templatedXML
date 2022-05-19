@@ -40,7 +40,7 @@ int main(int argc, char** argv)
         TextReaderWrapper xml_reader(xdxf_file_path);
         Fb2FromXML in(xml_reader);
 
-        std::shared_ptr<FictionBook> art;
+        std::optional<FictionBook> art;
         do {
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {

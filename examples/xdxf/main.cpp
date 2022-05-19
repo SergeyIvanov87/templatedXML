@@ -39,7 +39,7 @@ int main(int argc, char** argv)
         std::unique_ptr<TextReaderWrapper> xml_reader = std::make_unique<TextReaderWrapper>(xdxf_file_path);
         while(xml_reader->read())
         {
-            std::shared_ptr<XDXFArticle> art;
+            std::optional<XDXFArticle> art;
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
                 art = XMLCreator::try_create<XDXFArticle>(*xml_reader,

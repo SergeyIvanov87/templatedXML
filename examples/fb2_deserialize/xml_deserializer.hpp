@@ -12,7 +12,7 @@ TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromXML, FromXML, FB2_CLASS_LIST)
     TXML_DESERIALIZER_OBJECT
 
     template<class Tracer>
-    std::shared_ptr<FictionBook> deserialize_impl(txml::details::SchemaDTag<FictionBook>, Tracer tracer)
+    std::optional<FictionBook> deserialize_impl(txml::details::SchemaDTag<FictionBook>, Tracer tracer)
     {
         if (!in.read() || !check_node_param<FictionBook> (in, tracer)) {
             return {};

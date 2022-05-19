@@ -2,7 +2,10 @@
 #define GENERIC_COMMANDARGUMENTS_VALUE_H
 
 #include <memory>
+#include <optional>
 #include <tuple>
+
+#include <txml/include/utils/fwd/utils.h>
 
 namespace txml
 {
@@ -11,7 +14,7 @@ class ArgumentContainerBase
 {
 public:
     template<class T>
-    using ArgumentPtr = std::shared_ptr<T>;
+    using ArgumentPtr = std::optional<T>;
     using Tuple = std::tuple<ArgumentPtr<Arguments>...>;
 
     template<class Fabric, class ...CreationArgs>
@@ -43,8 +46,25 @@ public:
 
     template<class T, class ...Args>
     ArgumentPtr<std::decay_t<T>> emplace(Args&& ...args);
+
+    bool has_value() const;
 private:
-    Tuple storage;
+    std::shared_ptr<Tuple> storage;  //TODO make pointer!!!   introduce methods has_value() & value()  as std::optional!
 };
 } // namespace txml
+
+
+////////////
+namespace std {
+template <typename ... tt>
+struct hash<txml::ArgumentContainerBase<tt...>>
+{
+size_t
+operator()(txml::ArgumentContainerBase<tt...> const& t) const
+{
+return txml::utils::hash<typename txml::ArgumentContainerBase<tt...>::Tuple>() (t.has_value() ? t.getValue() : typename txml::ArgumentContainerBase<tt...>::Tuple{} );
+}
+};
+}
+////////////
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_H

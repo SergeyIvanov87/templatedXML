@@ -1,7 +1,7 @@
 #ifndef XML_SERIALIZABLE_H
 #define XML_SERIALIZABLE_H
 
-#include <memory>
+#include <optional>
 #include <ostream>
 
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>

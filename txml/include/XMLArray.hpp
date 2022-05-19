@@ -54,7 +54,7 @@ void XMLArray<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer trac
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-std::shared_ptr<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+std::optional<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);

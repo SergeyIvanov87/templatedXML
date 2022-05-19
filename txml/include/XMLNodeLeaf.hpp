@@ -37,7 +37,7 @@ typename XMLNodeLeaf<TEMPL_ARGS_DEF>::value_t& XMLNodeLeaf<TEMPL_ARGS_DEF>::getV
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
+std::optional<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     if (name != Impl::class_name())
@@ -46,7 +46,7 @@ std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::create(TextReaderWrapper &rea
                                  ", got: " + name);
     }
 
-    std::shared_ptr<Impl> ret;
+    std::optional<Impl> ret;
     TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     if (nodeType != Impl::class_node_type())
     {
@@ -87,7 +87,7 @@ void XMLNodeLeaf<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer t
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-std::shared_ptr<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+std::optional<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);

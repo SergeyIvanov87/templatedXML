@@ -21,9 +21,9 @@ inline void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer(
 
 
 template<class Tracer>
-inline std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<Comment> ret;
+    std::optional<Comment> ret;
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -32,7 +32,7 @@ inline std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml
         {
             ++it;
         }
-        ret.reset( new Comment(std::string(it, tmp_value.end())));
+        ret = Comment(std::string(it, tmp_value.end()));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
     return ret;

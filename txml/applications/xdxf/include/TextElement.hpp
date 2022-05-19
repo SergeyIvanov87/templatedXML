@@ -43,9 +43,9 @@ inline void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tra
 }
 
 template<class Tracer>
-inline std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<TextElement> ret;
+    std::optional<TextElement> ret;
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -54,7 +54,7 @@ inline std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name
         {
             ++it;
         }
-        ret.reset( new TextElement(std::string(it, tmp_value.end())));
+        ret = TextElement(std::string(it, tmp_value.end()));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
     return ret;

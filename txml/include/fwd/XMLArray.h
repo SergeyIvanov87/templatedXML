@@ -1,7 +1,7 @@
 #ifndef XML_ARRAY_H
 #define XML_ARRAY_H
 
-#include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -46,7 +46,7 @@ struct XMLArray: public XMLProducible<Impl>,
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::optional<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());

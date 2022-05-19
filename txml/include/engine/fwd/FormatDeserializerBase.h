@@ -29,7 +29,7 @@ struct FormatDeserializerBase : public details::SingleElementDeserializerBase<Im
     using SelfType = FormatDeserializerBase<Impl, UnscopedElementProcessingPolicyType, ElementType...>;
 
     template<class InElement, class Tracer>
-    std::shared_ptr<InElement> map(Tracer tracer);
+    std::optional<InElement> map(Tracer tracer);
 
     template <class InElement>
     static constexpr bool is_registered_element();

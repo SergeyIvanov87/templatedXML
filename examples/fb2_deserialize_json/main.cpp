@@ -64,7 +64,7 @@ int main(int argc, char** argv)
     try
     {
         Fb2FromJSON in(data);
-        std::shared_ptr<FictionBook> art;
+        std::optional<FictionBook> art;
         do {
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     try
     {
         ToInjectedDeserializer in(data);
-        std::shared_ptr<FictionBook> art;
+        std::optional<FictionBook> art;
         do {
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {

@@ -18,14 +18,14 @@ FromXML<TEMPL_ARGS_DEF>::FromXML(xml_core_t &stream, ctor_arg_t helper) :
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
     return deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -36,7 +36,7 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -47,7 +47,7 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -59,13 +59,13 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
     }
 
-    return std::make_shared<DeserializedItem>();
+    return std::make_optional<DeserializedItem>();
 }
 
 
@@ -88,11 +88,11 @@ bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer 
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-std::shared_ptr<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer)
+std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer)
 {
     int node_depth = in.get_depth();
 
-    std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
+    std::optional<NodeType> ret = std::make_optional<NodeType>();
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
                  ret.get(),
                  ", depth: ", node_depth);

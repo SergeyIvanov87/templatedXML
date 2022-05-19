@@ -19,7 +19,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
     }
 
     template<class InElement, class Tracer>
-    std::shared_ptr<InElement> map(Tracer tracer) {
+    std::optional<InElement> map(Tracer tracer) {
         auto* element_processing_context = this->template dispatch_context<InElement>(tracer);
         if constexpr (not std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
         {
@@ -33,7 +33,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
     }
 
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
+    std::optional<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
     {
         auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
@@ -48,7 +48,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
     }
 
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
     {
         auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
@@ -63,7 +63,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
     }
 
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
     {
         auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
@@ -78,7 +78,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
     }
 
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
     {
         auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)
@@ -94,7 +94,7 @@ struct DeserializerDispatcher : public DispatcherVirtualBase<VirtualBaseContext,
 
     //TODO why not templated tag???
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
     {
         auto* element_processing_context = this->template dispatch_context<DeserializedItem>(tracer);
         if constexpr (!std::is_same_v<typename std::remove_pointer<decltype(element_processing_context)>::type, details::EmptyContext>)

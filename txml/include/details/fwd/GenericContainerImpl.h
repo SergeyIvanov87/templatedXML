@@ -1,7 +1,7 @@
 #ifndef XDXF_ARRAY_CONTAINER_NODE_H
 #define XDXF_ARRAY_CONTAINER_NODE_H
 
-#include <memory>
+#include <optional>
 #include <ostream>
 #include <vector>
 
@@ -21,7 +21,7 @@ template<class Value>
 struct XMLArrayContainerNode
 {
     using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
-                                                  std::vector<std::shared_ptr<Value>>>;
+                                                  std::vector<std::optional<Value>>>;
 
     static constexpr std::string_view class_name()
     {

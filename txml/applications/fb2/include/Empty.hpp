@@ -20,9 +20,9 @@ void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) cons
 }
 
 template<class Tracer>
-std::shared_ptr<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+std::optional<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<Empty> ret;
+    std::optional<Empty> ret;
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -31,7 +31,7 @@ std::shared_ptr<Empty> Empty::create_impl(/*std::string &name, */txml::TextReade
         {
             ++it;
         }
-        ret.reset( new Empty(std::string(it, tmp_value.end())));
+        ret = Empty(std::string(it, tmp_value.end()));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
     return ret;

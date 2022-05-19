@@ -40,9 +40,9 @@ void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer(
 }
 
 template<class Tracer>
-std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+std::optional<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<FB2TextElement> ret;
+    std::optional<FB2TextElement> ret;
     tracer.trace("start to create '", class_name(), "'");
     if (reader.has_value())
     {
@@ -52,7 +52,7 @@ std::shared_ptr<FB2TextElement> FB2TextElement::create_impl(/*std::string &name,
         {
             ++it;
         }
-        ret.reset( new FB2TextElement(std::string(it, tmp_value.end())));
+        ret = FB2TextElement(std::string(it, tmp_value.end()));
         tracer.trace("Value: '", ret->getValue(), "'");
     }
 

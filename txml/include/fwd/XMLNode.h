@@ -1,7 +1,7 @@
 #ifndef XML_NODE_H
 #define XML_NODE_H
 
-#include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -45,7 +45,7 @@ struct XMLNode : public XMLProducible<Impl>,
     void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::optional<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());

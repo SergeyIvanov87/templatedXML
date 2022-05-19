@@ -9,7 +9,7 @@ namespace txml
 {
 template<class Value>
 template<class Formatter, class Tracer>
-std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatter& in, Tracer tracer)
+std::optional<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatter& in, Tracer tracer)
 {
     tracer.trace("Come in deserialize '", Value::class_name(), "', type '",
                  to_string(Value::class_node_type()), "'");
@@ -20,9 +20,10 @@ std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_deserialize(Format
     return ret;
 }
 
+// TODO optimiaze passing optional by copy!
 template<class Value>
 template<class Formatter, class Tracer>
-std::shared_ptr<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::shared_ptr<Value> to_fill,
+std::optional<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::optional<Value> to_fill,
                                                                           Formatter& in, Tracer tracer)
 {
     if (to_fill)

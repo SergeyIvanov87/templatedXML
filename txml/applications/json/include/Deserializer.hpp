@@ -20,14 +20,14 @@ FromJSON<TEMPL_ARGS_DEF>::FromJSON(json_core_t &obj, ctor_arg_t shared_iterators
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
     return static_cast<Impl*>(this)->template deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
@@ -46,7 +46,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
@@ -65,7 +65,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
 
     auto& [begin_it, end_it] = get_shared_mediator_object()->top();
@@ -81,7 +81,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
 {
 
     auto& [begin_it, end_it] = get_shared_mediator_object()->top();
@@ -188,9 +188,9 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json_core_t::iterat
 }
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)
+std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)
 {
-    std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
+    std::optional<NodeType> ret = std::make_optional<NodeType>();
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
                  ret.get(), ", available subnodes count: ", available_item_count);
 

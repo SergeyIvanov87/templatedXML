@@ -27,7 +27,7 @@ template<class Fabric, class ...CreationArgs>
 size_t XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
 {
     typename aggregared_t::value_t &arr = leaf_node.getValue();
-    std::shared_ptr<Value> elem;
+    std::optional<Value> elem;
     do {
         elem = Fabric::template try_create<Value>(std::forward<CreationArgs>(next_args)...);
         if (elem) {
@@ -113,7 +113,7 @@ size_t XMLArrayContainerNode<Value>::format_deserialize_elements(Formatter &in, 
     tracer.trace("START deserialize Array<",Value::class_name(), ">");
 
     typename aggregared_t::value_t &arr = leaf_node.getValue();
-    std::shared_ptr<Value> elem;
+    std::optional<Value> elem;
 
     size_t deserialized_count = 0;
     do {

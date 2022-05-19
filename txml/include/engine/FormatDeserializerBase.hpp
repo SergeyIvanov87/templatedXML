@@ -12,7 +12,7 @@ template<class Impl, class ElementType>
 struct SingleElementDeserializerBase
 {
     template<class Tracer>
-    std::shared_ptr<ElementType> invoke(Tracer tracer)
+    std::optional<ElementType> invoke(Tracer tracer)
     {
         return static_cast<Impl*>(this)->deserialize_impl(SchemaDTag<ElementType> {} , tracer);
     }
@@ -28,7 +28,7 @@ protected:
 
 template<TEMPL_ARGS_DECL>
 template<class InElement, class Tracer>
-std::shared_ptr<InElement> FormatDeserializerBase<TEMPL_ARGS_DEF>::map(Tracer tracer)
+std::optional<InElement> FormatDeserializerBase<TEMPL_ARGS_DEF>::map(Tracer tracer)
 {
     if constexpr(! std::disjunction_v<std::is_same<InElement,ElementType>...>)
     {
