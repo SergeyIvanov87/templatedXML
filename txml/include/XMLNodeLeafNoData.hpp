@@ -5,6 +5,7 @@
 #include <txml/include/utils.h>
 
 #include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/engine/TracerHelper.hpp>
 
 namespace txml
 {
@@ -68,7 +69,7 @@ std::optional<Impl> XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_deserialize_impl(F
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);
-    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret.get());
+    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret);
     return ret;
 }
 
@@ -77,6 +78,7 @@ template<class Formatter, class Tracer>
 void XMLNodeLeafNoData<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
 {
 }
+
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

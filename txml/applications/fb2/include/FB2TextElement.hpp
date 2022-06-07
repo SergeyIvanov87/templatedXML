@@ -19,9 +19,9 @@ void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer(
     //skip special symbols
     static std::regex e(R"(&\S+;)");
 
-    const std::string& value = getValue();
+    const std::string& v = value();
     // iterate through matches (0) and non-matches (-1)
-    std::sregex_token_iterator itr(value.begin(), value.end(), e, {-1, 0});
+    std::sregex_token_iterator itr(v.begin(), v.end(), e, {-1, 0});
     std::sregex_token_iterator end;
 
     for(; itr != end; ++itr)
@@ -53,7 +53,7 @@ std::optional<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, *
             ++it;
         }
         ret = FB2TextElement(std::string(it, tmp_value.end()));
-        tracer.trace("Value: '", ret->getValue(), "'");
+        tracer.trace("Value: '", ret->value(), "'");
     }
 
     return ret;

@@ -76,7 +76,7 @@ std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(c
         return {};
     }
 
-    return std::make_shared<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
+    return std::make_optional<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
 }
 
 template<TEMPL_ARGS_DECL>
@@ -192,13 +192,13 @@ std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Trace
 {
     std::optional<NodeType> ret = std::make_optional<NodeType>();
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret.get(), ", available subnodes count: ", available_item_count);
+                 ret, ", available subnodes count: ", available_item_count);
 
     size_t deserialized_item_count = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
     while (deserialized_item_count != available_item_count)
     {
         tracer.trace("refill node '", NodeType::class_name(), "' handle: ",
-                     ret.get(), " deserialized count: ", deserialized_item_count);
+                     ret, " deserialized count: ", deserialized_item_count);
         size_t next_portion_items = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
         if (deserialized_item_count == next_portion_items)
         {

@@ -16,7 +16,7 @@ Empty::Empty(std::string&& str) : base(std::move(str))
 template<class Tracer>
 void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
-    out << "<" << Empty::class_name() << getValue() << " -->\n";
+    out << "<" << Empty::class_name() << value() << " -->\n";
 }
 
 template<class Tracer>
@@ -32,7 +32,7 @@ std::optional<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderW
             ++it;
         }
         ret = Empty(std::string(it, tmp_value.end()));
-        tracer.trace("Value: '", ret->getValue(), "'");
+        tracer.trace("Value: '", ret->value(), "'");
     }
     return ret;
 }

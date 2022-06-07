@@ -13,6 +13,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
 #include <txml/include/details/fwd/Searchable.h>
+#include <txml/include/engine/fwd/TracerHelper.h>
 
 namespace txml
 {
@@ -26,7 +27,8 @@ struct XMLArray: public XMLProducible<Impl>,
                  public XMLFormatDeserializable<Impl>,
                  public XMLSchemaSerializable<Impl>,
                  public Searchable<Impl, ElementType>,
-                 public TagHolder<ArrayTag>
+                 public TagHolder<ArrayTag>,
+                 public TracerHelper<Impl>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = XMLArrayContainerNode<ElementType>;

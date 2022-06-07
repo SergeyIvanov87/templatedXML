@@ -16,7 +16,7 @@ inline Comment::Comment(std::string&& str) : base(std::move(str))
 template<class Tracer>
 inline void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
-    out << "<" << Comment::class_name() <<  " word used: " << getValue() << " times -->\n";
+    out << "<" << Comment::class_name() <<  " word used: " << value() << " times -->\n";
 }
 
 
@@ -33,7 +33,7 @@ inline std::optional<Comment> Comment::create_impl(/*std::string &name, */txml::
             ++it;
         }
         ret = Comment(std::string(it, tmp_value.end()));
-        tracer.trace("Value: '", ret->getValue(), "'");
+        tracer.trace("Value: '", ret->value(), "'");
     }
     return ret;
 }

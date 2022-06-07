@@ -13,38 +13,113 @@ namespace txml
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentPtr<T> ArgumentContainerBase<Arguments...>::getValue() const
+bool ArgumentContainerBase<TEMPL_ARGS_DEF>::has_value() const
 {
-    return std::get<ArgumentPtr<T>>(*storage);
-}
-
-template<TEMPL_ARGS_DECL>
-const typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::getValue() const
-{
-    return *storage;
-}
-template<TEMPL_ARGS_DECL>
-typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::getValue()
-{
-    return *storage;
+    if (has_data())
+    {
+        return std::get<ArgumentOptional<T>>(*storage).has_value();
+    }
+    return false;
 }
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-typename ArgumentContainerBase<Arguments...>::ArgumentPtr<T>
-ArgumentContainerBase<Arguments...>::set(ArgumentPtr<T> arg)
+const T& ArgumentContainerBase<Arguments...>::value() const
+{
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ArgumentOptional<T>>(*storage).value();
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+T& ArgumentContainerBase<Arguments...>::value()
+{
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ArgumentOptional<T>>(*storage).value();
+}
+
+template<TEMPL_ARGS_DECL>
+bool ArgumentContainerBase<TEMPL_ARGS_DEF>::has_data() const
+{
+    return storage.get();
+}
+
+template<TEMPL_ARGS_DECL>
+const typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::data() const
+{
+    if (!has_value())
+    {
+        throw_exception();
+    }
+    return *storage;
+}
+
+template<TEMPL_ARGS_DECL>
+typename ArgumentContainerBase<TEMPL_ARGS_DEF>::Tuple& ArgumentContainerBase<Arguments...>::data()
+{
+    return const_cast<Tuple&>(static_cast<const ArgumentContainerBase<TEMPL_ARGS_DEF>*>(this)->data());
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+const typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentOptional<T>& ArgumentContainerBase<Arguments...>::node() const
+{
+    if (!has_data())
+    {
+        static const ArgumentOptional<T> empty;
+        return empty;
+    }
+    return std::get<ArgumentOptional<T>>(*storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class ...Args>
+typename ArgumentContainerBase<TEMPL_ARGS_DEF>::template ArgumentOptional<T>& ArgumentContainerBase<Arguments...>::node_or(Args &&...args)
+{
+    //TODO Return existing node OR create storage with node from args!!!!
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ArgumentOptional<T>>(*storage);
+}
+
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+typename ArgumentContainerBase<Arguments...>::ArgumentOptional<T> &
+ArgumentContainerBase<Arguments...>::insert(const ArgumentOptional<T> &arg, bool overwrite)
 {
     if (arg.has_value() && !storage)
     {
         storage = std::make_shared<Tuple>();
     }
-    std::get<ArgumentPtr<T>>(*storage) = arg;
-    return arg;
+    std::get<ArgumentOptional<T>>(*storage) = arg;
+    return std::get<ArgumentOptional<T>>(*storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+typename ArgumentContainerBase<Arguments...>::ArgumentOptional<T> &
+ArgumentContainerBase<Arguments...>::insert(ArgumentOptional<T> &&arg, bool overwrite)
+{
+    if (arg.has_value() && !storage)
+    {
+        storage = std::make_shared<Tuple>();
+    }
+    std::get<ArgumentOptional<T>>(*storage) = std::move(arg);
+    return std::get<ArgumentOptional<T>>(*storage);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
-typename ArgumentContainerBase<Arguments...>::ArgumentPtr<std::decay_t<T>>
+typename ArgumentContainerBase<Arguments...>::ArgumentOptional<std::decay_t<T>> &
 ArgumentContainerBase<Arguments...>::emplace(Args &&...args)
 {
     if (!storage)
@@ -59,7 +134,11 @@ template<TEMPL_ARGS_DECL>
 template<class Fabric, class ...CreationArgs>
 size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
-    Tuple tmp_storage;
+    if (!storage)
+    {
+        storage = std::make_shared<Tuple>();
+    }
+
     size_t created_nodes_count = std::apply([&next_args...](std::optional<Arguments> &...element) -> size_t
     {
         bool dispatchingResult[]
@@ -73,12 +152,11 @@ size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next
         return std::count_if(dispatchingResult, dispatchingResult + sizeof...(Arguments), [] (bool val) {
             return val;
         });
-    }, tmp_storage);
+    }, *storage);
 
-    if (created_nodes_count)
+    if (!created_nodes_count)
     {
-        assert(!storage && "storage must be empty");
-        storage = std::make_shared<Tuple>(std::move(tmp_storage));
+        storage.reset();
     }
     return created_nodes_count;
 }
@@ -110,7 +188,8 @@ size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Format
 {
     if (!storage)
     {
-        storage = std::make_shared<Tuple>();
+        storage = std::make_shared<Tuple>();//  ---->> HASH instead STORAGE!!! <<----
+        tracer.trace("START deserialize element, allocate storage: ", storage.get());
     }
     tracer.trace("START deserialize element from types count: (", sizeof...(Arguments), "), storage: ", storage.get());
     size_t deserialized_count = std::apply([&in, &tracer](std::optional<Arguments> &...element)
@@ -120,11 +199,16 @@ size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Format
                 ((element = !element
                             ? Arguments::format_deserialize(in, tracer)
                             : Arguments::format_redeserialize(element, in, tracer)
-                            ), element.get() != nullptr/* true if created, or false*/)...
+                            ), element.has_value()/* true if created, or false*/)...
             };
         return std::count(dispatchingResult, dispatchingResult + sizeof...(Arguments), true);
     }, *storage);
     tracer.trace("FINISH deserialized elements: (", deserialized_count, " / ", sizeof...(Arguments), "), storage: ", storage.get());
+    if (!deserialized_count)
+    {
+        tracer.trace("FINISH deserialize element, delete storage: ", storage.get());
+        storage.reset();
+    }
     return deserialized_count;
 }
 
@@ -169,11 +253,34 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_element(Formatter &
     Element::schema_serialize(out, tracer);
 }
 
+/*
 template<TEMPL_ARGS_DECL>
-bool ArgumentContainerBase<TEMPL_ARGS_DEF>::has_value() const
+size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::hash() const
 {
-    return storage;
+    return reinterpret_cast<size_t>(storage.get());
+}*/
+
+template<TEMPL_ARGS_DECL>
+[[ noreturn ]] void ArgumentContainerBase<TEMPL_ARGS_DEF>::throw_exception() const
+{
+    std::stringstream ss;
+    ss << "<";
+    (ss << ... << Arguments::class_name());
+    ss << "> hash: "/* <<  hash() << */" has no value";
+    throw std::invalid_argument(ss.str());
 }
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+[[ noreturn ]] void ArgumentContainerBase<TEMPL_ARGS_DEF>::throw_exception() const
+{
+    std::stringstream ss;
+    ss << "<";
+    (ss << ... << Arguments::class_name());
+    ss << "> hash: "/* <<  hash() << */" has no value: " << T::class_name();
+    throw std::invalid_argument(ss.str());
+}
+
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

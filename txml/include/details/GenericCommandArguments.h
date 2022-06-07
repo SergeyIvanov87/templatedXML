@@ -14,9 +14,9 @@ class ArgumentContainerBase
 {
 public:
     template<class T>
-    using ArgumentPtr = std::optional<T>;
-    using Tuple = std::tuple<ArgumentPtr<Arguments>...>;
-
+    using ArgumentOptional = std::optional<T>;
+    using Tuple = std::tuple<ArgumentOptional<Arguments>...>;
+//protected:
     template<class Fabric, class ...CreationArgs>
     size_t create_from(CreationArgs&&... next_args);
 
@@ -35,36 +35,45 @@ public:
     template<class Formatter, class Tracer>
     size_t format_deserialize_elements(Formatter &in, Tracer tracer);
 
-    template<class T>
-    ArgumentPtr<T> getValue() const;
+public:
+    bool has_data() const;
 
-    const Tuple& getValue() const;
-    Tuple& getValue();
+    const Tuple& data() const;
+    Tuple& data();
 
     template<class T>
-    ArgumentPtr<T> set(ArgumentPtr<T> arg);
+    bool has_value() const;
+
+    template<class T>
+    const T& value() const;
+
+    template<class T>
+    T& value();
+
+
+    template<class T>
+    const ArgumentOptional<T>& node() const;
 
     template<class T, class ...Args>
-    ArgumentPtr<std::decay_t<T>> emplace(Args&& ...args);
+    ArgumentOptional<T>& node_or(Args &&...args);
 
-    bool has_value() const;
+
+    template<class T>
+    ArgumentOptional<T>& insert(const ArgumentOptional<T>& arg, bool overwrite = true);
+
+    template<class T>
+    ArgumentOptional<T>& insert(ArgumentOptional<T>&& arg, bool overwrite = true);
+
+    template<class T, class ...Args>
+    ArgumentOptional<std::decay_t<T>>& emplace(Args&& ...args);
+
 private:
     std::shared_ptr<Tuple> storage;  //TODO make pointer!!!   introduce methods has_value() & value()  as std::optional!
+
+    [[ noreturn ]] void throw_exception() const;
+
+    template<class T>
+    [[ noreturn ]] void throw_exception() const;
 };
 } // namespace txml
-
-
-////////////
-namespace std {
-template <typename ... tt>
-struct hash<txml::ArgumentContainerBase<tt...>>
-{
-size_t
-operator()(txml::ArgumentContainerBase<tt...> const& t) const
-{
-return txml::utils::hash<typename txml::ArgumentContainerBase<tt...>::Tuple>() (t.has_value() ? t.getValue() : typename txml::ArgumentContainerBase<tt...>::Tuple{} );
-}
-};
-}
-////////////
 #endif //GENERIC_COMMANDARGUMENTS_VALUE_H

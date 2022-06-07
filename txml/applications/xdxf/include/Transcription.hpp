@@ -12,14 +12,14 @@
 
 namespace xdxf
 {
-inline const Transcription::value_t &Transcription::getValue() const
+inline const Transcription::value_t &Transcription::value() const
 {
-    auto val = base::getValue<TextElement>();
+    const auto& val = base::node<TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(Transcription::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace xdxf
 #endif //TRANSCRIPTION_HPP

@@ -26,7 +26,7 @@ template<class Value>
 template<class Fabric, class ...CreationArgs>
 size_t XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
 {
-    typename aggregared_t::value_t &arr = leaf_node.getValue();
+    typename aggregared_t::value_t &arr = leaf_node.value();
     std::optional<Value> elem;
     do {
         elem = Fabric::template try_create<Value>(std::forward<CreationArgs>(next_args)...);
@@ -38,15 +38,15 @@ size_t XMLArrayContainerNode<Value>::create_from(CreationArgs&&... next_args)
 }
 
 template<class Value>
-const typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::getValue() const
+const typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::value() const
 {
-    return leaf_node.getValue();
+    return leaf_node.value();
 }
 
 template<class Value>
-typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::getValue()
+typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerNode<Value>::value()
 {
-    return leaf_node.getValue();
+    return leaf_node.value();
 }
 
 template<class Value>
@@ -55,7 +55,7 @@ void XMLArrayContainerNode<Value>::serialize_impl(std::ostream &out, Tracer trac
 {
     out << "<XMLArrayContainerNode<" << XMLArrayContainerNode<Value>::class_name() << ">>";
 
-    const typename aggregared_t::value_t& array = leaf_node.getValue();
+    const typename aggregared_t::value_t& array = leaf_node.value();
     for (const auto& elem : array)
     {
         if (elem)
@@ -73,7 +73,7 @@ void XMLArrayContainerNode<Value>::serialize_elements(std::ostream &out, Tracer 
                                                      EndElementManipulator sep) const
 {
     tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
-    const typename aggregared_t::value_t& array = leaf_node.getValue();
+    const typename aggregared_t::value_t& array = leaf_node.value();
     for (const auto& elem : array)
     {
         if (elem)
@@ -88,7 +88,7 @@ template<class Formatter, class Tracer>
 void XMLArrayContainerNode<Value>::format_serialize_elements(Formatter &out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
-    const typename aggregared_t::value_t& array = leaf_node.getValue();
+    const typename aggregared_t::value_t& array = leaf_node.value();
     for (const auto& elem : array)
     {
         if (elem)
@@ -112,7 +112,7 @@ size_t XMLArrayContainerNode<Value>::format_deserialize_elements(Formatter &in, 
 {
     tracer.trace("START deserialize Array<",Value::class_name(), ">");
 
-    typename aggregared_t::value_t &arr = leaf_node.getValue();
+    typename aggregared_t::value_t &arr = leaf_node.value();
     std::optional<Value> elem;
 
     size_t deserialized_count = 0;

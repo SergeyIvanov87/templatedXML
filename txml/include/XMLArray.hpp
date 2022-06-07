@@ -9,6 +9,7 @@
 #include <txml/include/XMLSerializable.hpp>
 #include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/engine/TextReaderWrap.hpp>
+#include <txml/include/engine/TracerHelper.hpp>
 
 namespace txml
 {
@@ -58,7 +59,7 @@ std::optional<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter&
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);
-    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret.get());
+    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret);
     return ret;
 }
 

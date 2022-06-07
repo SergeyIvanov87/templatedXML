@@ -16,6 +16,7 @@
 #include <txml/include/engine/fwd/TagHolder.h>
 #include <txml/include/engine/fwd/TextReaderWrap.h>
 #include <txml/include/details/fwd/Searchable.h>
+#include <txml/include/engine/fwd/TracerHelper.h>
 
 namespace txml
 {
@@ -27,7 +28,8 @@ struct XMLNode : public XMLProducible<Impl>,
                  public XMLFormatDeserializable<Impl>,
                  public XMLSchemaSerializable<Impl>,
                  public Searchable<Impl, ContainedValues...>,
-                 public TagHolder<ContainerTag>
+                 public TagHolder<ContainerTag>,
+                 public TracerHelper<Impl>
 {
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = ArgumentContainerBase<ContainedValues...>;

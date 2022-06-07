@@ -21,7 +21,7 @@ template<class Value>
 struct XMLArrayContainerNode
 {
     using aggregared_t = XMLNodeLeaf<XMLArrayContainerNode<Value>,
-                                                  std::vector<std::optional<Value>>>;
+                                     std::vector<std::optional<Value>>>;
 
     static constexpr std::string_view class_name()
     {
@@ -35,8 +35,8 @@ struct XMLArrayContainerNode
     XMLArrayContainerNode(std::initializer_list<typename aggregared_t::value_t::value_type> list);
     XMLArrayContainerNode() = default;
 
-    const typename aggregared_t::value_t& getValue() const;
-    typename aggregared_t::value_t& getValue();
+    const typename aggregared_t::value_t& value() const;
+    typename aggregared_t::value_t& value();
 
     template<class Tracer = EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;

@@ -20,15 +20,14 @@ struct print_helper
     }
 };
 
-template<class T>
+template<class T>//, class = std::enable_if_t<std::is_base_of<txml::XMLProducible<T>, T>::value, int>>
 struct print_helper<std::optional<T>>
 {
-    size_t operator() (const std::optional<T> &v)
+    std::string operator() (const std::optional<T> &v)
     {
-        return 0;/*
         return v.has_value() ?
-               std::hash<T>()(v.value()) :
-               std::numeric_limits<size_t>::max();*/
+               v.value().hash() :
+               "has_no_value";
     }
 };
 

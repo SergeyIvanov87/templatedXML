@@ -57,15 +57,15 @@ int main(int argc, char** argv)
             }
 
             //Extract inner tags: KeyPhrase, Comment, Transcription and TextElement
-            auto key_phrase = art->getValue<KeyPhrase>();
-            auto comment = art->getValue<Comment>();
-            auto transcr = art->getValue<Transcription>();
-            auto text = art->getValue<TextElement>();
+            auto key_phrase = art->node<KeyPhrase>();
+            auto comment = art->node<Comment>();
+            auto transcr = art->node<Transcription>();
+            auto text = art->node<TextElement>();
 
             //Printout
             if (key_phrase)
             {
-                const std::string& name = key_phrase->getValue();
+                const std::string& name = key_phrase->value();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     std_tracer << KeyPhrase::class_name() << ": "<< name << std::endl;
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
             }
             if (comment)
             {
-                const std::string& name = comment->getValue();
+                const std::string& name = comment->value();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     std_tracer << Comment::class_name() << ": "<< name << std::endl;
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
             }
             if (transcr)
             {
-                const std::string& name = transcr->getValue();
+                const std::string& name = transcr->value();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     std_tracer << Transcription::class_name() << ": "<< name << std::endl;
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
             }
             if (text)
             {
-                const std::string& name = text->getValue();
+                const std::string& name = text->value();
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     std_tracer << TextElement::class_name() << ": "<< name << std::endl;

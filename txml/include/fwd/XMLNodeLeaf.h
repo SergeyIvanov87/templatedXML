@@ -17,6 +17,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
 #include <txml/include/details/fwd/Searchable.h>
+#include <txml/include/engine/fwd/TracerHelper.h>
 
 namespace txml
 {
@@ -25,7 +26,8 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
                      public XMLSchemaSerializable<Impl>,
                      public Searchable<Impl>,
-                     public TagHolder<LeafTag>
+                     public TagHolder<LeafTag>,
+                     public TracerHelper<Impl>
 {
     using tags_t = TagHolder<LeafTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;
@@ -34,8 +36,8 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     XMLNodeLeaf(value_t&& v);
     XMLNodeLeaf(const value_t& v = value_t()); /*TODO required default value. Make pointer*/
 
-    const value_t& getValue() const;
-    value_t& getValue();
+    const value_t& value() const;
+    value_t& value();
 
     template<class Tracer = EmptyTracer>
     static std::optional<Impl> create(TextReaderWrapper &reader, Tracer tracer);
@@ -58,18 +60,4 @@ private:
     value_t val;
 };
 } // namespace txml
-
-////////////
-namespace std {
-template <typename ... tt>
-struct hash<txml::XMLNodeLeaf<tt...>>
-{
-size_t
-operator()(txml::XMLNodeLeaf<tt...> const& t) const
-{
-return hash<typename txml::XMLNodeLeaf<tt...>::value_t>() (t.getValue());
-}
-};
-}
-////////////
 #endif //XML_NODE_LEAF_H

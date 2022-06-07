@@ -25,7 +25,7 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const value_t &getValue() const;
+    const value_t &value() const;
 };
 } // namespace xdxf
 #endif //TRANSCRIPTION_H

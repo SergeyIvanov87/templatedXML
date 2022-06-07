@@ -11,14 +11,13 @@
 
 namespace xdxf
 {
-inline const KeyPhrase::value_t &KeyPhrase::getValue() const
+inline const KeyPhrase::value_t &KeyPhrase::value() const
 {
-    auto val = base::getValue<TextElement>();
-    if (!val)
+    if (!base::has_value<TextElement>())
     {
         throw std::runtime_error(std::string(KeyPhrase::class_name()) + " - no value");
     }
-    return val->getValue();
+    return base::value<TextElement>().value();
 }
 } // namespace xdxf
 #endif //XDXF_KEY_PHRASE_HPP

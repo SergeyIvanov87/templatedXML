@@ -94,7 +94,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
 
     std::optional<NodeType> ret = std::make_optional<NodeType>();
     tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret.get(),
+                 ret,
                  ", depth: ", node_depth);
 
     bool get_next = false;
@@ -110,7 +110,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
         {
             tracer.trace("Close node '", to_string(NodeType::class_node_type()),
                          "', tag name: '",  NodeType::class_name(),
-                         "' handle: ", ret.get(),
+                         "' handle: ", ret,
                          "', depth: ", node_depth);
             in.read();
             break;
@@ -146,7 +146,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
             node_tracer.trace("Skipped node: ", unprocessed_name, ", depth: ", depth);
         }
     }
-    tracer.trace("Return node '", NodeType::class_name(), "' handle: ", ret.get());
+    tracer.trace("Return node '", NodeType::class_name(), "' handle: ", ret);
     return ret;
 }
 #undef TEMPL_ARGS_DEF

@@ -67,7 +67,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
 
     tracer.trace("begin 'ContainerTag' serialization: ", SerializedItem::class_name(),
                  ", stack size: ", stack_size_before);
-
+abort();
     value.format_serialize_elements(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
@@ -103,7 +103,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     auto mediator = get_shared_mediator_object();
     tracer.trace("begin 'LeafTag' serialization: ", SerializedItem::class_name(),
                  ", stack size: ", mediator->size());
-    json_core_t element({{SerializedItem::class_name(), value.getValue()}});
+    json_core_t element({{SerializedItem::class_name(), value.value()}});
     tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
     mediator->push(std::move(element));
     tracer.trace("end 'LeafTag' serialization: ", SerializedItem::class_name(),

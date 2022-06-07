@@ -8,14 +8,14 @@
 
 namespace fb2
 {
-const Publisher::value_t &Publisher::getValue() const
+const Publisher::value_t &Publisher::value() const
 {
-    auto val = base::getValue<FB2TextElement>();
+    const auto& val = base::node<FB2TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(Publisher::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace fb2
 #endif //FB2_PUBLISH_INFO_PUBLISHER_HPP

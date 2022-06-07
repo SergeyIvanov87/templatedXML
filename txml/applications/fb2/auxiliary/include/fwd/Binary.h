@@ -22,7 +22,7 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const value_t &getValue() const;
+    const value_t &value() const;
 };
 } // namespace fb2
 #endif //BINARY_H

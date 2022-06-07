@@ -17,6 +17,7 @@
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/engine/fwd/TagHolder.h>
 #include <txml/include/details/fwd/Searchable.h>
+#include <txml/include/engine/fwd/TracerHelper.h>
 
 namespace txml
 {
@@ -25,7 +26,9 @@ struct XMLNodeLeafNoData : public XMLFormatSerializable<Impl>,
                      public XMLFormatDeserializable<Impl>,
                      public XMLSchemaSerializable<Impl>,
                      public Searchable<Impl>,
-                     public TagHolder<NoDataTag>
+                     public TagHolder<NoDataTag>,
+                     public TracerHelper<Impl>
+
 {
     using tags_t = TagHolder<NoDataTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;

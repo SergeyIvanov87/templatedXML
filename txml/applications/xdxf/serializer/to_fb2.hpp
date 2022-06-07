@@ -47,7 +47,7 @@ struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticChec
         out << "<title>";
 
         out << "<p><emphasis>";
-        out << "used: " << val.getValue() << " times";
+        out << "used: " << val.value() << " times";
         out << "</emphasis></p>";
 
         out << "</title>\n";
