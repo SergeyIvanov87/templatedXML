@@ -33,7 +33,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
         tracer.trace(__FUNCTION__, " - ", FictionBook::class_name());
 
         out << "fiction_book {\n";
-        FictionBook::schema_serialize_elements(*this, tracer);
+        FictionBook::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -42,7 +42,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", Description::class_name());
         out << "description {\n";
-        Description::schema_serialize_elements(*this, tracer);
+        Description::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -51,7 +51,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", TitleInfo::class_name());
         out << "title_info {\n";
-        TitleInfo::schema_serialize_elements(*this, tracer);
+        TitleInfo::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -60,7 +60,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", BookTitle::class_name());
         out << "book_title {\n";
-        BookTitle::schema_serialize_elements(*this, tracer);
+        BookTitle::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -76,7 +76,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", DocumentInfo::class_name());
         out << "document_info {\n";
-        DocumentInfo::schema_serialize_elements(*this, tracer);
+        DocumentInfo::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -92,7 +92,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", PublishInfo::class_name());
         out << "publish_info {\n";
-        PublishInfo::schema_serialize_elements(*this, tracer);
+        PublishInfo::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -102,7 +102,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
         tracer.trace(__FUNCTION__, " - ", Body::class_name());
         out << "body {\n";
         out << "[\n";
-        Body::schema_serialize_elements(*this, tracer);
+        Body::schema_serialize_impl(*this, tracer);
         out << "],\n";
         out << "},\n";
     }
@@ -113,7 +113,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
         tracer.trace(__FUNCTION__, " - ", Section::class_name());
         out << "section {\n";
         out << "[\n";
-        Section::schema_serialize_elements(*this, tracer);
+        Section::schema_serialize_impl(*this, tracer);
         out << "],\n";
         out << "},\n";
     }
@@ -123,7 +123,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", Paragraph::class_name());
         out << "paragraph {\n";
-        Paragraph::schema_serialize_elements(*this, tracer);
+        Paragraph::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -132,7 +132,7 @@ struct ToCustomSchema : public txml::SchemaSerializerBase<ToCustomSchema<Stream>
     {
         tracer.trace(__FUNCTION__, " - ", Binary::class_name());
         out << "binary {\n";
-        Binary::schema_serialize_elements(*this, tracer);
+        Binary::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 

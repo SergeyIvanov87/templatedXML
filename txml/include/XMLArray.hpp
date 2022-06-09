@@ -45,7 +45,7 @@ void XMLArray<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer/*
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLArray<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer tracer) const
+void XMLArray<TEMPL_ARGS_DEF>::format_serialize_request(Formatter& out, Tracer tracer) const
 {
     tracer.trace("map array node '", Impl::class_name(), "'");
     out.map(static_cast<const Impl&>(*this), tracer);
@@ -55,7 +55,7 @@ void XMLArray<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter& out, Tracer trac
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-std::optional<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter& in, Tracer tracer)
+std::optional<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_request(Formatter& in, Tracer tracer)
 {
     tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
     auto ret = in.template map<Impl>(tracer);
@@ -65,13 +65,13 @@ std::optional<Impl> XMLArray<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter&
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLArray<TEMPL_ARGS_DEF>::format_redeserialize_impl(Formatter& in, Tracer tracer)
+void XMLArray<TEMPL_ARGS_DEF>::format_redeserialize_request(Formatter& in, Tracer tracer)
 {
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLArray<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter& out, Tracer tracer)
+void XMLArray<TEMPL_ARGS_DEF>::schema_serialize_request(Formatter& out, Tracer tracer)
 {
     tracer.trace(__FUNCTION__, " - ", Impl::class_name());
     out.template map<Impl>(tracer);

@@ -32,7 +32,7 @@ void XMLFormatSerializable<Value>::format_serialize(Formatter& out, Tracer trace
     tracer.trace("publish '", Value::class_name(), "'", ", node type '",
                  to_string(Value::class_node_type()), "'");
 
-    static_cast<const Value*>(this)->format_serialize_impl(out, tracer);
+    static_cast<const Value*>(this)->format_serialize_request(out, tracer);
 }
 
 
@@ -43,7 +43,7 @@ void XMLSchemaSerializable<Value>::schema_serialize(Formatter& out, Tracer trace
     tracer.trace("publish '", Value::class_name(), "'", ", node type '",
                  to_string(Value::class_node_type()), "'");
 
-    Value::schema_serialize_impl(out, tracer);
+    Value::schema_serialize_request(out, tracer);
 }
 } // namespace txml
 #endif //XMK_SERIALIZABLE_HPP

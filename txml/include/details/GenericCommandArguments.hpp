@@ -184,7 +184,7 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Formatter &in, Tracer tracer)
+size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter &in, Tracer tracer)
 {
     if (!storage)
     {
@@ -214,7 +214,7 @@ size_t ArgumentContainerBase<TEMPL_ARGS_DEF>::format_deserialize_elements(Format
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter &out, Tracer tracer) const
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter &out, Tracer tracer) const
 {
     if (!storage)
     {
@@ -232,7 +232,7 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::format_serialize_elements(Formatter 
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_elements(Formatter &out, Tracer tracer)
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter &out, Tracer tracer)
 {
     std::apply([&out, &tracer](const std::optional<Arguments> &...element)
     {
@@ -246,7 +246,7 @@ void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_elements(Formatter 
 
 template<TEMPL_ARGS_DECL>
 template<class Element, class Formatter, class Tracer>
-void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_element(Formatter &out, Tracer tracer)
+void ArgumentContainerBase<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter &out, Tracer tracer)
 {
     static_assert(std::disjunction_v<std::is_same<Element, Arguments>...>, "Element type must be"
                   " one of Arguments type");

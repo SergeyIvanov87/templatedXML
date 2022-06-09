@@ -25,7 +25,7 @@ struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticChec
         tracer.trace(__FUNCTION__, " - ", XDXFArticle::class_name());
 
         out << "<" << fb2::Section::class_name() << ">\n";
-        val.format_serialize_elements(*this, tracer);
+        val.format_serialize_impl(*this, tracer);
         out << "</" << fb2::Section::class_name() << ">\n";
     }
 
@@ -34,7 +34,7 @@ struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticChec
     {
         tracer.trace(__FUNCTION__, " - ", KeyPhrase::class_name());
         out << "<title>";
-        val.format_serialize_elements(*this, tracer);
+        val.format_serialize_impl(*this, tracer);
         out << "</title>\n";
         out << "<empty-line/>\n";
     }
@@ -62,7 +62,7 @@ struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticChec
         out << "<" << fb2::Section::class_name() << ">\n";
         out << "<title>";
 
-        val.format_serialize_elements(*this, tracer);
+        val.format_serialize_impl(*this, tracer);
 
         out << "</title>\n";
         out << "</" << fb2::Section::class_name() << ">\n";

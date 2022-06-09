@@ -44,16 +44,16 @@ struct XMLNode : public XMLProducible<Impl>,
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
+    void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::optional<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::optional<Impl> format_deserialize_request(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    void format_redeserialize_request(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
+    static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
 
 protected:
     XMLNode() = default;

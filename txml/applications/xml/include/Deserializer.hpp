@@ -115,7 +115,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
             in.read();
             break;
         }
-        bool node_processed = ret->format_deserialize_elements(*this, tracer);
+        bool node_processed = ret->format_deserialize_impl(*this, tracer);
         get_next |= node_processed;
         if (!node_processed && in.get_node_type() == txml::TextReaderWrapper::NodeType::Element)
         {

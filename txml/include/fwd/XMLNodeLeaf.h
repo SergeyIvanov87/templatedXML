@@ -46,16 +46,16 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_serialize_impl(Formatter& out, Tracer tracer = Tracer()) const;
+    void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static std::optional<Impl> format_deserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    static std::optional<Impl> format_deserialize_request(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_redeserialize_impl(Formatter& in, Tracer tracer = Tracer());
+    void format_redeserialize_request(Formatter& in, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter& out, Tracer tracer = Tracer());
+    static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
 private:
     value_t val;
 };

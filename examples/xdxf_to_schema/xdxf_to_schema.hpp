@@ -23,7 +23,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
         tracer.trace(__FUNCTION__, " - ", XDXFArticle::class_name());
 
         out << "article {\n";
-        XDXFArticle::schema_serialize_elements(*this, tracer);
+        XDXFArticle::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -32,7 +32,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     {
         tracer.trace(__FUNCTION__, " - ", KeyPhrase::class_name());
         out << "key {\n";
-        KeyPhrase::schema_serialize_elements(*this, tracer);
+        KeyPhrase::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 
@@ -48,7 +48,7 @@ struct ToSchema : public txml::SchemaSerializerBase<ToSchema<Stream>, txml::Stat
     {
         tracer.trace(__FUNCTION__, " - ", Transcription::class_name());
         out << "transcription {\n";
-        Transcription::schema_serialize_elements(*this, tracer);
+        Transcription::schema_serialize_impl(*this, tracer);
         out << "},\n";
     }
 

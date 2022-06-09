@@ -12,11 +12,10 @@ namespace txml
 template<class ...Arguments>
 class ArgumentContainerBase
 {
-public:
     template<class T>
     using ArgumentOptional = std::optional<T>;
     using Tuple = std::tuple<ArgumentOptional<Arguments>...>;
-//protected:
+protected:
     template<class Fabric, class ...CreationArgs>
     size_t create_from(CreationArgs&&... next_args);
 
@@ -24,16 +23,16 @@ public:
     void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
     template<class Formatter, class Tracer>
-    void format_serialize_elements(Formatter &out, Tracer tracer) const;
+    void format_serialize_impl(Formatter &out, Tracer tracer) const;
 
     template<class Formatter, class Tracer>
-    static void schema_serialize_elements(Formatter &out, Tracer tracer);
+    static void schema_serialize_impl(Formatter &out, Tracer tracer);
 
     template<class Element, class Formatter, class Tracer>
-    static void schema_serialize_element(Formatter &out, Tracer tracer);
+    static void schema_serialize_impl(Formatter &out, Tracer tracer);
 
     template<class Formatter, class Tracer>
-    size_t format_deserialize_elements(Formatter &in, Tracer tracer);
+    size_t format_deserialize_impl(Formatter &in, Tracer tracer);
 
 public:
     bool has_data() const;

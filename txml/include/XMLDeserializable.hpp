@@ -14,7 +14,7 @@ std::optional<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatte
     tracer.trace("Come in deserialize '", Value::class_name(), "', type '",
                  to_string(Value::class_node_type()), "'");
 
-    auto ret =  Value::format_deserialize_impl(in, tracer);
+    auto ret =  Value::format_deserialize_request(in, tracer);
     tracer.trace("Leave out deserialize '", Value::class_name(), "', type '",
                  to_string(Value::class_node_type()), "', handle: ", ret);
     return ret;
@@ -29,7 +29,7 @@ std::optional<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::o
     if (to_fill)
     {
         tracer.trace("fill xml array container with: ", to_fill);
-        to_fill->format_redeserialize_impl(in, tracer);
+        to_fill->format_redeserialize_request(in, tracer);
     }
     else
     {
