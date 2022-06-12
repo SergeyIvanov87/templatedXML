@@ -80,7 +80,7 @@ bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer 
                  "', depth: ", depth);
     if (name != NodeType::class_name() || nodeType != NodeType::class_node_type())
     {
-        tracer.trace("Expected '", to_string(NodeType::class_node_type()), "', tag name: '", NodeType::class_name(), "'");
+        tracer.trace("Mismatch! Expected '", to_string(NodeType::class_node_type()), "', tag name: '", NodeType::class_name(), "'");
         return false;
     }
     return true;
@@ -104,6 +104,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
         node_tracer.trace("Open node '", to_string(in.get_node_type()),
                           "', tag name: '", in.get_name(),
                           "', depth: ", in.get_depth());
+        // done when all subsequent elements deserialized and node closed
         if (in.get_name() == NodeType::class_name() &&
             in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
             node_depth == in.get_depth())
@@ -115,8 +116,12 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
             in.read();
             break;
         }
+
+        // start recursion
         bool node_processed = ret->format_deserialize_impl(*this, tracer);
         get_next |= node_processed;
+
+        // skip the same level elements which are not enumerated in DeserializedItems... list
         if (!node_processed && in.get_node_type() == txml::TextReaderWrapper::NodeType::Element)
         {
             const std::string& unprocessed_name = in.get_name();
@@ -144,6 +149,19 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
                 }
             }
             node_tracer.trace("Skipped node: ", unprocessed_name, ", depth: ", depth);
+        }
+
+        // done when all subsequent elements deserialized and node closed
+        if (in.get_name() == NodeType::class_name() &&
+            in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
+            node_depth == in.get_depth())
+        {
+            tracer.trace("Close node '", to_string(NodeType::class_node_type()),
+                         "', tag name: '",  NodeType::class_name(),
+                         "' handle: ", ret,
+                         "', depth: ", node_depth);
+            in.read();
+            break;
         }
     }
     tracer.trace("Return node '", NodeType::class_name(), "' handle: ", ret);

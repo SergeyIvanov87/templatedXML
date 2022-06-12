@@ -112,7 +112,7 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json_core_t::iterator& cur_it, c
     tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
+        tracer.trace("Mismatch! Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;

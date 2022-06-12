@@ -8,15 +8,23 @@
 #include <txml/include/utils/fwd/specific_tracer/StdOutTracer.h>
 #include <txml/include/details/TracerPolicies.hpp>
 #include <txml/include/utils/Tracer.hpp>
+#include <txml/include/engine/fwd/TracerHelper.h>
 
 namespace txml
 {
 template<class T>
 struct print_helper
 {
-    const T& operator() (const T &v)
+    auto operator() (const T &v)
     {
-        return v;
+        if constexpr (std::is_base_of_v<txml::TracerHelper<T>, T>)
+        {
+            return v.hash();
+        }
+        else
+        {
+            return v;
+        }
     }
 };
 

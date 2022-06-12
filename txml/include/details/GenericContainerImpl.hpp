@@ -117,13 +117,14 @@ size_t XMLArrayContainerNode<Value>::format_deserialize_impl(Formatter &in, Trac
 
     size_t deserialized_count = 0;
     do {
-        tracer.trace("Begin array index: ", arr.size());
+        size_t array_index = arr.size();
+        tracer.trace("Begin array index: ", array_index);
         elem = Value::format_deserialize(in, tracer);
         if (elem) {
             arr.push_back(elem);
             deserialized_count++;
         }
-        tracer.trace("End array index: ", arr.size());
+        tracer.trace("End array index: ", array_index);
     } while (elem);
 
     tracer.trace("START deserialize Array<",Value::class_name(), ">, deserialized count: ", deserialized_count);

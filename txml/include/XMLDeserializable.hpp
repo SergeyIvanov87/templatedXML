@@ -23,13 +23,14 @@ std::optional<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatte
 // TODO optimiaze passing optional by copy!
 template<class Value>
 template<class Formatter, class Tracer>
-std::optional<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::optional<Value> to_fill,
+std::optional<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::optional<Value> &to_fill,
                                                                           Formatter& in, Tracer tracer)
 {
     if (to_fill)
     {
-        tracer.trace("fill xml array container with: ", to_fill);
+        tracer.trace("redeserialize begin: ", to_fill);
         to_fill->format_redeserialize_request(in, tracer);
+        tracer.trace("redeserialize end: ", to_fill);
     }
     else
     {
