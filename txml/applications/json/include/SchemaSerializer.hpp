@@ -39,7 +39,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ArrayTa
     tracer.trace(__FUNCTION__, " - begin 'ArrayTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
-    SerializedItem::schema_serialize_impl(* static_cast<Impl*>(this), tracer);
+    SerializedItem::make_schema_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace(__FUNCTION__, " - end 'ArrayTag': ", SerializedItem::class_name(),
@@ -68,7 +68,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::Contain
     tracer.trace(__FUNCTION__, " - begin 'ContainerTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
-    SerializedItem::schema_serialize_impl(* static_cast<Impl*>(this), tracer);
+    SerializedItem::make_schema_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace(__FUNCTION__, " - end 'ContainerTag': ", SerializedItem::class_name(),

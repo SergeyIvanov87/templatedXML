@@ -85,7 +85,7 @@ void XMLArrayContainerNode<Value>::serialize_elements(std::ostream &out, Tracer 
 
 template<class Value>
 template<class Formatter, class Tracer>
-void XMLArrayContainerNode<Value>::format_serialize_impl(Formatter &out, Tracer tracer) const
+void XMLArrayContainerNode<Value>::make_format_serialize(Formatter &out, Tracer tracer) const
 {
     tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
     const typename aggregared_t::value_t& array = leaf_node.value();
@@ -100,7 +100,7 @@ void XMLArrayContainerNode<Value>::format_serialize_impl(Formatter &out, Tracer 
 
 template<class Value>
 template<class Formatter, class Tracer>
-void XMLArrayContainerNode<Value>::schema_serialize_impl(Formatter &out, Tracer tracer)
+void XMLArrayContainerNode<Value>::make_schema_serialize(Formatter &out, Tracer tracer)
 {
     tracer.trace(__FUNCTION__, " - XMLArrayContainerNode<", Value::class_name(), ">");
     Value::schema_serialize(out, tracer);
@@ -108,7 +108,7 @@ void XMLArrayContainerNode<Value>::schema_serialize_impl(Formatter &out, Tracer 
 
 template<class Value>
 template<class Formatter, class Tracer>
-size_t XMLArrayContainerNode<Value>::format_deserialize_impl(Formatter &in, Tracer tracer)
+size_t XMLArrayContainerNode<Value>::make_format_deserialize(Formatter &in, Tracer tracer)
 {
     tracer.trace("START deserialize Array<",Value::class_name(), ">");
 

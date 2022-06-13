@@ -39,7 +39,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     tracer.trace("begin 'ArrayTag' serialization: ", SerializedItem::class_name(),
                  ", stack size: ", stack_size_before);
 
-    value.format_serialize_impl(* static_cast<Impl*>(this), tracer);
+    value.make_format_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace("end 'ArrayTag' serialization: ", SerializedItem::class_name(),
@@ -67,7 +67,7 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
 
     tracer.trace("begin 'ContainerTag' serialization: ", SerializedItem::class_name(),
                  ", stack size: ", stack_size_before);
-    value.format_serialize_impl(* static_cast<Impl*>(this), tracer);
+    value.make_format_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
     tracer.trace("end 'ContainerTag' serialization: ", SerializedItem::class_name(),

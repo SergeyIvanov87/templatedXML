@@ -118,7 +118,7 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
         }
 
         // start recursion
-        bool node_processed = ret->format_deserialize_impl(*this, tracer);
+        bool node_processed = ret->make_format_deserialize(*this, tracer);
         get_next |= node_processed;
 
         // skip the same level elements which are not enumerated in DeserializedItems... list

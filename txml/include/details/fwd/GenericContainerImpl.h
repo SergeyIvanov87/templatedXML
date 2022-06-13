@@ -45,13 +45,13 @@ struct XMLArrayContainerNode
     void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
     template<class Formatter, class Tracer>
-    void format_serialize_impl(Formatter &out, Tracer tracer) const;
+    void make_format_serialize(Formatter &out, Tracer tracer) const;
 
     template<class Formatter, class Tracer>
-    static void schema_serialize_impl(Formatter &out, Tracer tracer);
+    static void make_schema_serialize(Formatter &out, Tracer tracer);
 
     template<class Formatter, class Tracer>
-    size_t format_deserialize_impl(Formatter &in, Tracer tracer);
+    size_t make_format_deserialize(Formatter &in, Tracer tracer);
     aggregared_t leaf_node;
 };
 } // namespace txml

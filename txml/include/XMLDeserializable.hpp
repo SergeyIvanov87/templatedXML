@@ -1,7 +1,7 @@
 #ifndef XML_DESERIALIZABLE_HPP
 #define XML_DESERIALIZABLE_HPP
 
-#include <txml/include/fwd/XMLSerializable.h>
+//TODO ? #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/utils.h>
 

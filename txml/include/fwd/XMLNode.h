@@ -31,6 +31,11 @@ struct XMLNode : public XMLProducible<Impl>,
                  public TagHolder<ContainerTag>,
                  public TracerHelper<Impl>
 {
+    friend class XMLFormatSerializable<Impl>;
+    friend class XMLFormatDeserializable<Impl>;
+    friend class XMLSchemaSerializable<Impl>;
+    friend class XMLSerializable<Impl>;
+
     using modifiers_t = std::optional<std::vector<std::string>>;
     using Container = ArgumentContainerBase<ContainedValues...>;
     using Tuple = typename Container::Tuple;
@@ -38,14 +43,43 @@ struct XMLNode : public XMLProducible<Impl>,
     using Container::storage;
     using tags_t = TagHolder<ContainerTag>;
 
+    XMLNode(const XMLNode &src);
+    XMLNode(XMLNode &&src);
+
+    template<class ...SpecificContainedValues>
+    XMLNode(const SpecificContainedValues & ...args);
+
+    template<class ...SpecificContainedValues>
+    XMLNode(const std::optional<SpecificContainedValues> & ...args);
+
+    XMLNode &operator=(const XMLNode &src);
+    XMLNode &operator=(XMLNode &&src);
+
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     template<class Fabric, class ...CreationArgs>
     size_t create_from(CreationArgs&&... next_args);
 
-/* TODO  consider remove  void serialize_impl(std::ostream &out) const;*/
+    // actual serialization/deserialization implementations
+    // Methods are public because deserializer/serializer can use these
+    template<class Tracer, class EndElementManipulator>
+    void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    void make_format_serialize(Formatter &out, Tracer tracer) const;
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    static void make_schema_serialize(Formatter &out, Tracer tracer);
+
+    template<class Element, class Formatter, class Tracer = txml::EmptyTracer>
+    static void make_schema_serialize(Formatter &out, Tracer tracer);
+
+    template<class Formatter, class Tracer = txml::EmptyTracer>
+    size_t make_format_deserialize(Formatter &in, Tracer tracer);
+
+/* TODO  consider remove  void serialize_impl(std::ostream &out) const;*/
+private:
     template<class Tracer = txml::EmptyTracer>
     void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
 
@@ -60,23 +94,6 @@ struct XMLNode : public XMLProducible<Impl>,
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
-
-
-    // actual serialization/deserialization implementations
-    template<class Tracer, class EndElementManipulator>
-    void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    void format_serialize_impl(Formatter &out, Tracer tracer) const;
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter &out, Tracer tracer);
-
-    template<class Element, class Formatter, class Tracer = txml::EmptyTracer>
-    static void schema_serialize_impl(Formatter &out, Tracer tracer);
-
-    template<class Formatter, class Tracer = txml::EmptyTracer>
-    size_t format_deserialize_impl(Formatter &in, Tracer tracer);
 
 protected:
     XMLNode() = default;

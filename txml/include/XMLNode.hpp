@@ -17,6 +17,66 @@ namespace txml
 #define TEMPL_ARGS_DEF     Impl, ContainedValues...
 
 template<TEMPL_ARGS_DECL>
+XMLNode<TEMPL_ARGS_DEF>::XMLNode(const XMLNode &src) :
+    TracerHelper<Impl>(src)
+{
+    if (src.storage)
+    {
+        storage.reset(new Tuple(*src.storage));
+    }
+}
+
+template<TEMPL_ARGS_DECL>
+XMLNode<TEMPL_ARGS_DEF>::XMLNode(XMLNode &&src) :
+    TracerHelper<Impl>(static_cast<TracerHelper<Impl>&&>(src))
+{
+    storage = std::move(src.storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class ...SpecificContainedValues>
+XMLNode<TEMPL_ARGS_DEF>::XMLNode(const SpecificContainedValues & ...args)
+{
+    (this->template emplace<SpecificContainedValues>(args), ...);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class ...SpecificContainedValues>
+XMLNode<TEMPL_ARGS_DEF>::XMLNode(const std::optional<SpecificContainedValues> & ...args)
+{
+    ((args.has_value() ? this->template emplace<SpecificContainedValues>(args),true : false), ...);
+}
+
+template<TEMPL_ARGS_DECL>
+XMLNode<TEMPL_ARGS_DEF> &XMLNode<TEMPL_ARGS_DEF>::operator=(const XMLNode &src)
+{
+    if (this != &src)
+    {
+        if (src.storage)
+        {
+            storage.reset(new Tuple(*src.storage));
+        }
+        else
+        {
+            storage.reset();
+        }
+        static_cast<TracerHelper<Impl>&>(*this) = static_cast<const TracerHelper<Impl>&>(src);
+    }
+    return *this;
+}
+
+template<TEMPL_ARGS_DECL>
+XMLNode<TEMPL_ARGS_DEF> &XMLNode<TEMPL_ARGS_DEF>::operator=(XMLNode &&src)
+{
+    if (this != &src)
+    {
+        storage = std::move(src.storage);
+        static_cast<TracerHelper<Impl>&>(*this) = static_cast<TracerHelper<Impl>&&>(src);
+    }
+    return *this;
+}
+
+template<TEMPL_ARGS_DECL>
 template<class Tracer>
 bool XMLNode<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
 {
@@ -145,7 +205,7 @@ void XMLNode<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out, Tracer trace
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-size_t XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter &in, Tracer tracer)
+size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tracer)
 {
     size_t deserialized_count_before = 0;
     if (!storage)
@@ -192,7 +252,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::format_deserialize_impl(Formatter &in, Tracer tr
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNode<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter &out, Tracer tracer) const
+void XMLNode<TEMPL_ARGS_DEF>::make_format_serialize(Formatter &out, Tracer tracer) const
 {
     if (!storage)
     {
@@ -210,7 +270,7 @@ void XMLNode<TEMPL_ARGS_DEF>::format_serialize_impl(Formatter &out, Tracer trace
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
-void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter &out, Tracer tracer)
+void XMLNode<TEMPL_ARGS_DEF>::make_schema_serialize(Formatter &out, Tracer tracer)
 {
     std::apply([&out, &tracer](const std::optional<ContainedValues> &...element)
     {
@@ -224,7 +284,7 @@ void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter &out, Tracer trace
 
 template<TEMPL_ARGS_DECL>
 template<class Element, class Formatter, class Tracer>
-void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_impl(Formatter &out, Tracer tracer)
+void XMLNode<TEMPL_ARGS_DEF>::make_schema_serialize(Formatter &out, Tracer tracer)
 {
     static_assert(std::disjunction_v<std::is_same<Element, ContainedValues>...>, "Element type must be"
                   " one of ContainedValues type");

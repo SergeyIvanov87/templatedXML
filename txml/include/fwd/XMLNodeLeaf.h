@@ -29,6 +29,10 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
                      public TagHolder<LeafTag>,
                      public TracerHelper<Impl>
 {
+    friend class XMLFormatSerializable<Impl>;
+    friend class XMLFormatDeserializable<Impl>;
+    friend class XMLSchemaSerializable<Impl>;
+
     using tags_t = TagHolder<LeafTag>;
     using modifiers_t = std::optional<std::vector<std::string>>;
     using value_t = T;
@@ -45,6 +49,7 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     template<class Tracer = EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);
 
+private:
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;
 
@@ -56,7 +61,7 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
-private:
+
     value_t val;
 };
 } // namespace txml
