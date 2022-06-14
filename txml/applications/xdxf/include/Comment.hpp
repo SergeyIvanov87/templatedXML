@@ -14,7 +14,7 @@ inline Comment::Comment(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-inline void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void Comment::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Comment::class_name() <<  " word used: " << value() << " times -->\n";
 }

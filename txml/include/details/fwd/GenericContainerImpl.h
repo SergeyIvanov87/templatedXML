@@ -39,7 +39,7 @@ struct XMLArrayContainerNode
     typename aggregared_t::value_t& value();
 
     template<class Tracer = EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Tracer, class EndElementManipulator>
     void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;

@@ -29,14 +29,14 @@ bool XMLArray<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer trac
 
 
 template<TEMPL_ARGS_DECL>
-void XMLArray<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out) const
+void XMLArray<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out) const
 {
     Container::serialize_elements(out);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-void XMLArray<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void XMLArray<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Impl::class_name() << ">";
     Container::serialize_elements(out, tracer, txml::no_sep);

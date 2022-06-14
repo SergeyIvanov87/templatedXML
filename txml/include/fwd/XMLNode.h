@@ -22,7 +22,6 @@ namespace txml
 {
 template<class Impl, class ...ContainedValues>
 struct XMLNode : public XMLProducible<Impl>,
-                 public ArgumentContainerBase<ContainedValues...>,
                  public XMLSerializable<Impl>,
                  public XMLFormatSerializable<Impl>,
                  public XMLFormatDeserializable<Impl>,
@@ -37,10 +36,11 @@ struct XMLNode : public XMLProducible<Impl>,
     friend class XMLSerializable<Impl>;
 
     using modifiers_t = std::optional<std::vector<std::string>>;
-    using Container = ArgumentContainerBase<ContainedValues...>;
-    using Tuple = typename Container::Tuple;
 
-    using Container::storage;
+    template<class T>
+    using ChildNode = std::optional<T>;
+    using NodesStorage = std::tuple<ChildNode<ContainedValues>...>;
+
     using tags_t = TagHolder<ContainerTag>;
 
     XMLNode(const XMLNode &src);
@@ -54,6 +54,35 @@ struct XMLNode : public XMLProducible<Impl>,
 
     XMLNode &operator=(const XMLNode &src);
     XMLNode &operator=(XMLNode &&src);
+
+    /* Data access interface */
+    bool has_data() const;
+    const NodesStorage& data() const;
+    NodesStorage& data();
+
+    // Node value access
+    template<class T>
+    bool has_value() const;
+    template<class T>
+    const T& value() const;
+    template<class T>
+    T& value();
+
+    // Node acccess
+    template<class T>
+    const ChildNode<T>& node() const;
+    template<class T, class ...Args>
+    ChildNode<T>& node_or(Args &&...args);
+
+    // Node creation
+    template<class T>
+    ChildNode<T>& insert(const ChildNode<T>& arg, bool overwrite = true);
+
+    template<class T>
+    ChildNode<T>& insert(ChildNode<T>&& arg, bool overwrite = true);
+
+    template<class T, class ...Args>
+    ChildNode<std::decay_t<T>>& emplace(Args&& ...args);
 
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
@@ -78,10 +107,10 @@ struct XMLNode : public XMLProducible<Impl>,
     template<class Formatter, class Tracer = txml::EmptyTracer>
     size_t make_format_deserialize(Formatter &in, Tracer tracer);
 
-/* TODO  consider remove  void serialize_impl(std::ostream &out) const;*/
+/* TODO  consider remove  void make_xml_serialize(std::ostream &out) const;*/
 private:
     template<class Tracer = txml::EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;
@@ -95,6 +124,12 @@ private:
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
 
+    [[ noreturn ]] void throw_exception() const;
+
+    template<class T>
+    [[ noreturn ]] void throw_exception() const;
+
+    std::shared_ptr<NodesStorage> storage;
 protected:
     XMLNode() = default;
     ~XMLNode() = default;

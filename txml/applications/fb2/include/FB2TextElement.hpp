@@ -14,7 +14,7 @@ FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-void FB2TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void FB2TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");

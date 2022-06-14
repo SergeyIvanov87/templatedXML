@@ -14,7 +14,7 @@ Empty::Empty(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-void Empty::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void Empty::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Empty::class_name() << value() << " -->\n";
 }

@@ -14,12 +14,12 @@ inline std::ostream& no_sep (std::ostream& os)
 
 template<class Value>
 template<class Tracer>
-void XMLSerializable<Value>::serialize(std::ostream& out, Tracer tracer) const
+void XMLSerializable<Value>::xml_serialize(std::ostream& out, Tracer tracer) const
 {
     tracer.trace("publish '", Value::class_name(), "'", ", node type '",
                  to_string(Value::class_node_type()), "'");
 
-    static_cast<const Value*>(this)->serialize_impl(out, tracer);
+    static_cast<const Value*>(this)->make_xml_serialize(out, tracer);
 }
 
 

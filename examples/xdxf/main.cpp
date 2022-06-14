@@ -97,7 +97,7 @@ int main(int argc, char** argv)
             }
 
             //To stdout
-            art->serialize(std::cout);
+            art->xml_serialize(std::cout);
         }
     }
     catch(const std::exception& e)

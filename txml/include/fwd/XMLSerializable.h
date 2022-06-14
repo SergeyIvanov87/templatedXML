@@ -14,7 +14,7 @@ template<class Value>
 struct XMLSerializable
 {
     template<class Tracer = txml::EmptyTracer>
-    void serialize(std::ostream& out, Tracer tracer = Tracer()) const;
+    void xml_serialize(std::ostream& out, Tracer tracer = Tracer()) const;
 };
 
 

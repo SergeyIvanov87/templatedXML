@@ -76,7 +76,7 @@ struct ToFB2 : public txml::FormatSerializerBase<ToFB2<Stream>, txml::StaticChec
 
         //each \n or \r is on new paragraph
         std::stringstream ss;
-        val.serialize(ss, tracer);
+        val.xml_serialize(ss, tracer);
         const std::string& text = ss.str();
         std::string::size_type start_paragraph_pos = 0, end_paragraph_pos = text.size();
         while((end_paragraph_pos = text.find_first_of("\n\r", start_paragraph_pos)) != std::string::npos)

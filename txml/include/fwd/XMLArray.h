@@ -39,10 +39,10 @@ struct XMLArray: public XMLProducible<Impl>,
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
-    void serialize_impl(std::ostream &out) const;
+    void make_xml_serialize(std::ostream &out) const;
 
     template<class Tracer = txml::EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;

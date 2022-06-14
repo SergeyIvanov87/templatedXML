@@ -15,7 +15,7 @@ inline TextElement::TextElement(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-inline void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");

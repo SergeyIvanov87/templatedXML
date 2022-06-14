@@ -2,7 +2,6 @@
 #define XML_NODE_HPP
 
 #include <txml/include/fwd/XMLNode.h>
-
 #include <txml/include/XMLProducible.hpp>
 #include <txml/include/XMLCreator.hpp>
 #include <txml/include/XMLSerializable.hpp>
@@ -22,7 +21,7 @@ XMLNode<TEMPL_ARGS_DEF>::XMLNode(const XMLNode &src) :
 {
     if (src.storage)
     {
-        storage.reset(new Tuple(*src.storage));
+        storage.reset(new NodesStorage(*src.storage));
     }
 }
 
@@ -54,7 +53,7 @@ XMLNode<TEMPL_ARGS_DEF> &XMLNode<TEMPL_ARGS_DEF>::operator=(const XMLNode &src)
     {
         if (src.storage)
         {
-            storage.reset(new Tuple(*src.storage));
+            storage.reset(new NodesStorage(*src.storage));
         }
         else
         {
@@ -76,6 +75,129 @@ XMLNode<TEMPL_ARGS_DEF> &XMLNode<TEMPL_ARGS_DEF>::operator=(XMLNode &&src)
     return *this;
 }
 
+// Nodes operation interface implementation
+template<TEMPL_ARGS_DECL>
+template<class T>
+bool XMLNode<TEMPL_ARGS_DEF>::has_value() const
+{
+    if (has_data())
+    {
+        return std::get<ChildNode<T>>(*storage).has_value();
+    }
+    return false;
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+const T& XMLNode<TEMPL_ARGS_DEF>::value() const
+{
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ChildNode<T>>(*storage).value();
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+T& XMLNode<TEMPL_ARGS_DEF>::value()
+{
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ChildNode<T>>(*storage).value();
+}
+
+template<TEMPL_ARGS_DECL>
+bool XMLNode<TEMPL_ARGS_DEF>::has_data() const
+{
+    return storage.get();
+}
+
+template<TEMPL_ARGS_DECL>
+const typename XMLNode<TEMPL_ARGS_DEF>::NodesStorage& XMLNode<TEMPL_ARGS_DEF>::data() const
+{
+    if (!has_value())
+    {
+        throw_exception();
+    }
+    return *storage;
+}
+
+template<TEMPL_ARGS_DECL>
+typename XMLNode<TEMPL_ARGS_DEF>::NodesStorage& XMLNode<TEMPL_ARGS_DEF>::data()
+{
+    return const_cast<NodesStorage&>(static_cast<const XMLNode<TEMPL_ARGS_DEF>*>(this)->data());
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+const typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node() const
+{
+    if (!has_data())
+    {
+        static const ChildNode<T> empty;
+        return empty;
+    }
+    return std::get<ChildNode<T>>(*storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class ...Args>
+typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node_or(Args &&...args)
+{
+    //TODO Return existing node OR create storage with node from args!!!!
+    if (!this->template has_value<T>())
+    {
+        this->template throw_exception<T>();
+    }
+    return std::get<ChildNode<T>>(*storage);
+}
+
+
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T> &
+XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg, bool overwrite)
+{
+    if (arg.has_value() && !storage)
+    {
+        storage = std::make_shared<NodesStorage>();
+    }
+    std::get<ChildNode<T>>(*storage) = arg;
+    return std::get<ChildNode<T>>(*storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T> &
+XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg, bool overwrite)
+{
+    if (arg.has_value() && !storage)
+    {
+        storage = std::make_shared<NodesStorage>();
+    }
+    std::get<ChildNode<T>>(*storage) = std::move(arg);
+    return std::get<ChildNode<T>>(*storage);
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class ...Args>
+typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<T>> &
+XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
+{
+    if (!storage)
+    {
+        storage = std::make_shared<NodesStorage>();
+    }
+    auto ret = std::make_shared<std::decay_t<T>>(std::forward<Args>(args)...);
+    return set(ret);
+}
+
+
+
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
 bool XMLNode<TEMPL_ARGS_DEF>::initialize(TextReaderWrapper &reader, Tracer tracer/* = Tracer()*/)
@@ -95,7 +217,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
     if (!storage)
     {
-        storage = std::make_shared<Tuple>();
+        storage = std::make_shared<NodesStorage>();
     }
 
     size_t created_nodes_count = std::apply([&next_args...](std::optional<ContainedValues> &...element) -> size_t
@@ -122,14 +244,14 @@ size_t XMLNode<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 
 /*
 template<TEMPL_ARGS_DECL>
-void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out) const
+void XMLNode<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out) const
 {
     Container::serialize_elements(out);
 }
 */
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
-void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void XMLNode<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Impl::class_name() << ">";
     if (!storage)
@@ -141,7 +263,7 @@ void XMLNode<TEMPL_ARGS_DEF>::serialize_impl(std::ostream &out, Tracer tracer/* 
     {
         bool dispatchingResult[]
             {
-                (element ? element->serialize(out, tracer), out << txml::no_sep, true : false)...
+                (element ? element->xml_serialize(out, tracer), out << txml::no_sep, true : false)...
             };
         (void)dispatchingResult;
     }, *storage);
@@ -197,7 +319,7 @@ void XMLNode<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out, Tracer trace
     {
         bool dispatchingResult[]
             {
-                (element ? element->serialize(out, tracer), out << sep, true : false)...
+                (element ? element->xml_serialize(out, tracer), out << sep, true : false)...
             };
         (void)dispatchingResult;
     }, *storage);
@@ -210,7 +332,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tr
     size_t deserialized_count_before = 0;
     if (!storage)
     {
-        storage = std::make_shared<Tuple>();
+        storage = std::make_shared<NodesStorage>();
         tracer.trace("START: deserialize element, tag: ", *static_cast<Impl*>(this)); // TODO no need to invoke hash directly!!!! performance pessimisation
         // TODO IT must be done from StdoutTracer specializarion!!!!!
     }
@@ -279,7 +401,7 @@ void XMLNode<TEMPL_ARGS_DEF>::make_schema_serialize(Formatter &out, Tracer trace
                 (ContainedValues::schema_serialize(out, tracer), true)...
             };
         (void)dispatchingResult;
-    }, Tuple {});
+    }, NodesStorage {});
 }
 
 template<TEMPL_ARGS_DECL>
@@ -290,6 +412,30 @@ void XMLNode<TEMPL_ARGS_DEF>::make_schema_serialize(Formatter &out, Tracer trace
                   " one of ContainedValues type");
     Element::schema_serialize(out, tracer);
 }
+
+
+template<TEMPL_ARGS_DECL>
+[[ noreturn ]] void XMLNode<TEMPL_ARGS_DEF>::throw_exception() const
+{
+    std::stringstream ss;
+    ss << "<" << Impl::class_name() << ",";
+    (ss << ... << ContainedValues::class_name());
+    ss << "> hash: " <<  this->hash() << " has no value";
+    throw std::invalid_argument(ss.str());
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+[[ noreturn ]] void XMLNode<TEMPL_ARGS_DEF>::throw_exception() const
+{
+    std::stringstream ss;
+    ss << "<" << Impl::class_name() << ",";
+    (ss << ... << ContainedValues::class_name());
+    ss << "> hash: " <<  this->hash() << " has no value: " << T::class_name();
+    throw std::invalid_argument(ss.str());
+}
+
+
 
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL

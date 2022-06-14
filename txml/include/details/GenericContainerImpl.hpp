@@ -51,7 +51,7 @@ typename XMLArrayContainerNode<Value>::aggregared_t::value_t &XMLArrayContainerN
 
 template<class Value>
 template<class Tracer>
-void XMLArrayContainerNode<Value>::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+void XMLArrayContainerNode<Value>::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<XMLArrayContainerNode<" << XMLArrayContainerNode<Value>::class_name() << ">>";
 
@@ -60,7 +60,7 @@ void XMLArrayContainerNode<Value>::serialize_impl(std::ostream &out, Tracer trac
     {
         if (elem)
         {
-            elem->serialize(out, tracer);
+            elem->xml_serialize(out, tracer);
         }
     }
 
@@ -78,7 +78,7 @@ void XMLArrayContainerNode<Value>::serialize_elements(std::ostream &out, Tracer 
     {
         if (elem)
         {
-            elem->serialize(out, tracer);
+            elem->xml_serialize(out, tracer);
         }
     }
 }
