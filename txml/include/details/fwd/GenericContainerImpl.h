@@ -17,6 +17,7 @@ namespace txml
 {
 inline std::ostream& no_sep (std::ostream& os);
 
+//ELIMINATE!
 template<class Value>
 struct XMLArrayContainerNode
 {
@@ -40,9 +41,6 @@ struct XMLArrayContainerNode
 
     template<class Tracer = EmptyTracer>
     void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
-
-    template<class Tracer, class EndElementManipulator>
-    void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
 
     template<class Formatter, class Tracer>
     void make_format_serialize(Formatter &out, Tracer tracer) const;

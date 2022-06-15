@@ -76,11 +76,11 @@ bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer 
     const std::string &name = reader.get_name();
     txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     auto depth = reader.get_depth();
-    tracer.trace("Found '", to_string(nodeType), "', tag name: '", name,
-                 "', depth: ", depth);
+
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()), ")"
+                 ", GOT '", name, "' (", to_string(nodeType), "), depth: ", depth);
     if (name != NodeType::class_name() || nodeType != NodeType::class_node_type())
     {
-        tracer.trace("Mismatch! Expected '", to_string(NodeType::class_node_type()), "', tag name: '", NodeType::class_name(), "'");
         return false;
     }
     return true;
@@ -93,26 +93,23 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
     int node_depth = in.get_depth();
 
     std::optional<NodeType> ret = std::make_optional<NodeType>();
-    tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret,
-                 ", depth: ", node_depth);
+    tracer.trace(class_name(), " - Prepare EMPTY node '", NodeType::class_name(), "' ",
+                 ret, ", depth: ", node_depth);
 
     bool get_next = false;
     Tracer node_tracer = tracer;
     while (in.read())
     {
-        node_tracer.trace("Open node '", to_string(in.get_node_type()),
-                          "', tag name: '", in.get_name(),
-                          "', depth: ", in.get_depth());
+        node_tracer.trace(class_name(), " - Opened node '", in.get_name(), "' (", to_string(in.get_node_type()),
+                          "), depth: ", in.get_depth());
         // done when all subsequent elements deserialized and node closed
         if (in.get_name() == NodeType::class_name() &&
             in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
             node_depth == in.get_depth())
         {
-            tracer.trace("Close node '", to_string(NodeType::class_node_type()),
-                         "', tag name: '",  NodeType::class_name(),
-                         "' handle: ", ret,
-                         "', depth: ", node_depth);
+            tracer.trace(class_name(), " - Close opened node '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()),
+                         ") ", ret,
+                         ", depth: ", node_depth);
             in.read();
             break;
         }
@@ -126,8 +123,8 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
         {
             const std::string& unprocessed_name = in.get_name();
             int depth = in.get_depth();
-            node_tracer.trace("Skipping node: ", unprocessed_name, ", type: ",
-                              to_string(in.get_node_type()), ", depth: ", depth);
+            node_tracer.trace(class_name(), " - Skipping opened node: '", unprocessed_name, "' (",
+                              to_string(in.get_node_type()), "), depth: ", depth);
             Tracer sub_tracer = node_tracer;
             while (in.read())
             {
@@ -144,11 +141,11 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
                 }
                 else
                 {
-                    sub_tracer.trace("To skip node: ", in.get_name(), ", type: ",
-                                     to_string(in.get_node_type()), ", depth: ", in.get_depth());
+                    sub_tracer.trace(class_name(), " - To skip opened node: '", in.get_name(), "' (",
+                                     to_string(in.get_node_type()), "), depth: ", in.get_depth());
                 }
             }
-            node_tracer.trace("Skipped node: ", unprocessed_name, ", depth: ", depth);
+            node_tracer.trace(class_name(), " - Skipped node: '", unprocessed_name, "', depth: ", depth);
         }
 
         // done when all subsequent elements deserialized and node closed
@@ -156,15 +153,14 @@ std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer
             in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
             node_depth == in.get_depth())
         {
-            tracer.trace("Close node '", to_string(NodeType::class_node_type()),
-                         "', tag name: '",  NodeType::class_name(),
-                         "' handle: ", ret,
-                         "', depth: ", node_depth);
+            tracer.trace(class_name(), " - Close opened node '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()),
+                         ") ", ret,
+                         ", depth: ", node_depth);
             in.read();
             break;
         }
     }
-    tracer.trace("Return node '", NodeType::class_name(), "' handle: ", ret);
+    tracer.trace(class_name(), " - Return node '", NodeType::class_name(), "' ", ret);
     return ret;
 }
 #undef TEMPL_ARGS_DEF

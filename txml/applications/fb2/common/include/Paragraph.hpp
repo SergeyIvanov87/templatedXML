@@ -20,8 +20,7 @@ const Paragraph::value_t &Paragraph::value() const
         std::string ptr_str = ptr.str();
         ptr_str.erase(std::remove_if(ptr_str.begin(), ptr_str.end(), [](char s) {return isspace((int)s);}),
                       ptr_str.end());
-        throw std::runtime_error(std::string(Paragraph::class_name()) + " - no value, handle: " +
-                                 ptr_str);
+        throw std::runtime_error("'" + std::string(Paragraph::class_name()) + "' " + ptr_str + " - no value");
     }
     return val->value();
 }

@@ -24,6 +24,8 @@ struct FromJSON : public virtual DeserializerCore,
 
     FromJSON(in_stream_core_t &obj, ctor_arg_t = core_t::default_ctor_arg());
 
+    static constexpr std::string_view class_name() { return Impl::name(); }
+
     // default deserialization routine
     template<class DeserializedItem, class Tracer>
     std::optional<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer);
@@ -56,6 +58,8 @@ protected:
 
     template<class NodeType, class Tracer>
     std::optional<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count);
+private:
+    static constexpr std::string_view name() { return "FromJSON"; }
 };
 } // namespace json
 #endif // TXML_APPLICATION_JSON_FWD_DESERIALIZER_H

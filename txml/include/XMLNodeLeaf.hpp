@@ -73,26 +73,27 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNodeLeaf<TEMPL_ARGS_DEF>::format_serialize_request(Formatter& out, Tracer tracer) const
 {
-    tracer.trace("map leaf node '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - PERFORM");
     out.template map<Impl>(*static_cast<const Impl *>(this), tracer);
-    tracer.trace("unmap leaf node '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - ACK: ", static_cast<const Impl&>(*this));
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNodeLeaf<TEMPL_ARGS_DEF>::schema_serialize_request(Formatter& out, Tracer tracer)
 {
-    tracer.trace(__FUNCTION__, " - ", Impl::class_name());
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - PERFORM");
     out.template map<Impl>(tracer);
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - ACK");
 }
 
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 std::optional<Impl> XMLNodeLeaf<TEMPL_ARGS_DEF>::format_deserialize_request(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - PERFORM");
     auto ret = in.template map<Impl>(tracer);
-    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret);
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, ret ? " - ACK: " : " - NACK: ", ret);
     return ret;
 }
 

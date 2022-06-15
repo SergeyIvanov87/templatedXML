@@ -9,7 +9,6 @@
 #include <vector>
 
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
-#include <txml/include/details/GenericCommandArguments.h>
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>

@@ -102,17 +102,18 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json_core_t::iterator& cur_it, c
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Mismatch! Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -125,16 +126,17 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json_core_t::iterator& cur
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const auto& value = cur_it.value();
 
-    tracer.trace("Found: array element, value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+        tracer.trace(class_name(), " - AWAIT ArrayElement '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT (", utils::json_type_to_cstring(value.type()), ")");
+        tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type)
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -148,17 +150,18 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json_core_t::iterator& cur_
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT Leaf '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -171,17 +174,18 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json_core_t::iterat
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (",utils::json_type_to_cstring(json_core_t::value_t::discarded), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != json_core_t::value_t::discarded || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(json_core_t::value_t::discarded));
         return false;
     }
     return true;
@@ -191,13 +195,13 @@ template<class NodeType, class Tracer>
 std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)
 {
     std::optional<NodeType> ret = std::make_optional<NodeType>();
-    tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
+    tracer.trace(class_name(), " - Prepare EMPTY node '", NodeType::class_name(), "' ",
                  ret, ", available subnodes count: ", available_item_count);
 
     size_t deserialized_item_count = ret->make_format_deserialize(* static_cast<Impl*>(this), tracer);
     while (deserialized_item_count != available_item_count)
     {
-        tracer.trace("refill node '", NodeType::class_name(), "' handle: ",
+        tracer.trace(class_name(), " - REfill node '", NodeType::class_name(), "' ",
                      ret, " deserialized count: ", deserialized_item_count);
         size_t next_portion_items = ret->make_format_deserialize(* static_cast<Impl*>(this), tracer);
         if (deserialized_item_count == next_portion_items)
@@ -213,6 +217,7 @@ std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Trace
         }
         deserialized_item_count = next_portion_items;
     }
+    tracer.trace(class_name(), " - Return node '", NodeType::class_name(), "' ", ret);
     return ret;
 }
 

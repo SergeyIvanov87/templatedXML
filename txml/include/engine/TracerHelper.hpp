@@ -12,7 +12,7 @@ std::string TracerHelper<Node>::hash() const noexcept
     static thread_local size_t counter = 0;
     if (hash_value.empty())
     {
-        hash_value = std::string(Node::class_name()) + std::to_string(++counter);
+        hash_value = "###" + std::string(Node::class_name()) + std::to_string(++counter) + "###";
     }
     return hash_value;
 }

@@ -17,6 +17,8 @@ struct FromXML : public virtual DeserializerCore,
     using in_stream_core_t = xml_core_t;
     using ctor_arg_t = core_t::ctor_arg_t;
 
+    static constexpr std::string_view class_name() { return Impl::name(); }
+
     FromXML(in_stream_core_t &stream, ctor_arg_t = core_t::default_ctor_arg());
 
     // default deserialization routine
@@ -39,6 +41,8 @@ protected:
 
     template<class NodeType, class Tracer>
     std::optional<NodeType> create_deserialized_node(Tracer tracer);
+private:
+    static constexpr std::string_view name() { return "FromXML"; }
 };
 } // namespace xml
 #endif // TXML_APPLICATION_XML_FWD_DESERIALIZER_H

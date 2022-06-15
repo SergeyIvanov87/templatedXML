@@ -6,7 +6,6 @@
 #include <txml/include/XMLCreator.hpp>
 #include <txml/include/XMLSerializable.hpp>
 #include <txml/include/XMLDeserializable.hpp>
-#include <txml/include/details/GenericCommandArguments.hpp>
 #include <txml/include/engine/TextReaderWrap.hpp>
 #include <txml/include/engine/TracerHelper.hpp>
 
@@ -274,9 +273,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 void XMLNode<TEMPL_ARGS_DEF>::format_serialize_request(Formatter& out, Tracer tracer) const
 {
-    tracer.trace("map node '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - PERFORM");
     out.map(static_cast<const Impl&>(*this), tracer);
-    tracer.trace("unmap node '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - ACK: ", static_cast<const Impl&>(*this));
 }
 
 
@@ -284,9 +283,9 @@ template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 std::optional<Impl> XMLNode<TEMPL_ARGS_DEF>::format_deserialize_request(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Begin deserialize map '", Impl::class_name(), "'");
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, " - PERFORM");
     auto ret = in.template map<Impl>(tracer);
-    tracer.trace("End deserialize map '", Impl::class_name(), "', handle: ", ret);
+    tracer.trace("'", Impl::class_name(), "' - ", __FUNCTION__, ret ? " - ACK: " : " - NACK: ", ret);
     return ret;
 }
 
@@ -304,7 +303,7 @@ void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_request(Formatter& out, Tracer tr
     out.template map<Impl>(tracer);
 }
 
-//
+// TODO consider to delete
 template<TEMPL_ARGS_DECL>
 template<class Tracer, class EndElementManipulator>
 void XMLNode<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out, Tracer tracer,
@@ -333,7 +332,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tr
     if (!storage)
     {
         storage = std::make_shared<NodesStorage>();
-        tracer.trace("START: deserialize element, tag: ", *static_cast<Impl*>(this)); // TODO no need to invoke hash directly!!!! performance pessimisation
+        tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - START"); // TODO no need to invoke hash directly!!!! performance pessimisation
         // TODO IT must be done from StdoutTracer specializarion!!!!!
     }
     else
@@ -344,7 +343,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tr
             bool dispatchingResult[] {(element.has_value())...};
             return std::count(dispatchingResult, dispatchingResult + sizeof...(ContainedValues), true);
         }, *storage);
-        tracer.trace("START: current deserialized elements: (", deserialized_count_before, "/", sizeof...(ContainedValues), "), tag: ", *static_cast<Impl*>(this));
+        tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - START: current deserialized elements: (", deserialized_count_before, "/", sizeof...(ContainedValues), ")");
     }
 
     // apply recursion
@@ -363,12 +362,12 @@ size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tr
 
     if (!deserialized_count_after)
     {
-        tracer.trace("FINISH: deserialize element, delete storage, tag: ", *static_cast<Impl*>(this));
+        tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - FINISH");
         storage.reset();
         return 0;
     }
 
-    tracer.trace("FINISH: total deserialized elements: (", deserialized_count_after, "/", sizeof...(ContainedValues), "), tag: ", *static_cast<Impl*>(this));
+    tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - FINISH: deserialized elements: (", deserialized_count_after, "/", sizeof...(ContainedValues), ")");
     return deserialized_count_after - deserialized_count_before;
 }
 

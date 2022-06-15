@@ -11,12 +11,12 @@ template<class Value>
 template<class Formatter, class Tracer>
 std::optional<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatter& in, Tracer tracer)
 {
-    tracer.trace("Come in deserialize '", Value::class_name(), "', type '",
-                 to_string(Value::class_node_type()), "'");
+    tracer.trace("Come in deserialize '", Value::class_name(), "' (",
+                 to_string(Value::class_node_type()), ")");
 
     auto ret =  Value::format_deserialize_request(in, tracer);
-    tracer.trace("Leave out deserialize '", Value::class_name(), "', type '",
-                 to_string(Value::class_node_type()), "', handle: ", ret);
+    tracer.trace("Leave out deserialize '", Value::class_name(), "' (",
+                 to_string(Value::class_node_type()), ") ", ret);
     return ret;
 }
 
