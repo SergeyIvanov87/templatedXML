@@ -36,13 +36,13 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ArrayTa
     auto mediator = get_shared_mediator_object();
     size_t stack_size_before = mediator->size();
 
-    tracer.trace(__FUNCTION__, " - begin 'ArrayTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - begin ", __FUNCTION__, " - for 'ArrayTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
     SerializedItem::make_schema_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
-    tracer.trace(__FUNCTION__, " - end 'ArrayTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - end ", __FUNCTION__, " - for 'ArrayTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
@@ -52,7 +52,7 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::ArrayTa
     }
 
     mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
-    tracer.trace(__FUNCTION__, " - 'ArrayTag' merged: ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - finish ", __FUNCTION__, " - merged 'ArrayTag': ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }
 
@@ -65,34 +65,34 @@ void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::Contain
     size_t stack_size_before = mediator->size();
 
 
-    tracer.trace(__FUNCTION__, " - begin 'ContainerTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - begin ", __FUNCTION__, " - for 'ContainerTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_before);
 
     SerializedItem::make_schema_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
-    tracer.trace(__FUNCTION__, " - end 'ContainerTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - end ", __FUNCTION__, " - for 'ContainerTag': ", SerializedItem::class_name(),
                                ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
         json_core_t &serialized_element = mediator->top();
         if (serialized_element.type() == json_core_t::value_t::array)
         {
-            tracer.trace(__FUNCTION__, " - ", SerializedItem::class_name(), "::emplace array");
+            tracer.trace(class_name(), " - emplace ", __FUNCTION__, " - array for ", SerializedItem::class_name());
             cur_json_element.emplace(SerializedItem::class_name(), std::move(serialized_element));
         }
         else
         {
             auto f = serialized_element.begin();
             auto l = serialized_element.end();
-            tracer.trace(__FUNCTION__, " - insert objects count: ", std::distance(f, l));
+            tracer.trace(class_name(), " - insert ", __FUNCTION__, " - objects count: ", std::distance(f, l));
             cur_json_element.insert(f, l);
         }
         mediator->pop();
     }
 
     mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
-    tracer.trace(__FUNCTION__, " - 'ContainerTag' merged: ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - finish ", __FUNCTION__, " - merged 'ContainerTag': ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }
 
@@ -101,13 +101,13 @@ template<class SerializedItem, class Tracer>
 void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
-    tracer.trace(__FUNCTION__, " - begin 'LeafTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - begin ", __FUNCTION__, " - for 'LeafTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
     json_core_t element({{SerializedItem::class_name(),
                    utils::json_type_to_cstring(utils::type_to_json_type<typename SerializedItem::value_t>()) }});
-    tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
+    tracer.trace(class_name(), " created '", SerializedItem::class_name(), "', value: ", element.dump());
     mediator->push(std::move(element));
-    tracer.trace(__FUNCTION__, " - end 'LeafTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - end ", __FUNCTION__, " - for 'LeafTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
 }
 
@@ -116,12 +116,12 @@ template<class SerializedItem, class Tracer>
 void SchemaToJSON<TEMPL_ARGS_DEF>::serialize_schema_tag_impl(const txml::NoDataTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
-    tracer.trace(__FUNCTION__, " - begin 'NoDataTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - begin ", __FUNCTION__, " - for 'NoDataTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
     json_core_t element({{SerializedItem::class_name()}});
-    tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
+    tracer.trace(class_name(), " created '", SerializedItem::class_name(), "', value: ", element.dump());
     mediator->push(std::move(element));
-    tracer.trace(__FUNCTION__, " - end 'NoDataTag': ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - end ", __FUNCTION__, " - for 'NoDataTag': ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
 }
 } // namespace json

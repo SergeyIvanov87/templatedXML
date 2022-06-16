@@ -36,14 +36,14 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     auto mediator = get_shared_mediator_object();
     size_t stack_size_before = mediator->size();
 
-    tracer.trace("begin 'ArrayTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", stack_size_before);
+    tracer.trace(class_name(), "- begin 'ArrayTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", stack_size_before);
 
     value.make_format_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
-    tracer.trace("end 'ArrayTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", stack_size_after);
+    tracer.trace(class_name(), "- end 'ArrayTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
         json_core_t &serialized_element = mediator->top();
@@ -52,8 +52,8 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     }
 
     mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
-    tracer.trace("'ArrayTag' merged: ", SerializedItem::class_name(),
-                 ", from elements count: ", stack_size_after - stack_size_before);
+    tracer.trace(class_name(), " - finish'ArrayTag' merged: ", SerializedItem::class_name(),
+                               ", from elements count: ", stack_size_after - stack_size_before);
 }
 
 template<TEMPL_ARGS_DECL>
@@ -65,34 +65,34 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
     size_t stack_size_before = mediator->size();
 
 
-    tracer.trace("begin 'ContainerTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", stack_size_before);
+    tracer.trace(class_name(), " - begin 'ContainerTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", stack_size_before);
     value.make_format_serialize(* static_cast<Impl*>(this), tracer);
 
     size_t stack_size_after = mediator->size();
-    tracer.trace("end 'ContainerTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", stack_size_after);
+    tracer.trace(class_name(), " - end 'ContainerTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", stack_size_after);
     for (size_t i = stack_size_before; i < stack_size_after; i++)
     {
         json_core_t &serialized_element = mediator->top();
         if (serialized_element.type() == json_core_t::value_t::array)
         {
-            tracer.trace("merge item: ", i, " in '", SerializedItem::class_name(), "' container");
+            tracer.trace(class_name(), " - merge item: ", i, " in '", SerializedItem::class_name(), "' container");
             cur_json_element.emplace(SerializedItem::class_name(), std::move(serialized_element));
         }
         else
         {
             auto f = serialized_element.begin();
             auto l = serialized_element.end();
-            tracer.trace("merge objects count: ", std::distance(f, l), " in '", SerializedItem::class_name(), "' container");
+            tracer.trace(class_name(), " - merge objects count: ", std::distance(f, l), " in '", SerializedItem::class_name(), "' container");
             cur_json_element.insert(f, l);
         }
         mediator->pop();
     }
 
     mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
-    tracer.trace("'ContainerTag' merged: ", SerializedItem::class_name(),
-                 ", from elements count: ", stack_size_after - stack_size_before);
+    tracer.trace(class_name(), " - finish 'ContainerTag' merged: ", SerializedItem::class_name(),
+                               ", from elements count: ", stack_size_after - stack_size_before);
 }
 
 template<TEMPL_ARGS_DECL>
@@ -100,13 +100,13 @@ template<class SerializedItem, class Tracer>
 void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, const txml::LeafTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
-    tracer.trace("begin 'LeafTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", mediator->size());
+    tracer.trace(class_name(), " - begin 'LeafTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", mediator->size());
     json_core_t element({{SerializedItem::class_name(), value.value()}});
-    tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
+    tracer.trace(class_name(), " - '", SerializedItem::class_name(), "' created, value: ", element.dump());
     mediator->push(std::move(element));
-    tracer.trace("end 'LeafTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", mediator->size());
+    tracer.trace(class_name(), " - end 'LeafTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", mediator->size());
 }
 
 template<TEMPL_ARGS_DECL>
@@ -114,12 +114,12 @@ template<class SerializedItem, class Tracer>
 void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, const txml::NoDataTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
-    tracer.trace("begin 'NoDataTag' serialization: ", SerializedItem::class_name(),
-                 ", stack size: ", mediator->size());
+    tracer.trace(class_name(), " - begin 'NoDataTag' serialization: ", SerializedItem::class_name(),
+                               ", stack size: ", mediator->size());
     json_core_t element(SerializedItem::class_name());
-    tracer.trace("'", SerializedItem::class_name(), "' created, value: ", element.dump());
+    tracer.trace(class_name(), " - '", SerializedItem::class_name(), "' created, value: ", element.dump());
     mediator->push(std::move(element));
-    tracer.trace("end 'NoDataTag' serialization: ", SerializedItem::class_name(),
+    tracer.trace(class_name(), " - end 'NoDataTag' serialization: ", SerializedItem::class_name(),
                                ", stack size: ", mediator->size());
 }
 } // namespace json
