@@ -1,6 +1,8 @@
 #ifndef XML_NODE_HPP
 #define XML_NODE_HPP
 
+#include <algorithm>
+
 #include <txml/include/fwd/XMLNode.h>
 #include <txml/include/XMLProducible.hpp>
 #include <txml/include/XMLCreator.hpp>
@@ -79,7 +81,7 @@ template<TEMPL_ARGS_DECL>
 template<class T>
 bool XMLNode<TEMPL_ARGS_DEF>::has_value() const
 {
-    if (has_data())
+    if (empty())
     {
         return std::get<ChildNode<T>>(*storage).has_value();
     }
@@ -109,7 +111,7 @@ T& XMLNode<TEMPL_ARGS_DEF>::value()
 }
 
 template<TEMPL_ARGS_DECL>
-bool XMLNode<TEMPL_ARGS_DEF>::has_data() const
+bool XMLNode<TEMPL_ARGS_DEF>::empty() const
 {
     return storage.get();
 }
@@ -134,7 +136,7 @@ template<TEMPL_ARGS_DECL>
 template<class T>
 const typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node() const
 {
-    if (!has_data())
+    if (!empty())
     {
         static const ChildNode<T> empty;
         return empty;
@@ -146,53 +148,63 @@ template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
 typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node_or(Args &&...args)
 {
-    //TODO Return existing node OR create storage with node from args!!!!
-    if (!this->template has_value<T>())
+    auto new_node = std::make_optional<T>(std::forward<Args>(args)...);
+    auto [ref, inserted] = this->template insert<T>(new_node);
+    if (!inserted)
     {
-        this->template throw_exception<T>();
+        ref.get() = std::move(new_node);
     }
-    return std::get<ChildNode<T>>(*storage);
+    return ref.get();
 }
 
 
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T> &
-XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg, bool overwrite)
-{
-    if (arg.has_value() && !storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-    std::get<ChildNode<T>>(*storage) = arg;
-    return std::get<ChildNode<T>>(*storage);
-}
-
-template<TEMPL_ARGS_DECL>
-template<class T>
-typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T> &
-XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg, bool overwrite)
-{
-    if (arg.has_value() && !storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-    std::get<ChildNode<T>>(*storage) = std::move(arg);
-    return std::get<ChildNode<T>>(*storage);
-}
-
-template<TEMPL_ARGS_DECL>
-template<class T, class ...Args>
-typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<T>> &
-XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg)
 {
     if (!storage)
     {
         storage = std::make_shared<NodesStorage>();
     }
-    auto ret = std::make_shared<std::decay_t<T>>(std::forward<Args>(args)...);
-    return set(ret);
+
+    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    bool inserted = false;
+    if (!ref.get().has_value())
+    {
+        ref.get() = arg;
+        inserted = true;
+    }
+    return  {ref, inserted};
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg)
+{
+    if (!storage)
+    {
+        storage = std::make_shared<NodesStorage>();
+    }
+
+    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    bool inserted = false;
+    if (!ref.get().has_value())
+    {
+        ref.get() = std::move(arg);
+        inserted = true;
+    }
+    return  {ref, inserted};
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class ...Args>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<T>>>, bool>
+XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
+{
+    return this->insert(std::make_optional<std::decay_t<T>>(std::forward<Args>(args)...));
 }
 
 

@@ -55,7 +55,7 @@ struct XMLNode : public XMLProducible<Impl>,
     XMLNode &operator=(XMLNode &&src);
 
     /* Data access interface */
-    bool has_data() const;
+    bool empty() const;
     const NodesStorage& data() const;
     NodesStorage& data();
 
@@ -75,13 +75,13 @@ struct XMLNode : public XMLProducible<Impl>,
 
     // Node creation
     template<class T>
-    ChildNode<T>& insert(const ChildNode<T>& arg, bool overwrite = true);
+    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(const ChildNode<T>& arg);
 
     template<class T>
-    ChildNode<T>& insert(ChildNode<T>&& arg, bool overwrite = true);
+    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(ChildNode<T>&& arg);
 
     template<class T, class ...Args>
-    ChildNode<std::decay_t<T>>& emplace(Args&& ...args);
+    std::pair<std::reference_wrapper<ChildNode<std::decay_t<T>>>, bool> emplace(Args&& ...args);
 
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
