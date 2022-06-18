@@ -39,6 +39,11 @@ struct XMLArray: public XMLProducible<Impl>,
     XMLArray(const NodesStorage &val);
     XMLArray(std::initializer_list<ChildNode> list);
 
+    XMLArray(const XMLArray &src);
+    XMLArray(XMLArray &&src);
+    XMLArray &operator=(const XMLArray &src);
+    XMLArray &operator=(XMLArray &&src);
+
     const NodesStorage& value() const;
     NodesStorage& value();
 

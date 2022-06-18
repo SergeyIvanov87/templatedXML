@@ -33,6 +33,42 @@ XMLArray<TEMPL_ARGS_DEF>::XMLArray(std::initializer_list<ChildNode> list) :
 }
 
 template<TEMPL_ARGS_DECL>
+XMLArray<TEMPL_ARGS_DEF>::XMLArray(XMLArray &&src) :
+    TracerHelper<Impl>(static_cast<TracerHelper<Impl>&&>(src)),
+    storage(std::move(src.storage))
+{
+}
+
+template<TEMPL_ARGS_DECL>
+XMLArray<TEMPL_ARGS_DEF>::XMLArray(const XMLArray &src) :
+    TracerHelper<Impl>(src),
+    storage(src.storage)
+{
+}
+template<TEMPL_ARGS_DECL>
+XMLArray<TEMPL_ARGS_DEF> &XMLArray<TEMPL_ARGS_DEF>::operator=(const XMLArray &src)
+{
+    if (this != &src)
+    {
+        storage = src.storage;
+        static_cast<TracerHelper<Impl>&>(*this) = static_cast<const TracerHelper<Impl>&>(src);
+    }
+    return *this;
+}
+
+template<TEMPL_ARGS_DECL>
+XMLArray<TEMPL_ARGS_DEF> &XMLArray<TEMPL_ARGS_DEF>::operator=(XMLArray &&src)
+{
+    if (this != &src)
+    {
+        storage = std::move(src.storage);
+        static_cast<TracerHelper<Impl>&>(*this) = static_cast<TracerHelper<Impl>&&>(src);
+    }
+    return *this;
+}
+
+
+template<TEMPL_ARGS_DECL>
 template<class Fabric, class ...CreationArgs>
 size_t XMLArray<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
 {
