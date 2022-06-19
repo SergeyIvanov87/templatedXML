@@ -49,7 +49,7 @@ struct XMLNodeLeaf : public XMLFormatSerializable<Impl>,
     template<class Tracer = EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);
 
-private:
+protected:
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;
 
@@ -62,6 +62,7 @@ private:
     template<class Formatter, class Tracer = txml::EmptyTracer>
     static void schema_serialize_request(Formatter& out, Tracer tracer = Tracer());
 
+private:
     value_t val;
 };
 } // namespace txml

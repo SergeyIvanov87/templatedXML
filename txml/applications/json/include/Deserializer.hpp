@@ -204,7 +204,7 @@ std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Trace
         tracer.trace(class_name(), " - REfill node '", NodeType::class_name(), "' ",
                      ret, " deserialized count: ", deserialized_item_count);
         size_t next_portion_items = ret->make_format_deserialize(* static_cast<Impl*>(this), tracer);
-        if (deserialized_item_count == next_portion_items)
+        if (next_portion_items == 0)
         {
             auto& [begin_it, end_it] = get_shared_mediator_object()->top();
             if (++begin_it == end_it)
@@ -215,7 +215,7 @@ std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Trace
 
             available_item_count--;
         }
-        deserialized_item_count = next_portion_items;
+        deserialized_item_count += next_portion_items;
     }
     tracer.trace(class_name(), " - Return node '", NodeType::class_name(), "' ", ret);
     return ret;

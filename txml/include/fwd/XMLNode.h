@@ -16,6 +16,7 @@
 #include <txml/include/engine/fwd/TextReaderWrap.h>
 #include <txml/include/details/fwd/Searchable.h>
 #include <txml/include/engine/fwd/TracerHelper.h>
+#include <txml/include/utils/fwd/utils.h>
 
 namespace txml
 {
@@ -45,10 +46,12 @@ struct XMLNode : public XMLProducible<Impl>,
     XMLNode(const XMLNode &src);
     XMLNode(XMLNode &&src);
 
-    template<class ...SpecificContainedValues>
+    template<class ...SpecificContainedValues,
+             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>, int>>
     XMLNode(const SpecificContainedValues & ...args);
 
-    template<class ...SpecificContainedValues>
+    template<class ...SpecificContainedValues,
+             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>, int>>
     XMLNode(const std::optional<SpecificContainedValues> & ...args);
 
     XMLNode &operator=(const XMLNode &src);
@@ -107,7 +110,7 @@ struct XMLNode : public XMLProducible<Impl>,
     size_t make_format_deserialize(Formatter &in, Tracer tracer);
 
 /* TODO  consider remove  void make_xml_serialize(std::ostream &out) const;*/
-private:
+protected:
     template<class Tracer = txml::EmptyTracer>
     void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
 
@@ -129,7 +132,7 @@ private:
     [[ noreturn ]] void throw_exception() const;
 
     std::shared_ptr<NodesStorage> storage;
-protected:
+
     XMLNode() = default;
     ~XMLNode() = default;
 };

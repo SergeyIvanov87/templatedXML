@@ -34,6 +34,9 @@ struct XMLArray: public XMLProducible<Impl>,
 
     using tags_t = TagHolder<ArrayTag>;
 
+    friend class XMLFormatSerializable<Impl>;
+    friend class XMLFormatDeserializable<Impl>;
+    friend class XMLSchemaSerializable<Impl>;
 
     XMLArray(NodesStorage &&val);
     XMLArray(const NodesStorage &val);

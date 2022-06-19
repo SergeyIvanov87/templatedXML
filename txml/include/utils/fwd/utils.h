@@ -4,7 +4,7 @@
 #include <array>
 #include <iostream>
 #include <string_view>
-
+#include <type_traits>
 
 #include <txml/txml_fwd.h>
 
@@ -84,6 +84,13 @@ struct in_stream_core_t_extractor
 template<class T, class ...U>
 using in_stream_core_t_extractor_t = typename in_stream_core_t_extractor<T, U...>::type;
 
+
+
+template<class U, class ...All>
+struct is_in : std::disjunction<std::is_same<std::decay_t<All>, U>...> {};
+
+template<class U, class ...All>
+struct is_not_in : std::negation<is_in<U, All...>>{};//std::conjunction<std::negation<std::is_same<std::decay_t<All>, U>>...> {};
 } // namespace utils
 } // namespace txml
 #endif //  TXML_INCLUDE_UTILS_H

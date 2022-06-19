@@ -34,14 +34,16 @@ XMLNode<TEMPL_ARGS_DEF>::XMLNode(XMLNode &&src) :
 }
 
 template<TEMPL_ARGS_DECL>
-template<class ...SpecificContainedValues>
+template<class ...SpecificContainedValues,
+         class T>
 XMLNode<TEMPL_ARGS_DEF>::XMLNode(const SpecificContainedValues & ...args)
 {
     (this->template emplace<SpecificContainedValues>(args), ...);
 }
 
 template<TEMPL_ARGS_DECL>
-template<class ...SpecificContainedValues>
+template<class ...SpecificContainedValues,
+         class T>
 XMLNode<TEMPL_ARGS_DEF>::XMLNode(const std::optional<SpecificContainedValues> & ...args)
 {
     ((args.has_value() ? this->template emplace<SpecificContainedValues>(args),true : false), ...);
