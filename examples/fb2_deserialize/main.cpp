@@ -60,7 +60,7 @@ int main(int argc, char** argv)
         }
 
         //Extract inner tags: `Body`
-        auto body = art->node<Body>();
+        const auto &body = art->node<Body>();
         if (body)
         {
             //Extract 'Section'
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
                 const auto& paragraphs = section->value();
                 for (const auto & paragraph : paragraphs)
                 {
-                    auto paragraph_val = paragraph->value();
+                    const auto &paragraph_val = paragraph->value();
                     if (log_level >= eLogLevel::DEBUG_LEVEL)
                     {
                         std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;

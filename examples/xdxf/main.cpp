@@ -57,10 +57,10 @@ int main(int argc, char** argv)
             }
 
             //Extract inner tags: KeyPhrase, Comment, Transcription and TextElement
-            auto key_phrase = art->node<KeyPhrase>();
-            auto comment = art->node<Comment>();
-            auto transcr = art->node<Transcription>();
-            auto text = art->node<TextElement>();
+            const auto &key_phrase = art->node<KeyPhrase>();
+            const auto &comment = art->node<Comment>();
+            const auto &transcr = art->node<Transcription>();
+            const auto &text = art->node<TextElement>();
 
             //Printout
             if (key_phrase)

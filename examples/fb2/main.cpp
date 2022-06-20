@@ -56,61 +56,61 @@ int main(int argc, char** argv)
             }
 
             //Extract Info section
-            auto description = art->node<Description>();
+            const auto &description = art->node<Description>();
             if (description)
             {
-                auto title_info = description->node<TitleInfo>();
+                const auto &title_info = description->node<TitleInfo>();
                 if (title_info)
                 {
-                    auto book_title = title_info->node<BookTitle>();
+                    const auto &book_title = title_info->node<BookTitle>();
                     if (book_title)
                     {
                         std::cout << BookTitle::class_name() << ": " << book_title->value() << std::endl;
                     }
-                    auto genre = title_info->node<Genre>();
+                    const auto &genre = title_info->node<Genre>();
                     if (genre)
                     {
                         std::cout << Genre::class_name() << ": " << genre->value() << std::endl;
                     }
-                    auto lang = title_info->node<Language>();
+                    const auto &lang = title_info->node<Language>();
                     if (lang)
                     {
                         std::cout << Language::class_name() << ": " << lang->value() << std::endl;
                     }
                 }
-                auto doc_info = description->node<DocumentInfo>();
+                const auto &doc_info = description->node<DocumentInfo>();
                 if (doc_info)
                 {
-                    auto author = doc_info->node<Author>();
+                    const auto &author = doc_info->node<Author>();
                     if (author)
                     {
-                        auto first_name = author->node<FirstName>();
+                        const auto &first_name = author->node<FirstName>();
                         if (first_name)
                         {
                             std::cout << FirstName::class_name() << ": " << first_name->value() << std::endl;
                         }
-                        auto middle_name = author->node<MiddleName>();
+                        const auto &middle_name = author->node<MiddleName>();
                         if (middle_name)
                         {
                             std::cout << MiddleName::class_name() << ": " << middle_name->value() << std::endl;
                         }
-                        auto last_name = author->node<LastName>();
+                        const auto &last_name = author->node<LastName>();
                         if (last_name)
                         {
                             std::cout << LastName::class_name() << ": " << last_name->value() << std::endl;
                         }
                     }
                 }
-                auto publish_info = description->node<PublishInfo>();
+                const auto &publish_info = description->node<PublishInfo>();
                 if (publish_info)
                 {
-                    auto publisher = publish_info->node<Publisher>();
+                    const auto &publisher = publish_info->node<Publisher>();
                     if (publisher)
                     {
                         std::cout << Publisher::class_name() << ": " << publisher->value() << std::endl;
                     }
 
-                    auto isbn = publish_info->node<ISBN>();
+                    const auto &isbn = publish_info->node<ISBN>();
                     if (isbn)
                     {
                         std::cout << ISBN::class_name() << ": " << isbn->value() << std::endl;
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
                 }
             }
             //Extract inner tags: `Body`
-            auto body = art->node<Body>();
+            const auto &body = art->node<Body>();
             if (body)
             {
                 //Extract 'Section'
@@ -127,9 +127,9 @@ int main(int argc, char** argv)
                 {
                     //Extract array of `Paragraph`s
                     const auto& paragraphs = section->value();
-                    for (auto & paragraph : paragraphs)
+                    for (const auto & paragraph : paragraphs)
                     {
-                        auto paragraph_val = paragraph->value();
+                        const auto &paragraph_val = paragraph->value();
                         if (log_level >= eLogLevel::DEBUG_LEVEL)
                         {
                             std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
