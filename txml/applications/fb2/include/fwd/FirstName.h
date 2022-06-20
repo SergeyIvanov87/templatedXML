@@ -11,7 +11,7 @@ class FirstName : public txml::XMLNode<FirstName, FB2TextElement>
 public:
     using base = txml::XMLNode<FirstName, FB2TextElement>;
     using value_t = std::string;
-
+    using base::base;
     static constexpr std::string_view class_name()
     {
         return "first-name";

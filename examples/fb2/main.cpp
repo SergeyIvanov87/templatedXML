@@ -129,8 +129,6 @@ int main(int argc, char** argv)
                     const auto& paragraphs = section->value();
                     for (auto & paragraph : paragraphs)
                     {
-                        auto tmp = paragraph;
-                        tmp.value().insert(std::optional<FB2TextElement>("ssss"));
                         auto paragraph_val = paragraph->value();
                         if (log_level >= eLogLevel::DEBUG_LEVEL)
                         {

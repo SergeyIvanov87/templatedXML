@@ -10,6 +10,7 @@ class Paragraph : public txml::XMLNode<Paragraph, FB2TextElement>
 {
 public:
     using base = txml::XMLNode<Paragraph, FB2TextElement>;
+    using base::base;
     using value_t = std::string;
 
     static constexpr std::string_view class_name()

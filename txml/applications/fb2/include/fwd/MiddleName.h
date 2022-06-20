@@ -11,6 +11,7 @@ class MiddleName : public txml::XMLNode<MiddleName, FB2TextElement>
 public:
     using base = txml::XMLNode<MiddleName, FB2TextElement>;
     using value_t = std::string;
+    using base::base;
 
     static constexpr std::string_view class_name()
     {

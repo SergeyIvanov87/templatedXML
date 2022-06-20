@@ -13,6 +13,7 @@ class Author : public txml::XMLNode<Author, FirstName, MiddleName, LastName, Nic
 {
 public:
     using base = txml::XMLNode<Author, FirstName, MiddleName, LastName, NickName>;
+    using base::base;
 
     static constexpr std::string_view class_name()
     {

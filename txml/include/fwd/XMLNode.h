@@ -57,6 +57,23 @@ struct XMLNode : public XMLProducible<Impl>,
     XMLNode &operator=(const XMLNode &src);
     XMLNode &operator=(XMLNode &&src);
 
+    // SFINAE compilation breaking constructors
+    template<class ...SpecificContainedValues,
+             std::enable_if_t<std::disjunction_v<txml::utils::is_not_in<SpecificContainedValues, ContainedValues...>...>, char> = 0>
+    XMLNode(const SpecificContainedValues & ...)
+    {
+        static_assert(std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>,
+                      "XMLNode variadic constructor `SpecificContainedValues` types must be subset of 'ContainedValues' types");
+    }
+
+    template<class ...SpecificContainedValues,
+             std::enable_if_t<std::disjunction_v<txml::utils::is_not_in<SpecificContainedValues, ContainedValues...>...>, char> = 0>
+    XMLNode(const std::optional<SpecificContainedValues> &...)
+    {
+        static_assert(std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>,
+                      "XMLNode variadic constructor `SpecificContainedValues` types must be subset of 'ContainedValues' types");
+    }
+
     /* Data access interface */
     bool empty() const;
     const NodesStorage& data() const;
