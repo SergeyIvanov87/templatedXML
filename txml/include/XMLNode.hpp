@@ -83,11 +83,11 @@ template<TEMPL_ARGS_DECL>
 template<class T>
 bool XMLNode<TEMPL_ARGS_DEF>::has_value() const
 {
-    if (!empty())
+    if (empty())
     {
-        return std::get<ChildNode<T>>(*storage).has_value();
+        return false;
     }
-    return false;
+    return std::get<ChildNode<T>>(*storage).has_value();
 }
 
 template<TEMPL_ARGS_DECL>
@@ -115,7 +115,7 @@ T& XMLNode<TEMPL_ARGS_DEF>::value()
 template<TEMPL_ARGS_DECL>
 bool XMLNode<TEMPL_ARGS_DEF>::empty() const
 {
-    return storage.get();
+    return ! storage.get();
 }
 
 template<TEMPL_ARGS_DECL>
@@ -138,7 +138,7 @@ template<TEMPL_ARGS_DECL>
 template<class T>
 const typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node() const
 {
-    if (!empty())
+    if (empty())
     {
         static const ChildNode<T> empty;
         return empty;
