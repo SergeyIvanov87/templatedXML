@@ -111,9 +111,6 @@ struct XMLNode : public XMLProducible<Impl>,
 
     // actual serialization/deserialization implementations
     // Methods are public because deserializer/serializer can use these
-    template<class Tracer, class EndElementManipulator>
-    void serialize_elements(std::ostream &out, Tracer tracer, EndElementManipulator sep) const;
-
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void make_format_serialize(Formatter &out, Tracer tracer) const;
 
@@ -126,7 +123,6 @@ struct XMLNode : public XMLProducible<Impl>,
     template<class Formatter, class Tracer = txml::EmptyTracer>
     size_t make_format_deserialize(Formatter &in, Tracer tracer);
 
-/* TODO  consider remove  void make_xml_serialize(std::ostream &out) const;*/
 protected:
     template<class Tracer = txml::EmptyTracer>
     void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;

@@ -53,12 +53,14 @@ struct XMLArray: public XMLProducible<Impl>,
     template<class Fabric, class ...CreationArgs>
     size_t create_from(CreationArgs&&... next_args);
 
+    template<class Tracer = txml::EmptyTracer>
+    bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
-    template<class Tracer = EmptyTracer>
-    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
-//////////////
     // actual serialization/deserialization implementations
     // Methods are public because deserializer/serializer can use these
+    template<class Tracer = EmptyTracer>
+    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
+
     template<class Formatter, class Tracer>
     void make_format_serialize(Formatter &out, Tracer tracer) const;
 
@@ -68,9 +70,6 @@ struct XMLArray: public XMLProducible<Impl>,
     template<class Formatter, class Tracer>
     size_t make_format_deserialize(Formatter &in, Tracer tracer);
 
-////////////////
-    template<class Tracer = txml::EmptyTracer>
-    bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());
 
     template<class Formatter, class Tracer = txml::EmptyTracer>
     void format_serialize_request(Formatter& out, Tracer tracer = Tracer()) const;

@@ -1,7 +1,6 @@
 #ifndef XML_DESERIALIZABLE_HPP
 #define XML_DESERIALIZABLE_HPP
 
-//TODO ? #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
 #include <txml/include/utils.h>
 
@@ -20,7 +19,6 @@ std::optional<Value> XMLFormatDeserializable<Value>::format_deserialize(Formatte
     return ret;
 }
 
-// TODO optimiaze passing optional by copy!
 template<class Value>
 template<class Formatter, class Tracer>
 std::optional<Value> XMLFormatDeserializable<Value>::format_redeserialize(std::optional<Value> &to_fill,

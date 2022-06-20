@@ -20,7 +20,7 @@ template<TEMPL_ARGS_DECL>
 XMLNode<TEMPL_ARGS_DEF>::XMLNode(const XMLNode &src) :
     TracerHelper<Impl>(src)
 {
-    if (src.storage)
+    if (src.storage) //make copy
     {
         storage.reset(new NodesStorage(*src.storage));
     }
@@ -83,7 +83,7 @@ template<TEMPL_ARGS_DECL>
 template<class T>
 bool XMLNode<TEMPL_ARGS_DEF>::has_value() const
 {
-    if (empty())
+    if (!empty())
     {
         return std::get<ChildNode<T>>(*storage).has_value();
     }
@@ -255,13 +255,6 @@ size_t XMLNode<TEMPL_ARGS_DEF>::create_from(CreationArgs&&... next_args)
     return created_nodes_count;
 }
 
-/*
-template<TEMPL_ARGS_DECL>
-void XMLNode<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out) const
-{
-    Container::serialize_elements(out);
-}
-*/
 template<TEMPL_ARGS_DECL>
 template<class Tracer>
 void XMLNode<TEMPL_ARGS_DEF>::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
@@ -317,27 +310,6 @@ void XMLNode<TEMPL_ARGS_DEF>::schema_serialize_request(Formatter& out, Tracer tr
     out.template map<Impl>(tracer);
 }
 
-// TODO consider to delete
-template<TEMPL_ARGS_DECL>
-template<class Tracer, class EndElementManipulator>
-void XMLNode<TEMPL_ARGS_DEF>::serialize_elements(std::ostream &out, Tracer tracer,
-                                                 EndElementManipulator sep) const
-{
-    if (!storage)
-    {
-        return;
-    }
-
-    std::apply([&out, &tracer, &sep](const std::optional<ContainedValues> &...element)
-    {
-        bool dispatchingResult[]
-            {
-                (element ? element->xml_serialize(out, tracer), out << sep, true : false)...
-            };
-        (void)dispatchingResult;
-    }, *storage);
-}
-
 template<TEMPL_ARGS_DECL>
 template<class Formatter, class Tracer>
 size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tracer)
@@ -346,8 +318,7 @@ size_t XMLNode<TEMPL_ARGS_DEF>::make_format_deserialize(Formatter &in, Tracer tr
     if (!storage)
     {
         storage = std::make_shared<NodesStorage>();
-        tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - START"); // TODO no need to invoke hash directly!!!! performance pessimisation
-        // TODO IT must be done from StdoutTracer specializarion!!!!!
+        tracer.trace("'", Impl::class_name(), "' ", *static_cast<Impl*>(this)," - ", __FUNCTION__, " - START");
     }
     else
     {
