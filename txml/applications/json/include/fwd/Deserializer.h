@@ -24,20 +24,22 @@ struct FromJSON : public virtual DeserializerCore,
 
     FromJSON(in_stream_core_t &obj, ctor_arg_t = core_t::default_ctor_arg());
 
+    static constexpr std::string_view class_name() { return Impl::name(); }
+
     // default deserialization routine
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer);
+    std::optional<DeserializedItem> deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer);
 
 protected:
 
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer);
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer);
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer);
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer);
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer);
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer);
     template<class DeserializedItem, class Tracer>
-    std::shared_ptr<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer);
+    std::optional<DeserializedItem> deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer);
 
     template<class NodeType, class Tracer>
     static bool check_node_param(json_core_t::iterator& cur_it, const json_core_t::iterator& cur_end_it,
@@ -55,7 +57,9 @@ protected:
                                               Tracer tracer);
 
     template<class NodeType, class Tracer>
-    std::shared_ptr<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count);
+    std::optional<NodeType> create_deserialized_node(Tracer tracer, size_t available_item_count);
+private:
+    static constexpr std::string_view name() { return "FromJSON"; }
 };
 } // namespace json
 #endif // TXML_APPLICATION_JSON_FWD_DESERIALIZER_H

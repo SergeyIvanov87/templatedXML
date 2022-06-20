@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
             while(xml_reader->read())
             {
-                std::shared_ptr<FictionBook> art;
+                std::optional<FictionBook> art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     art = XMLCreator::try_create<FictionBook>(*xml_reader,
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
                 // deserialize back to FB2
                 Fb2FromJSON in(data);
 
-                std::shared_ptr<FictionBook> deserialized_art;
+                std::optional<FictionBook> deserialized_art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     deserialized_art = FictionBook::format_deserialize(in, std_tracer);
@@ -100,17 +100,17 @@ int main(int argc, char** argv)
                 }
 
                 //Extract inner tags: `Body`
-                auto body = deserialized_art->getValue<Body>();
+                const auto &body = deserialized_art->node<Body>();
                 if (body)
                 {
                     //Extract 'Section'
-                    const auto& section_container = body->getValue();
+                    const auto& section_container = body->value();
                     for (const auto& section : section_container)
                     {
-                        const auto& paragraphs = section->getValue();
+                        const auto& paragraphs = section->value();
                         for (const auto & paragraph : paragraphs)
                         {
-                            auto paragraph_val = paragraph->getValue();
+                            const auto &paragraph_val = paragraph->value();
                             if (log_level >= eLogLevel::DEBUG_LEVEL)
                             {
                                 std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 
             while(xml_reader->read())
             {
-                std::shared_ptr<FictionBook> art;
+                std::optional<FictionBook> art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     art = XMLCreator::try_create<FictionBook>(*xml_reader,
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
                 // deserialize back to FB2
                 Fb2FromJSON in(data);
 
-                std::shared_ptr<FictionBook> deserialized_art;
+                std::optional<FictionBook> deserialized_art;
                 if (log_level >= eLogLevel::DEBUG_LEVEL)
                 {
                     deserialized_art = FictionBook::format_deserialize(in, std_tracer);
@@ -187,17 +187,17 @@ int main(int argc, char** argv)
                 }
 
                 //Extract inner tags: `Body`
-                auto body = deserialized_art->getValue<Body>();
+                const auto &body = deserialized_art->node<Body>();
                 if (body)
                 {
                     //Extract 'Section'
-                    const auto& section_container = body->getValue();
+                    const auto& section_container = body->value();
                     for (const auto& section : section_container)
                     {
-                        const auto& paragraphs = section->getValue();
+                        const auto& paragraphs = section->value();
                         for (const auto & paragraph : paragraphs)
                         {
-                            auto paragraph_val = paragraph->getValue();
+                            const auto &paragraph_val = paragraph->value();
                             if (log_level >= eLogLevel::DEBUG_LEVEL)
                             {
                                 std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;

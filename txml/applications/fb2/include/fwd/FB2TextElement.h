@@ -32,13 +32,13 @@ public:
     ~FB2TextElement() = default;
 
     template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<FB2TextElement> create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer);
+    static std::optional<FB2TextElement> create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer);
 
 /*    template<class Tracer = txml::EmptyTracer>
     void fill_impl(std::string &name, txml::TextReaderWrapper &reader, Tracer tracer);
 */
     template<class Tracer = txml::EmptyTracer>
-    void serialize_impl(std::ostream &out, Tracer tracer = Tracer()) const;
+    void make_xml_serialize(std::ostream &out, Tracer tracer = Tracer()) const;
 };
 } // namespace fb2
 #endif //KEY_PHRASE_H

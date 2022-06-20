@@ -10,7 +10,7 @@ namespace txml
 {
 template<class Value>
 template<class Tracer>
-std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, Tracer tracer)
+std::optional<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, Tracer tracer)
 {
     const std::string &name = reader.get_name();
     if (name != Value::class_name())
@@ -27,8 +27,8 @@ std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, T
                                              ", got: " + to_string(nodeType));
     }
 
-    std::shared_ptr<Value> ret = std::make_shared<Value>();
-    tracer.trace("Open tag '", Value::class_name(), "' handle: ", ret.get());
+    std::optional<Value> ret = std::make_optional<Value>();
+    tracer.trace("Open tag '", Value::class_name(), "' handle: ", ret);
 
     {
         Tracer entered_tracer = tracer;
@@ -42,7 +42,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, T
             if (underlying_node_name == Value::class_name() &&
                 nodeType == TextReaderWrapper::NodeType::EndElement)
             {
-                tracer.trace("Close tag '", Value::class_name(), "' handle: ", ret.get());
+                tracer.trace("Close tag '", Value::class_name(), "' handle: ", ret);
                 break;
             }
 
@@ -52,7 +52,7 @@ std::shared_ptr<Value> XMLProducible<Value>::create(TextReaderWrapper &reader, T
         // if ret in container node, and no one sub-node is initialized, then throw away that node
         if (!initialized)
         {
-            tracer.trace("SKIP tag '", Value::class_name(), "' handle: ", ret.get());
+            tracer.trace("SKIP tag '", Value::class_name(), "' handle: ", ret);
             ret.reset();
         }
     }

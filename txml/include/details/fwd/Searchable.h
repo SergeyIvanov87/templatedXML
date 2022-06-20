@@ -1,5 +1,7 @@
 #ifndef TXML_DETAILS_SEARCHABLE_H
 #define TXML_DETAILS_SEARCHABLE_H
+
+#include <array>
 #include <string_view>
 #include <type_traits>
 

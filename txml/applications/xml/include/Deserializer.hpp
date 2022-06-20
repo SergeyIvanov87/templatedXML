@@ -18,14 +18,14 @@ FromXML<TEMPL_ARGS_DEF>::FromXML(xml_core_t &stream, ctor_arg_t helper) :
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
     return deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -36,7 +36,7 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -47,7 +47,7 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
@@ -59,13 +59,13 @@ std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromXML<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
 {
     if (!check_node_param<DeserializedItem> (in, tracer)) {
         return {};
     }
 
-    return std::make_shared<DeserializedItem>();
+    return std::make_optional<DeserializedItem>();
 }
 
 
@@ -76,11 +76,11 @@ bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer 
     const std::string &name = reader.get_name();
     txml::TextReaderWrapper::NodeType nodeType = reader.get_node_type();
     auto depth = reader.get_depth();
-    tracer.trace("Found '", to_string(nodeType), "', tag name: '", name,
-                 "', depth: ", depth);
+
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()), ")"
+                 ", GOT '", name, "' (", to_string(nodeType), "), depth: ", depth);
     if (name != NodeType::class_name() || nodeType != NodeType::class_node_type())
     {
-        tracer.trace("Expected '", to_string(NodeType::class_node_type()), "', tag name: '", NodeType::class_name(), "'");
         return false;
     }
     return true;
@@ -88,41 +88,43 @@ bool FromXML<TEMPL_ARGS_DEF>::check_node_param(const xml_core_t &reader, Tracer 
 
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-std::shared_ptr<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer)
+std::optional<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer)
 {
     int node_depth = in.get_depth();
 
-    std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
-    tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret.get(),
-                 ", depth: ", node_depth);
+    std::optional<NodeType> ret = std::make_optional<NodeType>();
+    tracer.trace(class_name(), " - Prepare EMPTY node '", NodeType::class_name(), "' ",
+                 ret, ", depth: ", node_depth);
 
     bool get_next = false;
     Tracer node_tracer = tracer;
     while (in.read())
     {
-        node_tracer.trace("Open node '", to_string(in.get_node_type()),
-                          "', tag name: '", in.get_name(),
-                          "', depth: ", in.get_depth());
+        node_tracer.trace(class_name(), " - Opened node '", in.get_name(), "' (", to_string(in.get_node_type()),
+                          "), depth: ", in.get_depth());
+        // done when all subsequent elements deserialized and node closed
         if (in.get_name() == NodeType::class_name() &&
             in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
             node_depth == in.get_depth())
         {
-            tracer.trace("Close node '", to_string(NodeType::class_node_type()),
-                         "', tag name: '",  NodeType::class_name(),
-                         "' handle: ", ret.get(),
-                         "', depth: ", node_depth);
+            tracer.trace(class_name(), " - Close opened node '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()),
+                         ") ", ret,
+                         ", depth: ", node_depth);
             in.read();
             break;
         }
-        bool node_processed = ret->format_deserialize_elements(*this, tracer);
+
+        // start recursion
+        bool node_processed = ret->make_format_deserialize(*this, tracer);
         get_next |= node_processed;
+
+        // skip the same level elements which are not enumerated in DeserializedItems... list
         if (!node_processed && in.get_node_type() == txml::TextReaderWrapper::NodeType::Element)
         {
             const std::string& unprocessed_name = in.get_name();
             int depth = in.get_depth();
-            node_tracer.trace("Skipping node: ", unprocessed_name, ", type: ",
-                              to_string(in.get_node_type()), ", depth: ", depth);
+            node_tracer.trace(class_name(), " - Skipping opened node: '", unprocessed_name, "' (",
+                              to_string(in.get_node_type()), "), depth: ", depth);
             Tracer sub_tracer = node_tracer;
             while (in.read())
             {
@@ -139,14 +141,26 @@ std::shared_ptr<NodeType> FromXML<TEMPL_ARGS_DEF>::create_deserialized_node(Trac
                 }
                 else
                 {
-                    sub_tracer.trace("To skip node: ", in.get_name(), ", type: ",
-                                     to_string(in.get_node_type()), ", depth: ", in.get_depth());
+                    sub_tracer.trace(class_name(), " - To skip opened node: '", in.get_name(), "' (",
+                                     to_string(in.get_node_type()), "), depth: ", in.get_depth());
                 }
             }
-            node_tracer.trace("Skipped node: ", unprocessed_name, ", depth: ", depth);
+            node_tracer.trace(class_name(), " - Skipped node: '", unprocessed_name, "', depth: ", depth);
+        }
+
+        // done when all subsequent elements deserialized and node closed
+        if (in.get_name() == NodeType::class_name() &&
+            in.get_node_type() == txml::TextReaderWrapper::NodeType::EndElement &&
+            node_depth == in.get_depth())
+        {
+            tracer.trace(class_name(), " - Close opened node '", NodeType::class_name(), "' (", to_string(NodeType::class_node_type()),
+                         ") ", ret,
+                         ", depth: ", node_depth);
+            in.read();
+            break;
         }
     }
-    tracer.trace("Return node '", NodeType::class_name(), "' handle: ", ret.get());
+    tracer.trace(class_name(), " - Return node '", NodeType::class_name(), "' ", ret);
     return ret;
 }
 #undef TEMPL_ARGS_DEF

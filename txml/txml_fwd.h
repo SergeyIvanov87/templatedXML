@@ -1,7 +1,6 @@
 #ifndef TXML_FWD_H
 #define TXML_FWD_H
 
-#include <txml/include/details/fwd/GenericContainerImpl.h>
 #include <txml/include/details/fwd/TracerPolicies.h>
 #include <txml/include/details/fwd/Searchable.h>
 #include <txml/include/engine/fwd/TextReaderWrap.h>

@@ -8,14 +8,14 @@
 
 namespace fb2
 {
-const BookTitle::value_t &BookTitle::getValue() const
+const BookTitle::value_t &BookTitle::value() const
 {
-    auto val = base::getValue<FB2TextElement>();
+    const auto& val = base::node<FB2TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(BookTitle::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace fb2
 #endif //FB2_BOOK_TITLE_HPP

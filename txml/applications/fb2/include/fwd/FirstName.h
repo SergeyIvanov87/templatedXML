@@ -11,7 +11,7 @@ class FirstName : public txml::XMLNode<FirstName, FB2TextElement>
 public:
     using base = txml::XMLNode<FirstName, FB2TextElement>;
     using value_t = std::string;
-
+    using base::base;
     static constexpr std::string_view class_name()
     {
         return "first-name";
@@ -22,7 +22,7 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const value_t &getValue() const;
+    const value_t &value() const;
 };
 } // namespace fb2
 #endif //FB2_AUTHOR_FIRST_NAME_H

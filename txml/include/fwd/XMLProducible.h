@@ -1,7 +1,7 @@
 #ifndef XDXF_PRODUCIBLE_H
 #define XDXF_PRODUCIBLE_H
 
-#include <memory>
+#include <optional>
 
 #include <txml/include/engine/fwd/TextReaderWrap.h>
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
@@ -12,7 +12,7 @@ template<class Value>
 struct XMLProducible
 {
     template<class Tracer = txml::EmptyTracer>
-    static std::shared_ptr<Value> create(TextReaderWrapper &reader, Tracer tracer);
+    static std::optional<Value> create(TextReaderWrapper &reader, Tracer tracer);
 
     template<class Tracer = txml::EmptyTracer>
     void fill_impl(TextReaderWrapper &reader, Tracer tracer);

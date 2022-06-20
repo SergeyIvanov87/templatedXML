@@ -9,10 +9,10 @@
 namespace txml
 {
 template<class Value, class Tracer>
-std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
+std::optional<Value> XMLCreator::try_create(TextReaderWrapper &reader,
                                               Tracer tracer/* = Tracer()*/)
 {
-    std::shared_ptr<Value> ret;
+    std::optional<Value> ret;
 
     std::string name = reader.get_name();
     if (name != Value::class_name())
@@ -50,7 +50,7 @@ std::shared_ptr<Value> XMLCreator::try_create(TextReaderWrapper &reader,
 
 
 template<class Value, class Tracer>
-std::shared_ptr<Value> XMLCreator::try_fill(std::shared_ptr<Value> to_fill,
+std::optional<Value> XMLCreator::try_fill(std::optional<Value> to_fill,
                                             TextReaderWrapper &reader,
                                             Tracer tracer/* = Tracer()*/)
 {

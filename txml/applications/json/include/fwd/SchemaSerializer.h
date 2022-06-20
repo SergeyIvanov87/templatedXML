@@ -15,6 +15,8 @@ struct SchemaToJSON : public virtual SerializerCore,
     using json_core_t = core_t::json_core_t;
     using ctor_arg_t = core_t::ctor_arg_t;
 
+    static constexpr std::string_view class_name() { return Impl::name(); }
+
     SchemaToJSON(ctor_arg_t shared_object_stack = core_t::default_ctor_arg());
     ~SchemaToJSON();
 
@@ -32,6 +34,8 @@ protected:
     void serialize_schema_tag_impl(const txml::LeafTag&, Tracer &tracer);
     template<class SerializedItem, class Tracer>
     void serialize_schema_tag_impl(const txml::NoDataTag&, Tracer &tracer);
+private:
+    static constexpr std::string_view name() { return "SchemaToJSON"; }
 };
 } // namespace json
 #endif // TXML_APPLICATION_JSON_FWD_SCHEMA_SERIALIZER_H

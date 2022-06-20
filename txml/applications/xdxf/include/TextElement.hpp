@@ -15,14 +15,14 @@ inline TextElement::TextElement(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-inline void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");
 
-    const std::string& value = getValue();
+    const std::string& v = value();
     // iterate through matches (0) and non-matches (-1)
-    std::sregex_token_iterator itr(value.begin(), value.end(), e, {-1, 0});
+    std::sregex_token_iterator itr(v.begin(), v.end(), e, {-1, 0});
     std::sregex_token_iterator end;
 
     for(; itr != end; ++itr)
@@ -43,9 +43,9 @@ inline void TextElement::serialize_impl(std::ostream &out, Tracer tracer/* = Tra
 }
 
 template<class Tracer>
-inline std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<TextElement> TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<TextElement> ret;
+    std::optional<TextElement> ret;
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -54,8 +54,8 @@ inline std::shared_ptr<TextElement> TextElement::create_impl(/*std::string &name
         {
             ++it;
         }
-        ret.reset( new TextElement(std::string(it, tmp_value.end())));
-        tracer.trace("Value: '", ret->getValue(), "'");
+        ret = TextElement(std::string(it, tmp_value.end()));
+        tracer.trace("Value: '", ret->value(), "'");
     }
     return ret;
 }

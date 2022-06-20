@@ -13,7 +13,7 @@ TXML_DECLARE_DESERIALIZER_CLASS(Fb2FromJSON, FromJSON, FB2_CLASS_LIST)
 {
     TXML_DESERIALIZER_OBJECT
     template<class Tracer>
-    std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
+    std::optional<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
     {
         auto mediator = get_shared_mediator_object();
         auto& [begin_it, end_it] = mediator->top();

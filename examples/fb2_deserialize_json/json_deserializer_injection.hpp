@@ -20,7 +20,7 @@ TXML_PREPARE_DESERIALIZER_DISPATCHABLE_CLASS(Fb2FromJSON_1, ParentAggregator, Fr
     TXML_DESERIALIZER_DISPATCHABLE_OBJECT
 
     template<class Tracer>
-    std::shared_ptr<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
+    std::optional<Paragraph> deserialize_impl(txml::details::SchemaDTag<Paragraph>, Tracer tracer)
     {
         auto mediator = this->get_shared_mediator_object();
         auto& [begin_it, end_it] = mediator->top();
@@ -44,7 +44,7 @@ TXML_PREPARE_DESERIALIZER_DISPATCHABLE_CLASS(Fb2FromJSON_2, ParentAggregator, Fr
     TXML_DESERIALIZER_DISPATCHABLE_OBJECT
 
     template<class Item, class Tracer>
-    std::shared_ptr<Item> deserialize_tag_impl(txml::LeafTag&& t, Tracer &tracer)
+    std::optional<Item> deserialize_tag_impl(txml::LeafTag&& t, Tracer &tracer)
     {
         auto deserializer_ptr = base_t::template deserialize_tag_impl<Item>(t, tracer);
         return deserializer_ptr;

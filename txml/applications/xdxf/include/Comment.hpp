@@ -14,16 +14,16 @@ inline Comment::Comment(std::string&& str) : base(std::move(str))
 }
 
 template<class Tracer>
-inline void Comment::serialize_impl(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void Comment::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
-    out << "<" << Comment::class_name() <<  " word used: " << getValue() << " times -->\n";
+    out << "<" << Comment::class_name() <<  " word used: " << value() << " times -->\n";
 }
 
 
 template<class Tracer>
-inline std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<Comment> Comment::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
-    std::shared_ptr<Comment> ret;
+    std::optional<Comment> ret;
     if (reader.has_value())
     {
         const std::string& tmp_value = reader.get_value();
@@ -32,8 +32,8 @@ inline std::shared_ptr<Comment> Comment::create_impl(/*std::string &name, */txml
         {
             ++it;
         }
-        ret.reset( new Comment(std::string(it, tmp_value.end())));
-        tracer.trace("Value: '", ret->getValue(), "'");
+        ret = Comment(std::string(it, tmp_value.end()));
+        tracer.trace("Value: '", ret->value(), "'");
     }
     return ret;
 }

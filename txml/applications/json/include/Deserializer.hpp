@@ -20,14 +20,14 @@ FromJSON<TEMPL_ARGS_DEF>::FromJSON(json_core_t &obj, ctor_arg_t shared_iterators
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_impl(txml::details::SchemaDTag<DeserializedItem>, Tracer tracer)
 {
     return static_cast<Impl*>(this)->template deserialize_tag_impl<DeserializedItem>(txml::details::SchemaDTag<DeserializedItem> {}, tracer);
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ArrayTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
@@ -46,7 +46,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::ContainerTag&, Tracer &tracer)
 {
     auto mediator = get_shared_mediator_object();
     auto& [begin_it, end_it] = mediator->top();
@@ -65,7 +65,7 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::LeafTag&, Tracer &tracer)
 {
 
     auto& [begin_it, end_it] = get_shared_mediator_object()->top();
@@ -76,12 +76,12 @@ std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl
         return {};
     }
 
-    return std::make_shared<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
+    return std::make_optional<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
 }
 
 template<TEMPL_ARGS_DECL>
 template<class DeserializedItem, class Tracer>
-std::shared_ptr<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
+std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(const txml::NoDataTag&, Tracer &tracer)
 {
 
     auto& [begin_it, end_it] = get_shared_mediator_object()->top();
@@ -102,17 +102,18 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_node_param(json_core_t::iterator& cur_it, c
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -125,16 +126,17 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_array_node_param(json_core_t::iterator& cur
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const auto& value = cur_it.value();
 
-    tracer.trace("Found: array element, value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+        tracer.trace(class_name(), " - AWAIT ArrayElement '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT (", utils::json_type_to_cstring(value.type()), ")");
+        tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type)
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -148,17 +150,18 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_node_param(json_core_t::iterator& cur_
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT Leaf '", NodeType::class_name(), "' (",utils::json_type_to_cstring(expected_type), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != expected_type || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(expected_type));
         return false;
     }
     return true;
@@ -171,36 +174,37 @@ bool FromJSON<TEMPL_ARGS_DEF>::check_leaf_no_data_node_param(json_core_t::iterat
 {
     if (cur_it == cur_end_it)
     {
-        tracer.trace("EOF");
+        tracer.trace(class_name(), " - EOF");
         return false;
     }
 
     const std::string &key = cur_it.key();
     const auto& value = cur_it.value();
 
-    tracer.trace("Found '", key, "', value type: ", utils::json_type_to_cstring(value.type()), ", value:\n", value);
+    tracer.trace(class_name(), " - AWAIT '", NodeType::class_name(), "' (",utils::json_type_to_cstring(json_core_t::value_t::discarded), ")"
+                 ", GOT '", key, "' (", utils::json_type_to_cstring(value.type()), ")");
+    tracer.trace(class_name(), "Value:\n\n", value, "\n");
     if (value.type() != json_core_t::value_t::discarded || key != NodeType::class_name())
     {
-        tracer.trace("Expected '", NodeType::class_name(), "', type: ", utils::json_type_to_cstring(json_core_t::value_t::discarded));
         return false;
     }
     return true;
 }
 template<TEMPL_ARGS_DECL>
 template<class NodeType, class Tracer>
-std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)
+std::optional<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tracer tracer, size_t available_item_count)
 {
-    std::shared_ptr<NodeType> ret = std::make_shared<NodeType>();
-    tracer.trace("Create node '", NodeType::class_name(), "' handle: ",
-                 ret.get(), ", available subnodes count: ", available_item_count);
+    std::optional<NodeType> ret = std::make_optional<NodeType>();
+    tracer.trace(class_name(), " - Prepare EMPTY node '", NodeType::class_name(), "' ",
+                 ret, ", available subnodes count: ", available_item_count);
 
-    size_t deserialized_item_count = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
+    size_t deserialized_item_count = ret->make_format_deserialize(* static_cast<Impl*>(this), tracer);
     while (deserialized_item_count != available_item_count)
     {
-        tracer.trace("refill node '", NodeType::class_name(), "' handle: ",
-                     ret.get(), " deserialized count: ", deserialized_item_count);
-        size_t next_portion_items = ret->format_deserialize_elements(* static_cast<Impl*>(this), tracer);
-        if (deserialized_item_count == next_portion_items)
+        tracer.trace(class_name(), " - REfill node '", NodeType::class_name(), "' ",
+                     ret, " deserialized count: ", deserialized_item_count);
+        size_t next_portion_items = ret->make_format_deserialize(* static_cast<Impl*>(this), tracer);
+        if (next_portion_items == 0)
         {
             auto& [begin_it, end_it] = get_shared_mediator_object()->top();
             if (++begin_it == end_it)
@@ -211,8 +215,9 @@ std::shared_ptr<NodeType> FromJSON<TEMPL_ARGS_DEF>::create_deserialized_node(Tra
 
             available_item_count--;
         }
-        deserialized_item_count = next_portion_items;
+        deserialized_item_count += next_portion_items;
     }
+    tracer.trace(class_name(), " - Return node '", NodeType::class_name(), "' ", ret);
     return ret;
 }
 

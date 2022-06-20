@@ -22,7 +22,7 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const value_t &getValue() const;
+    const value_t &value() const;
 };
 } // namespace fb2
 #endif //FB2_TITLE_INFO_LANGUAGE_H

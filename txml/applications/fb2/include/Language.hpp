@@ -8,14 +8,14 @@
 
 namespace fb2
 {
-const Language::value_t &Language::getValue() const
+const Language::value_t &Language::value() const
 {
-    auto val = base::getValue<FB2TextElement>();
+    const auto& val = base::node<FB2TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(Language::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace fb2
 #endif //FB2_TITLE_INFO_LANGUAGE_HPP

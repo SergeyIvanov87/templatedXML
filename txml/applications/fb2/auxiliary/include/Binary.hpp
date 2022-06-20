@@ -8,14 +8,14 @@
 
 namespace fb2
 {
-const Binary::value_t &Binary::getValue() const
+const Binary::value_t &Binary::value() const
 {
-    auto val = base::getValue<Empty>();
+    const auto& val = base::node<Empty>();
     if (!val)
     {
         throw std::runtime_error(std::string(Binary::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace fb2
 #endif //FB2_BINARY_HPP

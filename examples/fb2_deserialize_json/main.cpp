@@ -64,7 +64,7 @@ int main(int argc, char** argv)
     try
     {
         Fb2FromJSON in(data);
-        std::shared_ptr<FictionBook> art;
+        std::optional<FictionBook> art;
         do {
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
@@ -85,17 +85,17 @@ int main(int argc, char** argv)
         }
 
         //Extract inner tags: `Body`
-        auto body = art->getValue<Body>();
+        const auto &body = art->node<Body>();
         if (body)
         {
             //Extract 'Section'
-            const auto& section_container = body->getValue();
+            const auto& section_container = body->value();
             for (const auto& section : section_container)
             {
-                const auto& paragraphs = section->getValue();
+                const auto& paragraphs = section->value();
                 for (const auto & paragraph : paragraphs)
                 {
-                    auto paragraph_val = paragraph->getValue();
+                    const auto &paragraph_val = paragraph->value();
                     if (log_level >= eLogLevel::DEBUG_LEVEL)
                     {
                         std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     try
     {
         ToInjectedDeserializer in(data);
-        std::shared_ptr<FictionBook> art;
+        std::optional<FictionBook> art;
         do {
             if (log_level >= eLogLevel::DEBUG_LEVEL)
             {
@@ -134,17 +134,17 @@ int main(int argc, char** argv)
         }
 
         //Extract inner tags: `Body`
-        auto body = art->getValue<Body>();
+        const auto &body = art->node<Body>();
         if (body)
         {
             //Extract 'Section'
-            const auto& section_container = body->getValue();
+            const auto& section_container = body->value();
             for (const auto& section : section_container)
             {
-                const auto& paragraphs = section->getValue();
+                const auto& paragraphs = section->value();
                 for (const auto & paragraph : paragraphs)
                 {
-                    auto paragraph_val = paragraph->getValue();
+                    const auto &paragraph_val = paragraph->value();
                     if (log_level >= eLogLevel::DEBUG_LEVEL)
                     {
                         std_tracer << Paragraph::class_name() << ": "<< paragraph_val << std::endl;

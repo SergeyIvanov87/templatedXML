@@ -8,14 +8,14 @@
 
 namespace fb2
 {
-const LastName::value_t &LastName::getValue() const
+const LastName::value_t &LastName::value() const
 {
-    auto val = base::getValue<FB2TextElement>();
+    const auto& val = base::node<FB2TextElement>();
     if (!val)
     {
         throw std::runtime_error(std::string(LastName::class_name()) + " - no value");
     }
-    return val->getValue();
+    return val->value();
 }
 } // namespace fb2
 #endif //FB2_AUTHOR_LAST_NAME_HPP

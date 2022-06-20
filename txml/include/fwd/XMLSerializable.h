@@ -1,7 +1,7 @@
 #ifndef XML_SERIALIZABLE_H
 #define XML_SERIALIZABLE_H
 
-#include <memory>
+#include <optional>
 #include <ostream>
 
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
@@ -14,7 +14,7 @@ template<class Value>
 struct XMLSerializable
 {
     template<class Tracer = txml::EmptyTracer>
-    void serialize(std::ostream& out, Tracer tracer = Tracer()) const;
+    void xml_serialize(std::ostream& out, Tracer tracer = Tracer()) const;
 };
 
 

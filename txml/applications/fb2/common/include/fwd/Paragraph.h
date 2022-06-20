@@ -10,6 +10,7 @@ class Paragraph : public txml::XMLNode<Paragraph, FB2TextElement>
 {
 public:
     using base = txml::XMLNode<Paragraph, FB2TextElement>;
+    using base::base;
     using value_t = std::string;
 
     static constexpr std::string_view class_name()
@@ -22,7 +23,7 @@ public:
         return txml::TextReaderWrapper::NodeType::Element;
     };
 
-    const value_t &getValue() const;
+    const value_t &value() const;
 };
 } // namespace fb2
 #endif //FB2_PARAGRAPH_H
