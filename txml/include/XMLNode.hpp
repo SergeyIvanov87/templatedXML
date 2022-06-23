@@ -42,14 +42,6 @@ XMLNode<TEMPL_ARGS_DEF>::XMLNode(const SpecificContainedValues & ...args)
 }
 
 template<TEMPL_ARGS_DECL>
-template<class ...SpecificContainedValues,
-         class T>
-XMLNode<TEMPL_ARGS_DEF>::XMLNode(const std::optional<SpecificContainedValues> & ...args)
-{
-    ((args.has_value() ? this->template emplace<SpecificContainedValues>(args),true : false), ...);
-}
-
-template<TEMPL_ARGS_DECL>
 XMLNode<TEMPL_ARGS_DEF> &XMLNode<TEMPL_ARGS_DEF>::operator=(const XMLNode &src)
 {
     if (this != &src)
@@ -203,11 +195,44 @@ XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<T>>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
 {
-    return this->insert(std::make_optional<std::decay_t<T>>(std::forward<Args>(args)...));
+    // TODO add static_cast for types compliance
+    return this->insert(std::make_optional<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>(std::forward<Args>(args)...));
 }
+
+template<TEMPL_ARGS_DECL>
+template<class T, class U>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
+XMLNode<TEMPL_ARGS_DEF>::emplace(const std::optional<U> &node)
+{
+    // TODO add static_cast for types compliance
+    using node_t = ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>;
+    if (node.has_value())
+    {
+        return this->insert(std::make_optional<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>(node.value()));
+    }
+
+    std::reference_wrapper<node_t> ref = std::get<node_t>(*storage);
+    return  {ref, false};
+}
+
+template<TEMPL_ARGS_DECL>
+template<class T, class U>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
+XMLNode<TEMPL_ARGS_DEF>::emplace(std::optional<U> &&node)
+{
+    using node_t = ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>;
+    if (node.has_value())
+    {
+        return this->insert(std::make_optional<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>(std::move(node.value())));
+    }
+
+    std::reference_wrapper<node_t> ref = std::get<node_t>(*storage);
+    return  {ref, false};
+}
+
 
 
 

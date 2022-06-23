@@ -47,30 +47,19 @@ struct XMLNode : public XMLProducible<Impl>,
     XMLNode(XMLNode &&src);
 
     template<class ...SpecificContainedValues,
-             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>, int>>
+             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<
+                                                            utils::decay_optional_t<SpecificContainedValues>,
+                                                            ContainedValues...>...>, int>>
     XMLNode(const SpecificContainedValues & ...args);
-
-    template<class ...SpecificContainedValues,
-             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>, int>>
-    XMLNode(const std::optional<SpecificContainedValues> & ...args);
-
     XMLNode &operator=(const XMLNode &src);
     XMLNode &operator=(XMLNode &&src);
 
     // SFINAE compilation breaking constructors
     template<class ...SpecificContainedValues,
-             std::enable_if_t<std::disjunction_v<txml::utils::is_not_in<SpecificContainedValues, ContainedValues...>...>, char> = 0>
+             std::enable_if_t<std::disjunction_v<txml::utils::is_not_in<utils::decay_optional_t<SpecificContainedValues>, ContainedValues...>...>, char> = 0>
     XMLNode(const SpecificContainedValues & ...)
     {
-        static_assert(std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>,
-                      "XMLNode variadic constructor `SpecificContainedValues` types must be subset of 'ContainedValues' types");
-    }
-
-    template<class ...SpecificContainedValues,
-             std::enable_if_t<std::disjunction_v<txml::utils::is_not_in<SpecificContainedValues, ContainedValues...>...>, char> = 0>
-    XMLNode(const std::optional<SpecificContainedValues> &...)
-    {
-        static_assert(std::conjunction_v<txml::utils::is_in<SpecificContainedValues, ContainedValues...>...>,
+        static_assert(std::conjunction_v<txml::utils::is_in<utils::decay_optional_t<SpecificContainedValues>, ContainedValues...>...>,
                       "XMLNode variadic constructor `SpecificContainedValues` types must be subset of 'ContainedValues' types");
     }
 
@@ -101,7 +90,14 @@ struct XMLNode : public XMLProducible<Impl>,
     std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(ChildNode<T>&& arg);
 
     template<class T, class ...Args>
-    std::pair<std::reference_wrapper<ChildNode<std::decay_t<T>>>, bool> emplace(Args&& ...args);
+    std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(Args&& ...args);
+
+    template<class T, class U>
+    std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(ChildNode<U>&& node);
+
+    template<class T, class U>
+    std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(const ChildNode<U> &node);
+
 
     template<class Tracer = txml::EmptyTracer>
     bool initialize(TextReaderWrapper &reader, Tracer tracer = Tracer());

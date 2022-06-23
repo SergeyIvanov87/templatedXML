@@ -3,6 +3,7 @@
 
 #include <array>
 #include <iostream>
+#include <optional>
 #include <string_view>
 #include <type_traits>
 
@@ -84,6 +85,15 @@ struct in_stream_core_t_extractor
 template<class T, class ...U>
 using in_stream_core_t_extractor_t = typename in_stream_core_t_extractor<T, U...>::type;
 
+
+
+template<class T>
+struct decay_optional { using type = T; };
+template<class T>
+struct decay_optional<std::optional<T>> { using type = T; };
+
+template<class T>
+using decay_optional_t = typename decay_optional<T>::type;
 
 
 template<class U, class ...All>
