@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <txml/include/utils/fwd/specific_tracer/EmptyTracer.h>
+#include <txml/include/fwd/GenericCreator.h>
 #include <txml/include/fwd/XMLProducible.h>
 #include <txml/include/fwd/XMLSerializable.h>
 #include <txml/include/fwd/XMLDeserializable.h>
@@ -22,6 +23,7 @@ namespace txml
 {
 template<class Impl, class ...ContainedValues>
 struct XMLNode : public XMLProducible<Impl>,
+                 public GenericCreator,
                  public XMLSerializable<Impl>,
                  public XMLFormatSerializable<Impl>,
                  public XMLFormatDeserializable<Impl>,
@@ -35,6 +37,8 @@ struct XMLNode : public XMLProducible<Impl>,
     friend class XMLSchemaSerializable<Impl>;
     friend class XMLSerializable<Impl>;
 
+    using node_types = std::tuple<ContainedValues...>;
+
     using modifiers_t = std::optional<std::vector<std::string>>;
 
     template<class T>
@@ -45,6 +49,13 @@ struct XMLNode : public XMLProducible<Impl>,
 
     XMLNode(const XMLNode &src);
     XMLNode(XMLNode &&src);
+
+    template<class ImplNew,
+             class ...SpecificContainedValues,
+             class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<
+                                                            utils::decay_optional_t<SpecificContainedValues>,
+                                                            ContainedValues...>...>, int>>
+    XMLNode(const XMLNode<ImplNew, SpecificContainedValues...> &src);
 
     template<class ...SpecificContainedValues,
              class = std::enable_if_t<std::conjunction_v<txml::utils::is_in<

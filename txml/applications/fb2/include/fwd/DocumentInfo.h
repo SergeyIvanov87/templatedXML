@@ -9,7 +9,7 @@ class Author;
 class DocumentInfo: public txml::XMLNode<DocumentInfo, Author>
 {
 public:
-    using base = txml::XMLNode<DocumentInfo, Author>;
+    using base_t = txml::XMLNode<DocumentInfo, Author>;
 
     static constexpr std::string_view class_name()
     {

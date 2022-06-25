@@ -6,6 +6,7 @@
 #include <txml/include/engine/TextReaderWrap.hpp>
 
 #include <txml/include/XMLArray.hpp>
+#include <txml/include/GenericCreator.hpp>
 #include <txml/include/XMLCreator.hpp>
 #include <txml/include/XMLDeserializable.hpp>
 #include <txml/include/XMLNode.hpp>

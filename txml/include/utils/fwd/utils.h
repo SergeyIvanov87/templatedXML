@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optional>
 #include <string_view>
+#include <tuple>
 #include <type_traits>
 
 #include <txml/txml_fwd.h>
@@ -100,7 +101,27 @@ template<class U, class ...All>
 struct is_in : std::disjunction<std::is_same<std::decay_t<All>, U>...> {};
 
 template<class U, class ...All>
-struct is_not_in : std::negation<is_in<U, All...>>{};//std::conjunction<std::negation<std::is_same<std::decay_t<All>, U>>...> {};
+struct is_in<U, std::tuple<All...>> : std::disjunction<std::is_same<std::decay_t<All>, U>...> {};
+
+template<class U, class ...All>
+struct is_not_in : std::negation<is_in<U, All...>>{};
+
+struct has
+{
+    template<class T>
+    bool operator()(const T&) { return  true; };
+
+    template<class T>
+    bool operator()(const std::optional<T> &) { return  true; };
+
+    template<class ... Args>
+    static bool value(const Args&... args)
+    {
+        return (has{}(args) || ... || false);
+    }
+};
+
+
 } // namespace utils
 } // namespace txml
 #endif //  TXML_INCLUDE_UTILS_H

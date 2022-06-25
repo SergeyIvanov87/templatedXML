@@ -11,7 +11,7 @@ class PublishInfo;
 class Description : public txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>
 {
 public:
-    using base = txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>;
+    using base_t = txml::XMLNode<Description, TitleInfo, DocumentInfo, PublishInfo>;
 
     static constexpr std::string_view class_name()
     {

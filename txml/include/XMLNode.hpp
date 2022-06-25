@@ -34,6 +34,16 @@ XMLNode<TEMPL_ARGS_DEF>::XMLNode(XMLNode &&src) :
 }
 
 template<TEMPL_ARGS_DECL>
+template<class ImplNEW,
+         class ...SpecificContainedValues,
+         class T>
+XMLNode<TEMPL_ARGS_DEF>::XMLNode(const XMLNode<ImplNEW, SpecificContainedValues...> &src) :
+    TracerHelper<Impl>(static_cast<const TracerHelper<Impl>&>(src))
+{
+    (this->template emplace<SpecificContainedValues>(src.template node<SpecificContainedValues>()), ...);
+}
+
+template<TEMPL_ARGS_DECL>
 template<class ...SpecificContainedValues,
          class T>
 XMLNode<TEMPL_ARGS_DEF>::XMLNode(const SpecificContainedValues & ...args)

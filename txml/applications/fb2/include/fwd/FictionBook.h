@@ -11,7 +11,8 @@ class Binary;
 class FictionBook : public txml::XMLNode<FictionBook, Description, Body, Binary>
 {
 public:
-    using base = txml::XMLNode<FictionBook, Description, Body, Binary>;
+    using base_t = txml::XMLNode<FictionBook, Description, Body, Binary>;
+    using base_t::base_t;
 
     static constexpr std::string_view class_name()
     {

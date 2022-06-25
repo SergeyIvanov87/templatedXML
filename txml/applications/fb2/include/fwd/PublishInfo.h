@@ -10,7 +10,7 @@ class ISBN;
 class PublishInfo : public txml::XMLNode<PublishInfo, Publisher, ISBN>
 {
 public:
-    using base = txml::XMLNode<PublishInfo, Publisher, ISBN>;
+    using base_t = txml::XMLNode<PublishInfo, Publisher, ISBN>;
 
     static constexpr std::string_view class_name()
     {

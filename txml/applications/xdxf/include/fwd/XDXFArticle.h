@@ -14,7 +14,7 @@ class TextElement;
 class XDXFArticle : public txml::XMLNode<XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>
 {
 public:
-    using base = txml::XMLNode<XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>;
+    using base_t = txml::XMLNode<XDXFArticle, KeyPhrase, Comment, Transcription, TextElement>;
 
     static constexpr std::string_view class_name()
     {

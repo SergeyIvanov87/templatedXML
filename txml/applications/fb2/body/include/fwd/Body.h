@@ -9,7 +9,7 @@ class Section;
 class Body : public txml::XMLArray<Body, Section>
 {
 public:
-    using base = txml::XMLArray<Body, Section>;
+    using base_t = txml::XMLArray<Body, Section>;
 
     static constexpr std::string_view class_name()
     {
