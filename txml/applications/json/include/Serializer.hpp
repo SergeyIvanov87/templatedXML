@@ -51,7 +51,10 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
         mediator->pop();
     }
 
-    mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
+    if (stack_size_before != stack_size_after)
+    {
+        mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
+    }
     tracer.trace(class_name(), " - finish'ArrayTag' merged: ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }
@@ -90,7 +93,10 @@ void ToJSON<TEMPL_ARGS_DEF>::serialize_tag_impl(const SerializedItem& value, con
         mediator->pop();
     }
 
-    mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
+    if (stack_size_before != stack_size_after)
+    {
+        mediator->push({{SerializedItem::class_name(), std::move(cur_json_element)}});
+    }
     tracer.trace(class_name(), " - finish 'ContainerTag' merged: ", SerializedItem::class_name(),
                                ", from elements count: ", stack_size_after - stack_size_before);
 }

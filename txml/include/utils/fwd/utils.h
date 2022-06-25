@@ -112,7 +112,7 @@ struct has
     bool operator()(const T&) { return  true; };
 
     template<class T>
-    bool operator()(const std::optional<T> &) { return  true; };
+    bool operator()(const std::optional<T> &v) { return  v.has_value(); };
 
     template<class ... Args>
     static bool value(const Args&... args)
