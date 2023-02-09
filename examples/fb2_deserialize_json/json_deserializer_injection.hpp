@@ -24,13 +24,13 @@ TXML_PREPARE_DESERIALIZER_DISPATCHABLE_CLASS(Fb2FromJSON_1, ParentAggregator, Fr
     {
         auto mediator = this->get_shared_mediator_object();
         auto& [begin_it, end_it] = mediator->top();
-        if (!check_array_node_param<Paragraph>(begin_it, end_it, base_t::json_core_t::value_t::object, tracer))
+        if (!base_t::template check_array_node_param<Paragraph>(begin_it, end_it, base_t::json_core_t::value_t::object, tracer))
         {
             return {};
         }
 
         mediator->emplace(begin_it.value().begin(), begin_it.value().end());
-        auto ret = create_deserialized_node<Paragraph>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
+        auto ret = this->template create_deserialized_node<Paragraph>(tracer, std::distance(begin_it.value().begin(), begin_it.value().end()));
         mediator->pop();
         ++begin_it;
         return ret;

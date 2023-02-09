@@ -11,6 +11,8 @@ struct StdoutTracer : public TracerBase<StdoutTracer, StackedPolicy<' '>>
     using BaseType = TracerBase<StdoutTracer, StackedPolicy<' '>>;
     using BaseType::operator <<;
 
+    void dump_impl(std::ostream& out) const;
+
     template<class ...T>
     void trace_impl(T&& ...val);
 };

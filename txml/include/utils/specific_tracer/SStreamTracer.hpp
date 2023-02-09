@@ -1,5 +1,5 @@
-#ifndef UTILS_STDOUT_TRACER_HPP
-#define UTILS_STDOUT_TRACER_HPP
+#ifndef UTILS_SSTREAM_TRACER_HPP
+#define UTILS_SSTREAM_TRACER_HPP
 
 #include <iostream>
 #include <limits>
@@ -13,14 +13,14 @@
 namespace txml
 {
 template<class ...T>
-inline void StdoutTracer::trace_impl(T&& ...val)
+inline void SStreamTracer::trace_impl(T&& ...val)
 {
-    (std::cout << ... << print_helper<std::decay_t<T>>()(val));
+    (ss << ... << print_helper<std::decay_t<T>>()(val));
 }
 
-inline void StdoutTracer::dump_impl(std::ostream& out) const
+inline void SStreamTracer::dump_impl(std::ostream& out) const
 {
-    out << "check stdout for traces" << std::endl;
+    out << ss.str() << std::endl;
 }
 } // namespace txml
-#endif // UTILS_STDOUT_TRACER_HPP
+#endif // UTILS_SSTREAM_TRACER_HPP

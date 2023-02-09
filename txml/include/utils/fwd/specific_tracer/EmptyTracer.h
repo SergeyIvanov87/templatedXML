@@ -11,6 +11,8 @@ struct EmptyTracer: public TracerBase<EmptyTracer, EmptyPolicy>
     using BaseType = TracerBase<EmptyTracer, EmptyPolicy>;
     using BaseType::operator <<;
 
+    void dump_impl(std::ostream&) const;
+
     template<class ...T>
     void trace_impl(T&& ...val)
     {

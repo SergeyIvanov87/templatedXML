@@ -54,6 +54,11 @@ Impl &TracerBase<TEMPL_ARGS_DEF>::operator<< (std::ostream& (*func)( std::ostrea
     return self();
 }
 
+template<TEMPL_ARGS_DECL>
+void TracerBase<TEMPL_ARGS_DEF>::dump(std::ostream& out) const
+{
+    self().dump_impl(out);
+}
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
 } // namespace txml

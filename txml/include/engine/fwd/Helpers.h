@@ -20,7 +20,9 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
 #define TXML_DESERIALIZER_OBJECT                                                                    \
         }; /* syntax_filler_##Class*/                                                               \
     public:                                                                                         \
-    using base_t::deserialize_impl;
+    using base_t::deserialize_impl;                                                                 \
+    using base_t::check_node_param;                                                                 \
+    using base_t::create_deserialized_node;
 
 
 
@@ -176,7 +178,9 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
     public:                                                                                         \
     using base_t::deserialize_impl;                                                                 \
     using base_t::deserialize_tag_impl;                                                             \
-    using base_t::is_registered_element;
+    using base_t::is_registered_element;                                                            \
+    using base_t::check_node_param;                                                                 \
+    using base_t::create_deserialized_node;
 
 
 

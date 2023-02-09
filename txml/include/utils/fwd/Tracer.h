@@ -18,6 +18,8 @@ struct TracerBase : Policy
     TracerBase& operator=(TracerBase&src);
     ~TracerBase();
 
+    void dump(std::ostream& out) const;
+
     Impl& self() noexcept;
     const Impl& self() const noexcept;
 

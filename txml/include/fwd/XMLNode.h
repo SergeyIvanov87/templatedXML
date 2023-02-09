@@ -1,6 +1,7 @@
 #ifndef XML_NODE_H
 #define XML_NODE_H
 
+#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -82,10 +83,16 @@ struct XMLNode : public XMLProducible<Impl>,
     // Node value access
     template<class T>
     bool has_value() const;
+
     template<class T>
-    const T& value() const;
+    const T& value() const &;
     template<class T>
-    T& value();
+    T& value() &;
+
+    template<class T>
+    const T && value() const &&;
+    template<class T>
+    T&& value() &&;
 
     // Node acccess
     template<class T>
@@ -95,8 +102,12 @@ struct XMLNode : public XMLProducible<Impl>,
 
     // Node creation
     template<class T>
-    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(const ChildNode<T>& arg);
+    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(const T& arg);
+    template<class T>
+    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(T&& arg);
 
+    template<class T>
+    std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(const ChildNode<T>& arg);
     template<class T>
     std::pair<std::reference_wrapper<ChildNode<T>>, bool> insert(ChildNode<T>&& arg);
 
@@ -107,7 +118,7 @@ struct XMLNode : public XMLProducible<Impl>,
     std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(ChildNode<U>&& node);
 
     template<class T, class U>
-    std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(const ChildNode<U> &node);
+    std::pair<std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool> emplace(const ChildNode<U>& node);
 
 
     template<class Tracer = txml::EmptyTracer>
