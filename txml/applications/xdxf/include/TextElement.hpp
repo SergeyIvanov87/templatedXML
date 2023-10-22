@@ -14,6 +14,10 @@ inline TextElement::TextElement(std::string&& str) : base(std::move(str))
 {
 }
 
+inline TextElement::TextElement(const std::string& str) : base (str)
+{
+}
+
 template<class Tracer>
 inline void TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {

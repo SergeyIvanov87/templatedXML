@@ -50,6 +50,7 @@ public:
     };
 
     TextElement(std::string&& str);
+    TextElement(const std::string& str);
     ~TextElement() = default;
 
     template<class Tracer = txml::EmptyTracer>

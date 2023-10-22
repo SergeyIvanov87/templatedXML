@@ -68,6 +68,12 @@ inline int TextReaderWrapper::get_attributes_count() const
     return xmlTextReaderAttributeCount(m_reader);
 }
 
+inline TextReaderWrapper::unique_char_array_ptr TextReaderWrapper::get_attribute_by_number(int number) const
+{
+    char* name = reinterpret_cast<char*>(xmlTextReaderGetAttributeNo(m_reader, number));
+    return unique_char_array_ptr(name, free);
+}
+
 inline bool TextReaderWrapper::move_to_first_attribute()
 {
     return 1 == xmlTextReaderMoveToFirstAttribute(m_reader);

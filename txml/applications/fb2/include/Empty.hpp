@@ -9,18 +9,18 @@
 
 namespace fb2
 {
-Empty::Empty(std::string&& str) : base(std::move(str))
+inline Empty::Empty(std::string&& str) : base(std::move(str))
 {
 }
 
 template<class Tracer>
-void Empty::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void Empty::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     out << "<" << Empty::class_name() << value() << " -->\n";
 }
 
 template<class Tracer>
-std::optional<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<Empty> Empty::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::optional<Empty> ret;
     if (reader.has_value())

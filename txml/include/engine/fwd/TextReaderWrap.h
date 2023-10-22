@@ -8,7 +8,7 @@ using TextReaderWrapper = xmlpp::TextReader;
 } // namespace txml
 #else
 #include <exception>
-
+#include <memory>
 #include <libxml/xmlreader.h>
 
 namespace txml
@@ -48,6 +48,9 @@ struct TextReaderWrapper
     std::string get_name() const;
     bool has_attributes() const;
     int get_attributes_count() const;
+
+    using unique_char_array_ptr = std::unique_ptr<char, decltype(free) *>;
+    unique_char_array_ptr get_attribute_by_number(int number) const;
 
     bool move_to_first_attribute();
     bool move_to_next_attribute();

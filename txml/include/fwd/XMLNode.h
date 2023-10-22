@@ -166,6 +166,9 @@ protected:
 
     XMLNode() = default;
     ~XMLNode() = default;
+private:
+    template<class T>
+    std::reference_wrapper<ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>> get_existing_ref();
 };
 } // namespace txml
 #endif //XML_NODE_H

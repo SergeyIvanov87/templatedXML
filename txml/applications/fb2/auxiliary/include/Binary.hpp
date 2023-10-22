@@ -8,7 +8,7 @@
 
 namespace fb2
 {
-const Binary::value_t &Binary::value() const
+inline const Binary::value_t &Binary::value() const
 {
     const auto& val = base::node<Empty>();
     if (!val)

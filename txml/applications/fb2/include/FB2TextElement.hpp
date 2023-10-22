@@ -9,12 +9,12 @@
 
 namespace fb2
 {
-FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
+inline FB2TextElement::FB2TextElement(std::string&& str) : base(std::move(str))
 {
 }
 
 template<class Tracer>
-void FB2TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
+inline void FB2TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tracer()*/) const
 {
     //skip special symbols
     static std::regex e(R"(&\S+;)");
@@ -40,7 +40,7 @@ void FB2TextElement::make_xml_serialize(std::ostream &out, Tracer tracer/* = Tra
 }
 
 template<class Tracer>
-std::optional<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
+inline std::optional<FB2TextElement> FB2TextElement::create_impl(/*std::string &name, */txml::TextReaderWrapper &reader, Tracer tracer)
 {
     std::optional<FB2TextElement> ret;
     tracer.trace("start to create '", class_name(), "'");

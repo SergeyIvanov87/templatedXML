@@ -9,5 +9,6 @@
 #include <txml/applications/xdxf/include/KeyPhrase.hpp>
 #include <txml/applications/xdxf/include/Transcription.hpp>
 #include <txml/applications/xdxf/include/TextElement.hpp>
+#include <txml/applications/xdxf/serializer/to_fb2.hpp>
 
 #endif // TXML_APPLICATION_XDFX_HPP

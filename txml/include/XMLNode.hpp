@@ -179,11 +179,10 @@ template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
 typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>::node_or(Args &&...args)
 {
-    auto new_node = std::make_optional<T>(std::forward<Args>(args)...);
-    auto [ref, inserted] = this->template insert<T>(new_node);
-    if (!inserted)
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
+    if (!ref.get().has_value())
     {
-        ref.get() = std::move(new_node);
+        ref.get() = std::make_optional<T>(std::forward<Args>(args)...);
     }
     return ref.get();
 }
@@ -193,12 +192,7 @@ template<class T>
 std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(const T &arg)
 {
-    if (!storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-
-    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
     bool inserted = false;
     if (!ref.get().has_value())
     {
@@ -213,12 +207,7 @@ template<class T>
 std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(T &&arg)
 {
-    if (!storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-
-    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>;
     bool inserted = false;
     if (!ref.get().has_value())
     {
@@ -233,12 +222,7 @@ template<class T>
 std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg)
 {
-    if (!storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-
-    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
     bool inserted = false;
     if (!ref.get().has_value())
     {
@@ -253,12 +237,7 @@ template<class T>
 std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg)
 {
-    if (!storage)
-    {
-        storage = std::make_shared<NodesStorage>();
-    }
-
-    std::reference_wrapper<ChildNode<T>> ref = std::get<ChildNode<T>>(*storage);
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
     bool inserted = false;
     if (!ref.get().has_value())
     {
@@ -519,7 +498,17 @@ template<class T>
     throw std::invalid_argument(ss.str());
 }
 
+template<TEMPL_ARGS_DECL>
+template<class T>
+std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>> XMLNode<TEMPL_ARGS_DEF>::get_existing_ref()
+{
+    if (!storage)
+    {
+        storage = std::make_shared<NodesStorage>();
+    }
 
+    return std::get<ChildNode<T>>(*storage);
+}
 
 #undef TEMPL_ARGS_DEF
 #undef TEMPL_ARGS_DECL
