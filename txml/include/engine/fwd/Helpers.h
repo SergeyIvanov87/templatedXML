@@ -103,7 +103,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                   \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                      \
     using virtual_base_t = typename base_t::core_t;                                                             \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
     static constexpr const char *name() { return #DispatchableClass"<"#__VA_ARGS__">"; }             \
         static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }           \
     template<class ...Elements>                                                                     \
@@ -132,9 +132,10 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 struct Class_Aggregator :                                                                                   \
     public txml::SerializerSchemaDispatcher<txml::utils::core_t_extractor_t<__VA_ARGS__>, __VA_ARGS__ >     \
 {                                                                                                           \
-    using base_t =                                                                                          \
-            txml::SerializerSchemaDispatcher <txml::utils::core_t_extractor_t<__VA_ARGS__>, __VA_ARGS__ >;  \
     using virtual_base_t = txml::utils::core_t_extractor_t<__VA_ARGS__>;                                    \
+    using base_t =                                                                                          \
+            txml::SerializerSchemaDispatcher <virtual_base_t, __VA_ARGS__ >;                                \
+                                                                                                            \
     static constexpr const char *name() { return #Class_Aggregator"<"#__VA_ARGS__">"; }                     \
                                                                                                             \
     Class_Aggregator(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) : \
@@ -157,7 +158,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                               \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                                  \
     using virtual_base_t = typename base_t::core_t;                                                             \
-    using base_t::BaseImpl;                                                                                     \
+    using base_t::base_t;                                                                                     \
     static constexpr const char *name() { return #DispatchableClass"<"#__VA_ARGS__">"; }                        \
     static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }                     \
     template<class ...Elements>                                                                                 \
@@ -214,7 +215,7 @@ struct DispatchableClass : public BaseImpl < Class_Aggregator, __VA_ARGS__ >    
 {                                                                                                               \
     using base_t = BaseImpl < Class_Aggregator, __VA_ARGS__ >;                                                  \
     using virtual_base_t = typename base_t::core_t;                                                             \
-    using base_t::BaseImpl;                                                                                     \
+    using base_t::base_t;                                                                                     \
     static constexpr const char *name() { return #DispatchableClass":"#Class_Aggregator"<"#__VA_ARGS__">"; }    \
     static constexpr std::string_view enumerate() { return enumerate_impl<__VA_ARGS__>(); }                     \
     template<class ...Elements>                                                                                 \

@@ -35,6 +35,11 @@ struct DispatcherVirtualBase : public Contexts...
     {
     }
 
+    VirtualBaseContext& get_virtual_base()
+    {
+        return *static_cast<VirtualBaseContext*>(this);
+    }
+
     template <class InElement, class Tracer>
     typename std::add_pointer<typename details::ContextResolver<InElement, Contexts...>::type>::type
     dispatch_context(Tracer &tracer) {
