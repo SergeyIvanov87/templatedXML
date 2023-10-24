@@ -249,7 +249,7 @@ XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T, class ...Args>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
 {
     // TODO add static_cast for types compliance
@@ -258,7 +258,7 @@ XMLNode<TEMPL_ARGS_DEF>::emplace(Args &&...args)
 
 template<TEMPL_ARGS_DECL>
 template<class T, class U>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::emplace(const std::optional<U> &node)
 {
     // TODO add static_cast for types compliance
@@ -274,7 +274,7 @@ XMLNode<TEMPL_ARGS_DEF>::emplace(const std::optional<U> &node)
 
 template<TEMPL_ARGS_DECL>
 template<class T, class U>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::emplace(std::optional<U> &&node)
 {
     using node_t = ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>;
@@ -500,7 +500,7 @@ template<class T>
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>> XMLNode<TEMPL_ARGS_DEF>::get_existing_ref()
+std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<std::decay_t<utils::decay_optional_t<std::decay_t<T>>>>> XMLNode<TEMPL_ARGS_DEF>::get_existing_ref()
 {
     if (!storage)
     {
