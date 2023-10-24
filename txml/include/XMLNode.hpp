@@ -189,7 +189,7 @@ typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>& XMLNode<TEMPL_ARGS_DEF>
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(const T &arg)
 {
     std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
@@ -204,10 +204,10 @@ XMLNode<TEMPL_ARGS_DEF>::insert(const T &arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(T &&arg)
 {
-    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>;
+    std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
     bool inserted = false;
     if (!ref.get().has_value())
     {
@@ -219,7 +219,7 @@ XMLNode<TEMPL_ARGS_DEF>::insert(T &&arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg)
 {
     std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
@@ -234,7 +234,7 @@ XMLNode<TEMPL_ARGS_DEF>::insert(const ChildNode<T> &arg)
 
 template<TEMPL_ARGS_DECL>
 template<class T>
-std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::ChildNode<T>>, bool>
+std::pair<std::reference_wrapper<typename XMLNode<TEMPL_ARGS_DEF>::template ChildNode<T>>, bool>
 XMLNode<TEMPL_ARGS_DEF>::insert(ChildNode<T> &&arg)
 {
     std::reference_wrapper<ChildNode<T>> ref = get_existing_ref<T>();
