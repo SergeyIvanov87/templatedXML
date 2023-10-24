@@ -76,7 +76,7 @@ std::optional<DeserializedItem> FromJSON<TEMPL_ARGS_DEF>::deserialize_tag_impl(c
         return {};
     }
 
-    return std::make_optional<DeserializedItem>((begin_it++).value().get<typename DeserializedItem::value_t>());
+    return std::make_optional<DeserializedItem>((begin_it++).value().template get<typename DeserializedItem::value_t>());
 }
 
 template<TEMPL_ARGS_DECL>
