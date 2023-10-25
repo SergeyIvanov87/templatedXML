@@ -8,7 +8,7 @@
 
 namespace fb2
 {
-const BookTitle::value_t &BookTitle::value() const
+inline const BookTitle::value_t &BookTitle::value() const
 {
     const auto& val = base::node<FB2TextElement>();
     if (!val)

@@ -10,7 +10,7 @@
 
 namespace fb2
 {
-const Paragraph::value_t &Paragraph::value() const
+inline const Paragraph::value_t &Paragraph::value() const
 {
     const auto& val = base::node<FB2TextElement>();
     if (!val)

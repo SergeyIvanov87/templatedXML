@@ -7,7 +7,7 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
 {                                                                                                   \
     using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
     using virtual_base_t = typename base_t::core_t;                                                 \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
                                                                                                     \
     Class(typename base_t::in_stream_core_t &stream,                                                \
           typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
@@ -31,7 +31,7 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
 {                                                                                                   \
     using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
     using virtual_base_t = typename base_t::core_t;                                                 \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
                                                                                                     \
     Class(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
         virtual_base_t(shared_arg),                                                                 \
@@ -51,7 +51,7 @@ struct Class : public BaseImpl < Class, __VA_ARGS__ >                           
 {                                                                                                   \
     using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
     using virtual_base_t = typename base_t::core_t;                                                 \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
                                                                                                     \
     Class(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
         virtual_base_t(shared_arg),                                                                 \
@@ -65,7 +65,7 @@ struct Class : public BaseImpl < Class<Class_TEMPLATE_0>, __VA_ARGS__ >         
 {                                                                                                   \
     using base_t = BaseImpl < Class, __VA_ARGS__ >;                                                 \
     using virtual_base_t = typename base_t::core_t;                                                 \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
                                                                                                     \
     Class(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
         virtual_base_t(shared_arg),                                                                 \
@@ -80,7 +80,7 @@ struct Class : public BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >                
 {                                                                                                   \
     using base_t = BaseImpl < Class_TEMPLATE_0, __VA_ARGS__ >;                                      \
     using virtual_base_t = typename base_t::core_t;                                                 \
-    using base_t::BaseImpl;                                                                         \
+    using base_t::base_t;                                                                         \
                                                                                                     \
     Class(typename virtual_base_t::ctor_arg_t shared_arg = virtual_base_t::default_ctor_arg()) :    \
         virtual_base_t(shared_arg),                                                                 \

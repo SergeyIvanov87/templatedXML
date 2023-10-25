@@ -8,7 +8,7 @@
 
 namespace fb2
 {
-const NickName::value_t &NickName::value() const
+inline const NickName::value_t &NickName::value() const
 {
     const auto& val = base::node<FB2TextElement>();
     if (!val)

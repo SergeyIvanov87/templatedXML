@@ -8,7 +8,7 @@
 
 namespace fb2
 {
-const Genre::value_t &Genre::value() const
+inline const Genre::value_t &Genre::value() const
 {
     const auto& val = base::node<FB2TextElement>();
     if (!val)
